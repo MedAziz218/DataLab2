@@ -13,10 +13,10 @@ import {
   
   export function AuthenticationTitle() {
     return (
-      <Container size={420} my={40}>
+      <Container style={{minWidth:"500px"}} my={40}>
         <Title
           align="center"
-          sx={(theme) => ({ fontFamily: `Greycliff CF, ${theme.fontFamily}`, fontWeight: 900 })}
+          sx={(theme) => ({ color:"#fff",fontFamily: `Greycliff CF, ${theme.fontFamily}`, fontWeight: 900 })}
         >
           Welcome back!
         </Title>
