@@ -9,12 +9,28 @@ import {
   Container,
   Group,
   Button,
-  Transition,
+  Transition,createStyles,
 } from "@mantine/core";
+
 import { useState, useEffect } from "react";
+
+const useStyles = createStyles((theme) => ({
+  wrapper: {
+    marginTop:"72px",
+    [theme.fn.largerThan("sm")]: {
+      
+      width:"500px",
+      
+    },
+    
+  },
+
+
+}))
 export function AuthenticationTitle() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
+  const { classes } = useStyles();
   return (
     <Transition
       mounted={mounted}
@@ -23,7 +39,7 @@ export function AuthenticationTitle() {
       timingFunction="ease"
     >
       {(styles) => (
-        <Container style={{ minWidth: "500px", ...styles }} my={40}>
+        <Container className={classes.wrapper} style={{ ...styles }} my={40}>
           <Title
             align="center"
             sx={(theme) => ({

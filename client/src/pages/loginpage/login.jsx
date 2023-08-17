@@ -19,6 +19,7 @@ const useStyles = createStyles((theme) => ({
     backgroundImage: `url(${require("./bg.jpg")})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
+    
   },
 
   container: {
@@ -30,6 +31,7 @@ const useStyles = createStyles((theme) => ({
     paddingBottom: `calc(${theme.spacing.xl} * 6)`,
     zIndex: 1,
     position: "relative",
+   marginTop:"72px",
 
     [theme.fn.smallerThan("sm")]: {
       height: "100vh",
@@ -86,15 +88,7 @@ function LoginPage() {
         opacity={1}
         zIndex={0}
       />
-      <div
-        style={{
-          display: "flex",
-          position: "relative",
-          zIndex: 1,
-          width: "100%",
-          backgroundColor: "#ffff",
-        }}
-      ></div>
+      
       <Navbar1
         style={{ position: "fixed", top: 0, width: "100vw", zIndex: 1 }}
       />

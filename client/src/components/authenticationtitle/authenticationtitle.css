@@ -1,0 +1,6 @@
+.wrapper {
+  background-color: blue;
+
+ 
+  transition: width 1s ease; /* Property to be animated, duration, easing function */
+}
