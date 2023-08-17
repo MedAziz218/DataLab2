@@ -7,6 +7,7 @@ import {
   Text,
   rem,
   Box,
+  Transition,
 } from "@mantine/core";
 import { Navbar1 } from "components/navbars";
 import { AuthenticationTitle } from "components/authenticationtitle/authenticationtitle";
@@ -16,7 +17,6 @@ const useStyles = createStyles((theme) => ({
   hero: {
     position: "relative",
     backgroundImage: `url(${require("./bg.jpg")})`,
-    // "url(https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80)",
     backgroundSize: "cover",
     backgroundPosition: "center",
   },
@@ -75,7 +75,6 @@ const useStyles = createStyles((theme) => ({
     },
   },
 }));
-
 function LoginPage() {
   const { classes } = useStyles();
   const [start, setStart] = useState(false);
@@ -109,31 +108,43 @@ function LoginPage() {
 
 function Hero() {
   const { classes } = useStyles();
-
+  const [mounted, setMounted] = useState(false);
   const navigate = useNavigate();
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   return (
-    <>
-      <Title className={classes.title}>
-        {"DataLab : La Puissance du Contrôle Qualité chez Sancella"}
-      </Title>
-      <Text className={classes.description} size="xl" mt="xl">
-        Stockez, analysez et visualisez efficacement les données de test avec
-        DataLab. Graphiques, sécurité et collaboration pour un meilleur contrôle
-        qualité chez Sancella.
-      </Text>
+    <Transition
+      mounted={mounted}
+      transition="pop"
+      duration={200}
+      timingFunction="ease"
+    >
+      {(styles) => (
+        <div style={styles}>
+          <Title className={classes.title}>
+            {"DataLab : La Puissance du Contrôle Qualité chez Sancella"}
+          </Title>
+          <Text className={classes.description} size="xl" mt="xl">
+            Stockez, analysez et visualisez efficacement les données de test
+            avec DataLab. Graphiques, sécurité et collaboration pour un meilleur
+            contrôle qualité chez Sancella.
+          </Text>
 
-      <Button
-        variant="gradient"
-        size="xl"
-        radius="xl"
-        className={classes.control}
-        onClick={() => {
-          navigate("/login");
-        }}
-      >
-        Commencez
-      </Button>
-    </>
+          <Button
+            variant="gradient"
+            size="xl"
+            radius="xl"
+            className={classes.control}
+            onClick={() => {
+              navigate("/login");
+            }}
+          >
+            Commencez
+          </Button>
+        </div>
+      )}
+    </Transition>
   );
 }
 
@@ -144,41 +155,4 @@ export default function LoginPageRoute() {
       <Route path="login" element={<AuthenticationTitle />} />
     </Route>
   );
-}
-
-{
-  /*
-{start ? (
-          <AuthenticationTitle
-            onBackClick={() => {
-              setStart(false);
-              navigate(-1);
-            }}
-          />
-        ) : (
-          <>
-            <Title className={classes.title}>
-              {"DataLab : La Puissance du Contrôle Qualité chez Sancella"}
-            </Title>
-            <Text className={classes.description} size="xl" mt="xl">
-              Stockez, analysez et visualisez efficacement les données de test
-              avec DataLab. Graphiques, sécurité et collaboration pour un
-              meilleur contrôle qualité chez Sancella.
-            </Text>
-
-            <Button
-              variant="gradient"
-              size="xl"
-              radius="xl"
-              className={classes.control}
-              onClick={() => {
-                setStart(true);
-                navigate("/login");
-              }}
-            >
-              Commencez
-            </Button>
-          </>
-        )}
-*/
 }

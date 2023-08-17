@@ -8,12 +8,21 @@ import {
     Text,
     Container,
     Group,
-    Button,
+    Button,Transition
   } from '@mantine/core';
-  
+  import { useState,useEffect } from 'react';
   export function AuthenticationTitle() {
+    const [mounted,setMounted] = useState(false)
+    useEffect(()=>(setMounted(true)),[])
     return (
-      <Container style={{minWidth:"500px"}} my={40}>
+      <Transition
+          mounted={mounted}
+          transition="pop"
+          duration={200}
+          timingFunction="ease"
+        >
+          {(styles) =>
+      <Container style={{minWidth:"500px",...styles}} my={40}>
         <Title
           align="center"
           sx={(theme) => ({ color:"#fff",fontFamily: `Greycliff CF, ${theme.fontFamily}`, fontWeight: 900 })}
@@ -41,5 +50,7 @@ import {
           </Button>
         </Paper>
       </Container>
+      }
+      </Transition>
     );
   }
