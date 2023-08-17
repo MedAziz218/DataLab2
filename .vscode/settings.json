@@ -1,0 +1,18 @@
+{
+  "restoreTerminals.keepExistingTerminalsOpen": false,
+  "restoreTerminals.artificialDelayMilliseconds": 500,
+  "restoreTerminals.terminals": [
+    {
+      "splitTerminals": [
+        {
+          "name": "Backend",
+          "commands": ["cd api", "clear"]
+        },
+        {
+          "name": "Frontend",
+          "commands": ["cd client", "clear"]
+        }
+      ]
+    }
+  ]
+}
