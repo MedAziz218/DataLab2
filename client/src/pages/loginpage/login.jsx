@@ -6,13 +6,14 @@ import {
   Button,
   Text,
   rem,
+  Box,
 } from "@mantine/core";
 import { Navbar1 } from "components/navbars";
 const useStyles = createStyles((theme) => ({
   hero: {
     position: "relative",
-    backgroundImage:
-      "url(https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80)",
+    backgroundImage: `url(${require("./bg.jpg")})`,
+    // "url(https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80)",
     backgroundSize: "cover",
     backgroundPosition: "center",
   },
@@ -31,6 +32,9 @@ const useStyles = createStyles((theme) => ({
       height: "100vh",
       paddingBottom: `calc(${theme.spacing.xl} * 3)`,
     },
+  },
+  navbar: {
+    zIndex: 1,
   },
 
   title: {
@@ -79,14 +83,26 @@ export default function LoginPage() {
         opacity={1}
         zIndex={0}
       />
+      <div
+        style={{
+          display: "flex",
+          position: "relative",
+          zIndex: 1,
+          width: "100%",
+          backgroundColor: "#ffff",
+        }}
+      ></div>
+      <Navbar1
+        style={{ position: "fixed", top: 0, width: "100vw", zIndex: 1 }}
+      />
       <Container className={classes.container}>
         <Title className={classes.title}>
-          A fully featured React components library
+          {"DataLab : La Puissance du Contrôle Qualité chez Sancella"}
         </Title>
         <Text className={classes.description} size="xl" mt="xl">
-          Build fully functional accessible web applications faster than ever –
-          Mantine includes more than 120 customizable components and hooks to
-          cover you in any situation
+          Stockez, analysez et visualisez efficacement les données de test avec
+          DataLab. Graphiques, sécurité et collaboration pour un meilleur
+          contrôle qualité chez Sancella.
         </Text>
 
         <Button
@@ -95,7 +111,7 @@ export default function LoginPage() {
           radius="xl"
           className={classes.control}
         >
-          Get started
+          Commencez
         </Button>
       </Container>
     </div>

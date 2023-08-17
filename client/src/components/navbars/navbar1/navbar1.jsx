@@ -27,9 +27,9 @@ import { FaBehance, FaFacebook, FaLinkedin, FaTwitter } from 'react-icons/fa';
     icon: <FaBehance />,
   },
 ];
-const Navbar = () => {
+const Navbar = ({...restProps}) => {
   return (
-    <nav className='navbar'>
+    <nav className='navbar' {...restProps}>
       <div className='nav-center'>
         <div className='nav-header'>
           <img src={logo} className='logo' alt='logo' />
@@ -52,4 +52,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export { Navbar};
