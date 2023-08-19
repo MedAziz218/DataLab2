@@ -9,28 +9,36 @@ import {
   Container,
   Group,
   Button,
-  Transition,createStyles,
+  Transition,
+  createStyles,
+  Box,
 } from "@mantine/core";
-
+import { LoadingOverlay } from "@mantine/core";
 import { useState, useEffect } from "react";
-
+import { AuthContext } from "context/AuthContext";
 const useStyles = createStyles((theme) => ({
   wrapper: {
-    marginTop:"72px",
+    marginTop: "72px",
     [theme.fn.largerThan("sm")]: {
-      
-      width:"500px",
-      
+      width: "500px",
     },
-    
   },
-
-
-}))
+}));
 export function AuthenticationTitle() {
   const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
   const { classes } = useStyles();
+  const [visible, setVisible] = useState(false);
+  const { user, isFetching, dispatch, error } = useContext(AuthContext);
+  useEffect(() => setMounted(true), []);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    // console.log(user)
+
+    const email = emailRef.current.value;
+    const password = passwordRef.current.value;
+    const response = await loginCall({ email, password }, dispatch);
+  };
   return (
     <Transition
       mounted={mounted}
@@ -75,9 +83,12 @@ export function AuthenticationTitle() {
                 Mot de passe oublié ?
               </Anchor>
             </Group>
-            <Button fullWidth mt="xl">
-              Se connecter
-            </Button>
+            <Box style={{position:"relative"}}>
+              <LoadingOverlay  visible={visible} overlayBlur={2} />
+              <Button fullWidth mt="xl">
+                Se connecter
+              </Button>
+            </Box>
           </Paper>
         </Container>
       )}
