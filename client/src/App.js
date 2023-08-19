@@ -17,7 +17,6 @@ function App() {
     <div className="App">
       <Router>
         {!user && <LoginPageRoute />}
-
         {user && !user.isAdmin && <MainAppRoutes />}
         {user && user.isAdmin && <AdminAppRoutes />}
 

@@ -8,14 +8,7 @@ import {
   rem,
 } from "@mantine/core";
 import {
-  IconBellRinging,
-  IconFingerprint,
-  IconKey,
-  IconSettings,
-  Icon2fa,
-  IconDatabaseImport,
-  IconReceipt2,
-  IconSwitchHorizontal,
+
   IconLogout,
 } from "@tabler/icons-react";
 import logo from "../logo.svg";
@@ -96,18 +89,9 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const data = [
-  { link: '', label: 'Controle des utilisateurs', icon: IconBellRinging },
-  { link: '', label: 'Consulter une fiche', icon: IconReceipt2 },
-  { link: '', label: 'Graphes', icon: IconFingerprint },
-  // { link: '', label: 'SSH Keys', icon: IconKey },
-  // { link: '', label: 'Databases', icon: IconDatabaseImport },
-  // { link: '', label: 'Authentication', icon: Icon2fa },
-  // { link: '', label: 'Other Settings', icon: IconSettings },
-];
 
 
-export function AdminNavbar({style}) {
+export function AdminNavbar({data,style}) {
   const {user} = useContext(AuthContext)
   const { classes, cx } = useStyles();
   const [active, setActive] = useState("Billing");

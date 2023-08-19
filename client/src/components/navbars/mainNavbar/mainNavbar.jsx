@@ -1,4 +1,5 @@
 import { useContext, useState } from "react";
+import { IconLogout } from "@tabler/icons-react";
 import {
   createStyles,
   Navbar,
@@ -7,17 +8,7 @@ import {
   getStylesRef,
   rem,
 } from "@mantine/core";
-import {
-  IconBellRinging,
-  IconFingerprint,
-  IconKey,
-  IconSettings,
-  Icon2fa,
-  IconDatabaseImport,
-  IconReceipt2,
-  IconSwitchHorizontal,
-  IconLogout,
-} from "@tabler/icons-react";
+
 import logo from "../logo.svg";
 import {  NavLink } from "react-router-dom";
 import { UserButton } from "components/userbutton/userbutton";
@@ -102,17 +93,9 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const data = [
-  { link: "/controle", label: "Feuille de controle Laboratoire", icon: IconBellRinging },
-  { link: "/cisaillement", label: "Test de cisaillement", icon: IconReceipt2 },
-  { link: "/mp", label: "Matiere Premiere", icon: IconFingerprint },
-  { link: "/equipements", label: "Les equipements de controle", icon: IconKey },
-  { link: "/notes", label: "Notes", icon: IconDatabaseImport },
-  // { link: "", label: "Authentication", icon: Icon2fa },
-  // { link: "", label: "Other Settings", icon: IconSettings },
-];
 
-export function MainNavbar({style}) {
+
+export function MainNavbar({data,style}) {
   const {user} = useContext(AuthContext)
   const { classes, cx } = useStyles();
   const [active, setActive] = useState("Billing");
