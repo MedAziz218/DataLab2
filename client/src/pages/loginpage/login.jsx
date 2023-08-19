@@ -12,7 +12,8 @@ import {
 import { Navbar1 } from "components/navbars";
 import { AuthenticationTitle } from "components/authenticationtitle/authenticationtitle";
 import { useState, useEffect } from "react";
-import { Outlet, useNavigate, Route, Routes } from "react-router-dom";
+import { Outlet, useNavigate, Route, Routes, Navigate } from "react-router-dom";
+import { NotFoundTitle as NotFound } from "pages/notFound/notfound";
 const useStyles = createStyles((theme) => ({
   hero: {
     position: "relative",
@@ -140,16 +141,17 @@ export function Hero() {
     </Transition>
   );
 }
-
+// const NotFound = () => {
+//   return <div>Not Found</div>;
+// };
 export function LoginPageRoute() {
   return (
-    
     <Routes>
       <Route path="" element={<LoginPage />}>
         <Route exact path="" element={<Hero />} />
         <Route path="login" element={<AuthenticationTitle />} />
-
       </Route>
+      <Route exact path="*" element={<Navigate to="/errors/notFound" />} />
     </Routes>
   );
 }

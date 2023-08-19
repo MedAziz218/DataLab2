@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { FaBars } from 'react-icons/fa';
 // import {social } from './data';
-import logo from './logo.svg';
+import logo from '../logo.svg';
 import './navbar1.css';
 import { FaBehance, FaFacebook, FaLinkedin, FaTwitter } from 'react-icons/fa';
 
