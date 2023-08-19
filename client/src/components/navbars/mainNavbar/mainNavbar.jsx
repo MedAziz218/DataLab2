@@ -19,7 +19,7 @@ import {
   IconLogout,
 } from "@tabler/icons-react";
 import logo from "../logo.svg";
-
+import {  NavLink } from "react-router-dom";
 import { UserButton } from "components/userbutton/userbutton";
 const useStyles = createStyles((theme) => ({
   navbar: {
@@ -101,7 +101,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const data = [
-  { link: "", label: "Notifications", icon: IconBellRinging },
+  { link: "/ff", label: "Notifications", icon: IconBellRinging },
   { link: "", label: "Billing", icon: IconReceipt2 },
   { link: "", label: "Security", icon: IconFingerprint },
   { link: "", label: "SSH Keys", icon: IconKey },
@@ -115,20 +115,20 @@ export function Demo() {
   const [active, setActive] = useState("Billing");
 
   const links = data.map((item) => (
-    <a
+    <NavLink to={item.link}
       className={cx(classes.link, {
         [classes.linkActive]: item.label === active,
       })}
       href={item.link}
       key={item.label}
       onClick={(event) => {
-        event.preventDefault();
+        // event.preventDefault();
         setActive(item.label);
       }}
     >
       <item.icon className={classes.linkIcon} stroke={1.5} />
       <span>{item.label}</span>
-    </a>
+    </NavLink>
   ));
 
   return (
@@ -142,7 +142,7 @@ export function Demo() {
         <Group className={classes.header} position="apart">
           <img src={logo} className="logo" alt="logo" />
 
-          <Code className={classes.version}>v3.1.2</Code>
+          <Code className={classes.version}>v1.0</Code>
         </Group>
         {links}
       </Navbar.Section>

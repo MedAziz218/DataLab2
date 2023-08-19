@@ -9,8 +9,10 @@ function Found2() {
 }
 function MainApp() {
   return (
-    <div>
+    <div style={{display:"flex"}}>
+      
       <Demo/>
+      
       <Outlet />
     </div>
   );

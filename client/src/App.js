@@ -22,6 +22,8 @@ function App() {
         {user && (
          <MainAppRoutes/>
         )}
+
+        
         <Routes>
           <Route exact path="/errors/notFound" element={<NotFound />} />
         </Routes>
