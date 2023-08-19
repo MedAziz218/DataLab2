@@ -31,6 +31,7 @@ export const loginCall = async (userCredential, dispatch) => {
 export const logoutCall = async ( dispatch) => {
   // localStorage.setItem("user", JSON.stringify(null))
   localStorage.clear();
-  dispatch({ type: "LOGOUT" });
+  dispatch && dispatch({ type: "LOGOUT" });
+  
   
 };

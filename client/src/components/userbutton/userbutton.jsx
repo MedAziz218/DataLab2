@@ -41,9 +41,9 @@ import {
               {name}
             </Text>
   
-            {/* <Text color="lime" size="xs">
+            <Text color="" size="xs">
               {email}
-            </Text> */}
+            </Text>
           </div>
   
           {icon || <IconChevronRight size="0.9rem" stroke={1.5} />}

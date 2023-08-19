@@ -23,18 +23,16 @@ import {  NavLink } from "react-router-dom";
 import { UserButton } from "components/userbutton/userbutton";
 import { logoutCall } from "apiCalls";
 import { AuthContext } from "context/AuthContext";
+
+
 const useStyles = createStyles((theme) => ({
   navbar: {
-    backgroundColor: theme.fn.variant({
-      variant: "filled",
-      color: theme.primaryColor,
-    }).background,
+    backgroundColor: theme.colors.grape[7],
   },
 
   version: {
     backgroundColor: theme.fn.lighten(
-      theme.fn.variant({ variant: "filled", color: theme.primaryColor })
-        .background,
+      theme.colors.grape[7],
       0.1
     ),
     color: theme.white,
@@ -45,8 +43,7 @@ const useStyles = createStyles((theme) => ({
     paddingBottom: theme.spacing.md,
     marginBottom: `calc(${theme.spacing.md} * 1.5)`,
     borderBottom: `${rem(1)} solid ${theme.fn.lighten(
-      theme.fn.variant({ variant: "filled", color: theme.primaryColor })
-        .background,
+      theme.colors.grape[7],
       0.1
     )}`,
   },
@@ -55,47 +52,44 @@ const useStyles = createStyles((theme) => ({
     paddingTop: theme.spacing.md,
     marginTop: theme.spacing.md,
     borderTop: `${rem(1)} solid ${theme.fn.lighten(
-      theme.fn.variant({ variant: "filled", color: theme.primaryColor })
-        .background,
+      theme.colors.grape[7],
       0.1
     )}`,
   },
 
   link: {
     ...theme.fn.focusStyles(),
-    display: "flex",
-    alignItems: "center",
-    textDecoration: "none",
+    display: 'flex',
+    alignItems: 'center',
+    textDecoration: 'none',
     fontSize: theme.fontSizes.sm,
     color: theme.white,
     padding: `${theme.spacing.xs} ${theme.spacing.sm}`,
     borderRadius: theme.radius.sm,
     fontWeight: 500,
 
-    "&:hover": {
+    '&:hover': {
       backgroundColor: theme.fn.lighten(
-        theme.fn.variant({ variant: "filled", color: theme.primaryColor })
-          .background,
+        theme.colors.grape[7],
         0.1
       ),
     },
   },
 
   linkIcon: {
-    ref: getStylesRef("icon"),
+    ref: getStylesRef('icon'),
     color: theme.white,
     opacity: 0.75,
     marginRight: theme.spacing.sm,
   },
 
   linkActive: {
-    "&, &:hover": {
+    '&, &:hover': {
       backgroundColor: theme.fn.lighten(
-        theme.fn.variant({ variant: "filled", color: theme.primaryColor })
-          .background,
+        theme.colors.grape[7],
         0.15
       ),
-      [`& .${getStylesRef("icon")}`]: {
+      [`& .${getStylesRef('icon')}`]: {
         opacity: 0.9,
       },
     },
@@ -103,16 +97,17 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const data = [
-  { link: "/controle", label: "Feuille de controle Laboratoire", icon: IconBellRinging },
-  { link: "/cisaillement", label: "Test de cisaillement", icon: IconReceipt2 },
-  { link: "/mp", label: "Matiere Premiere", icon: IconFingerprint },
-  { link: "/equipements", label: "Les equipements de controle", icon: IconKey },
-  { link: "/notes", label: "Notes", icon: IconDatabaseImport },
-  // { link: "", label: "Authentication", icon: Icon2fa },
-  // { link: "", label: "Other Settings", icon: IconSettings },
+  { link: '', label: 'Controle des utilisateurs', icon: IconBellRinging },
+  { link: '', label: 'Consulter une fiche', icon: IconReceipt2 },
+  { link: '', label: 'Graphes', icon: IconFingerprint },
+  // { link: '', label: 'SSH Keys', icon: IconKey },
+  // { link: '', label: 'Databases', icon: IconDatabaseImport },
+  // { link: '', label: 'Authentication', icon: Icon2fa },
+  // { link: '', label: 'Other Settings', icon: IconSettings },
 ];
 
-export function MainNavbar({style}) {
+
+export function AdminNavbar({style}) {
   const {user} = useContext(AuthContext)
   const { classes, cx } = useStyles();
   const [active, setActive] = useState("Billing");
@@ -155,7 +150,7 @@ export function MainNavbar({style}) {
         <UserButton className={classes.link}
           // image="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=255&q=80"
           name={user.username}
-        email="utilisateur"
+          email="ADMIN"
         />
         {/* <a
           href="#"
