@@ -12,10 +12,15 @@ import {
   Transition,
   createStyles,
   Box,
+  Alert,
 } from "@mantine/core";
+import { IconAlertCircle } from "@tabler/icons-react";
 import { LoadingOverlay } from "@mantine/core";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
+
 import { AuthContext } from "context/AuthContext";
+import { loginCall } from "apiCalls";
+import { useNavigate } from "react-router-dom";
 const useStyles = createStyles((theme) => ({
   wrapper: {
     marginTop: "72px",
@@ -29,10 +34,19 @@ export function AuthenticationTitle() {
   const { classes } = useStyles();
   const [visible, setVisible] = useState(false);
   const { user, isFetching, dispatch, error } = useContext(AuthContext);
-  useEffect(() => setMounted(true), []);
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  useEffect(() => {
+    if (user) navigate("/");
+  }, [user]);
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
+    // const data = new FormData(event.currentTarget);
     // console.log(user)
 
     const email = emailRef.current.value;
@@ -66,29 +80,56 @@ export function AuthenticationTitle() {
           </Text>
 
           <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-            <TextInput
-              label="Matricule"
-              placeholder="votre matricule"
-              required
-            />
-            <PasswordInput
-              label="Mot de passe"
-              placeholder="Votre mot de passe"
-              required
-              mt="md"
-            />
-            <Group position="apart" mt="lg">
-              <Checkbox label="Se souvenir de moi" />
-              <Anchor component="button" size="sm">
-                Mot de passe oublié ?
-              </Anchor>
-            </Group>
-            <Box style={{position:"relative"}}>
-              <LoadingOverlay  visible={visible} overlayBlur={2} />
-              <Button fullWidth mt="xl">
-                Se connecter
-              </Button>
-            </Box>
+            <Transition
+              mounted={error}
+              transition="pop"
+              duration={200}
+              timingFunction="ease"
+            >
+              {(styles)=>(
+                <Alert style={styles}
+                  icon={<IconAlertCircle size="1rem" />}
+                  title={
+                    error === "wrong_password"
+                      ? "Mot de passe incorrect. Veuillez réessayer."
+                      : "Matricule ou mot de passe incorrect. Veuillez réessayer."
+                  }
+                  color="red"
+                ></Alert>
+              )}
+            </Transition>
+            <form>
+              <TextInput
+                label="Matricule"
+                placeholder="votre matricule"
+                ref={emailRef}
+                required
+              />
+              <PasswordInput
+                label="Mot de passe"
+                placeholder="Votre mot de passe"
+                ref={passwordRef}
+                required
+                mt="md"
+              />
+              <Group position="apart" mt="lg">
+                <Checkbox label="Se souvenir de moi" />
+                <Anchor component="button" size="sm">
+                  Mot de passe oublié ?
+                </Anchor>
+              </Group>
+              <Box style={{ position: "relative" }}>
+                <LoadingOverlay visible={isFetching} overlayBlur={2} />
+                <Button
+                  type="submit"
+                  onClick={(e) => !isFetching && handleSubmit(e)}
+                  fullWidth
+                  mt="xl"
+                >
+                  Se connecter
+                </Button>
+              </Box>
+            </form>
           </Paper>
         </Container>
       )}

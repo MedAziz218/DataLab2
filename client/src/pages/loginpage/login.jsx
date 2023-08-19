@@ -12,14 +12,13 @@ import {
 import { Navbar1 } from "components/navbars";
 import { AuthenticationTitle } from "components/authenticationtitle/authenticationtitle";
 import { useState, useEffect } from "react";
-import { Outlet, useNavigate, Route } from "react-router-dom";
+import { Outlet, useNavigate, Route, Routes } from "react-router-dom";
 const useStyles = createStyles((theme) => ({
   hero: {
     position: "relative",
     backgroundImage: `url(${require("./bg.jpg")})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
-    
   },
 
   container: {
@@ -31,7 +30,7 @@ const useStyles = createStyles((theme) => ({
     paddingBottom: `calc(${theme.spacing.xl} * 6)`,
     zIndex: 1,
     position: "relative",
-   marginTop:"72px",
+    marginTop: "72px",
 
     [theme.fn.smallerThan("sm")]: {
       height: "100vh",
@@ -77,7 +76,7 @@ const useStyles = createStyles((theme) => ({
     },
   },
 }));
-function LoginPage() {
+export function LoginPage() {
   const { classes } = useStyles();
   const [start, setStart] = useState(false);
 
@@ -88,7 +87,7 @@ function LoginPage() {
         opacity={1}
         zIndex={0}
       />
-      
+
       <Navbar1
         style={{ position: "fixed", top: 0, width: "100vw", zIndex: 1 }}
       />
@@ -100,7 +99,7 @@ function LoginPage() {
   );
 }
 
-function Hero() {
+export function Hero() {
   const { classes } = useStyles();
   const [mounted, setMounted] = useState(false);
   const navigate = useNavigate();
@@ -142,11 +141,15 @@ function Hero() {
   );
 }
 
-export default function LoginPageRoute() {
+export function LoginPageRoute() {
   return (
-    <Route path="" element={<LoginPage />}>
-      <Route exact path="" element={<Hero />} />
-      <Route path="login" element={<AuthenticationTitle />} />
-    </Route>
+    
+    <Routes>
+      <Route path="" element={<LoginPage />}>
+        <Route exact path="" element={<Hero />} />
+        <Route path="login" element={<AuthenticationTitle />} />
+
+      </Route>
+    </Routes>
   );
 }

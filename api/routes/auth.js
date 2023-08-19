@@ -32,14 +32,14 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   // check body structure
   if (!req.body.email || !req.body.password) {
-    res.status(403).json("forbidden");
+    res.status(403).json("bad_request");
     return;
   }
   try {
     // check if user exists
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
-      res.status(404).json("user not found");
+      res.status(404).json("user_not_found");
       return;
     }
     // check password validity
@@ -48,7 +48,7 @@ router.post("/login", async (req, res) => {
       user.password
     );
     if (!validPassword) {
-      res.status(400).json("wrong password");
+      res.status(400).json("wrong_password");
       return;
     }
     //  login success
