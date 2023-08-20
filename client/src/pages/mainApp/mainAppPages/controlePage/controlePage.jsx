@@ -1,5 +1,6 @@
 import { Button, Paper, Text, Title, Transition } from "@mantine/core";
 import { useEffect, useState } from "react";
+import { Table1 } from "components/tables";
 export default function ControlePage() {
   const [mounted,setMounted] = useState(false)
   useEffect(()=>{setMounted(true)},[])
@@ -13,13 +14,10 @@ export default function ControlePage() {
         {(styles) => 
      
     <div style={styles}>
-      {Array.from({ length: 10 }).map((key) => (
+      {Array.from({ length: 1 }).map((key) => (
         <Paper key={key} shadow="sm" radius="md" p="sm" withBorder my={20}>
-          <Title>Paper is the most basic ui component</Title>
-          <Text>
-            Use it to create cards, dropdowns, modals and other components that
-            require background with shadow
-          </Text>
+          <Title order={4}>Paper is the most basic ui component</Title>
+          <Table1/>
         </Paper>
       ))}
     </div>

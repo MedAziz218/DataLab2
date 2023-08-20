@@ -94,9 +94,8 @@ export function AuthenticationTitle() {
                 <Alert style={styles}
                   icon={<IconAlertCircle size="1rem" />}
                   title={
-                    error === "wrong_password"
-                      ? "Mot de passe incorrect. Veuillez réessayer."
-                      : "Matricule ou mot de passe incorrect. Veuillez réessayer."
+                  
+                    error
                   }
                   color="red"
                 ></Alert>

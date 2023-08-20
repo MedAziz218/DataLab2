@@ -1,0 +1,82 @@
+.table1Wrapper {
+  border: 3px solid #6c757d;
+  padding: 3px;
+  border-radius: 1%;
+}
+.table1 {
+  --th-color:#9A4C78;/*#009879;*/
+  --yellow: #ffc107;
+  table-layout: fixed;
+  border: 3px solid #6c757d;
+}
+
+/* ---------------------------------------------- */
+.table1 th {
+  width: 100px;
+  background-color: var(--th-color);
+  color: #fff !important;
+  max-width: 50px;
+}
+.table1 td {
+  width: 100px;
+  display: table-cell;
+
+  text-align: center;
+}
+/* ---------------------------------------------- */
+
+.table1 tbody .title {
+  color: #8b8000;
+  font-weight: bold;
+}
+.table1 tbody .title.critique {
+  color: #d60700;
+  font-weight: bold;
+}
+
+.table1 tbody .checkboxWrapper:hover,
+.table1 tbody .checkboxWrapper[data-checked="true"] {
+  background-color: #f5d575;
+  cursor: pointer;
+}
+.table1 tbody .checkboxWrapper input {
+  accent-color: #948607;
+  cursor: pointer;
+}
+
+.table1 tbody .checkboxWrapper.critique:hover,
+.table1 tbody .checkboxWrapper.critique[data-checked="true"] {
+  background-color: #f09893;
+  border-radius: 1%;
+  cursor: pointer;
+}
+.table1 tbody .checkboxWrapper.critique input {
+  accent-color: #e7160b;
+  cursor: pointer;
+}
+/* ---------------------------------------------- */
+.table1 tbody tr:nth-child(-n+2) td {
+    border-bottom: 2px solid #000; /* first 2 lines*/
+}
+.table1 tbody tr:nth-child(2) td:not(:last-child) {
+    border-right: 2px solid #000; /* first 2 lines*/
+}
+.table1 tbody tr:first-child td:nth-child(2) {
+    border-right: 2px solid #000; /* first line only*/
+}
+.table1 tbody tr:nth-child(n+2) td:nth-child(3) {
+    border-right: 2px solid #000; /* every line except for first 2*/
+}
+.table1 tbody tr:nth-child(5n):not(:last-child) td {
+  border-bottom: 2px solid #000; /* every 5th row*/
+}
+.table1 tbody tr:nth-child(5n):not(:last-child) th {
+  border-bottom: 2px solid #fff; /* every 5th row*/
+}
+/* ---------------------------------------------------- */
+
+
+.table1 tbody tr:hover th {
+    color: var(--yellow)!important;
+  }
+/* background-color: rgb(169, 185, 235); */
