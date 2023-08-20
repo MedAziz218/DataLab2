@@ -7,16 +7,12 @@ import {
   getStylesRef,
   rem,
 } from "@mantine/core";
-import {
-
-  IconLogout,
-} from "@tabler/icons-react";
+import { IconLogout } from "@tabler/icons-react";
 import logo from "../logo.svg";
-import {  NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { UserButton } from "components/userbutton/userbutton";
 import { logoutCall } from "apiCalls";
 import { AuthContext } from "context/AuthContext";
-
 
 const useStyles = createStyles((theme) => ({
   navbar: {
@@ -24,10 +20,7 @@ const useStyles = createStyles((theme) => ({
   },
 
   version: {
-    backgroundColor: theme.fn.lighten(
-      theme.colors.grape[7],
-      0.1
-    ),
+    backgroundColor: theme.fn.lighten(theme.colors.grape[7], 0.1),
     color: theme.white,
     fontWeight: 700,
   },
@@ -52,55 +45,51 @@ const useStyles = createStyles((theme) => ({
 
   link: {
     ...theme.fn.focusStyles(),
-    display: 'flex',
-    alignItems: 'center',
-    textDecoration: 'none',
+    display: "flex",
+    alignItems: "center",
+    textDecoration: "none",
     fontSize: theme.fontSizes.sm,
     color: theme.white,
     padding: `${theme.spacing.xs} ${theme.spacing.sm}`,
     borderRadius: theme.radius.sm,
     fontWeight: 500,
 
-    '&:hover': {
-      backgroundColor: theme.fn.lighten(
-        theme.colors.grape[7],
-        0.1
-      ),
+    "&:hover": {
+      backgroundColor: theme.fn.lighten(theme.colors.grape[7], 0.1),
     },
   },
 
   linkIcon: {
-    ref: getStylesRef('icon'),
+    ref: getStylesRef("icon"),
     color: theme.white,
     opacity: 0.75,
     marginRight: theme.spacing.sm,
   },
 
   linkActive: {
-    '&, &:hover': {
-      backgroundColor: theme.fn.lighten(
-        theme.colors.grape[7],
-        0.15
-      ),
-      [`& .${getStylesRef('icon')}`]: {
+    "&, &:hover": {
+      backgroundColor: theme.fn.lighten(theme.colors.grape[7], 0.15),
+      [`& .${getStylesRef("icon")}`]: {
         opacity: 0.9,
       },
     },
   },
 }));
 
-
-
-export function AdminNavbar({data,style}) {
-  const {user} = useContext(AuthContext)
+export function AdminNavbar({ data, style }) {
+  const { user } = useContext(AuthContext);
   const { classes, cx } = useStyles();
   const [active, setActive] = useState("Billing");
 
   const links = data.map((item) => (
-    <NavLink to={item.link}
-      className={cx(classes.link, {
-        [classes.linkActive]: item.label === active,
-      })}
+    <NavLink
+      to={item.link}
+      // className={cx(classes.link, {
+      //   [classes.linkActive]: item.label === active,
+      // })}
+      className={({ isActive, isPending }) =>
+        classes.link + " " + (isActive ? classes.linkActive : "")
+      }
       href={item.link}
       key={item.label}
       onClick={(event) => {
@@ -115,7 +104,7 @@ export function AdminNavbar({data,style}) {
 
   return (
     <Navbar
-    style={style}
+      style={style}
       height={"100vh"}
       width={{ sm: 300 }}
       p="md"
@@ -131,7 +120,8 @@ export function AdminNavbar({data,style}) {
       </Navbar.Section>
 
       <Navbar.Section className={classes.footer}>
-        <UserButton className={classes.link}
+        <UserButton
+          className={classes.link}
           // image="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=255&q=80"
           name={user.username}
           email="ADMIN"
@@ -148,7 +138,11 @@ export function AdminNavbar({data,style}) {
         <a
           href="#"
           className={classes.link}
-          onClick={(event) => {event.preventDefault();logoutCall();window.location = "/"}}
+          onClick={(event) => {
+            event.preventDefault();
+            logoutCall();
+            window.location = "/";
+          }}
         >
           <IconLogout className={classes.linkIcon} stroke={1.5} />
           <span>Logout</span>

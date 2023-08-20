@@ -104,16 +104,17 @@ export function MainNavbar({data,style}) {
 
   const links = data.map((item) => (
     <NavLink to={item.link}
-      className={cx(classes.link, {
-        [classes.linkActive]: item.label === active,
-      })}
-      href={item.link}
+      
+      className={({ isActive, isPending }) =>
+      classes.link+" " + (isActive ? classes.linkActive : "")
+    }
       key={item.label}
       onClick={(event) => {
         // event.preventDefault();
         setActive(item.label);
       }}
     >
+      
       <item.icon className={classes.linkIcon} stroke={1.5} />
       <span>{item.label}</span>
     </NavLink>

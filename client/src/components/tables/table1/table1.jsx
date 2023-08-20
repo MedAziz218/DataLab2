@@ -1,5 +1,6 @@
 import { forwardRef, useRef, createRef, useState, useEffect } from "react";
-import { Table } from "@mantine/core";
+import { Table, TextInput } from "@mantine/core";
+import { CustomTimePicker } from "components/customtimepicker";
 import "./table1.css";
 // import { createStyles } from "@mantine/core";
 // const useStyles = createStyles((theme) => ({
@@ -29,29 +30,62 @@ const TitleList = [
 ];
 
 const Table1 = forwardRef((props, ref) => {
-  const initialInputState = localStorage.getItem("table1")
-    ? JSON.parse(localStorage.getItem("table1"))
-    : Array.from({ length: TitleList.length }, () =>
-        Array.from({ length: 4 }, () => false)
-      );
-  const [inputValues, setInputValues] = useState(initialInputState);
+  const initialState = JSON.parse(localStorage.getItem("table1")) || null;
+
+  const initialInputValues =
+    initialState && initialState.values
+      ? initialState.values
+      : Array.from({ length: TitleList.length }, () =>
+          Array.from({ length: 4 }, () => false)
+        );
+
+  const initialHeureValues =
+    initialState && initialState.heures ? initialState.heures : ["", ""];
+  const [inputValues, setInputValues] = useState(initialInputValues);
+
+  const [heureValue1, setHeureValue1] = useState(initialHeureValues[0]);
+  const [heureValue2, setHeureValue2] = useState(initialHeureValues[1]);
+
+  const heureValueRef1 = useRef("");
+  const heureValueRef2 = useRef("");
+
+  const handleInputChange1 = (val) => {
+    setHeureValue1(val);
+    heureValueRef1.current = val;
+  };
+
+  const handleInputChange2 = (val) => {
+    setHeureValue2(val);
+    heureValueRef2.current =val
+  };
+
   const handleInputChange = (row, col, val) => {
     const newInputValues = [...inputValues];
     newInputValues[row][col] = val;
     setInputValues(newInputValues);
     updateTotalColumn(col);
+
+    saveState();
   };
 
   useEffect(() => {
     for (let col = 0; col < 4; col++) updateTotalColumn(col);
-
+    handleInputChange1(initialHeureValues[0])
+    handleInputChange2(initialHeureValues[1])
     return () => {
-      console.log(inputValues);
       saveState();
     };
   }, []);
   const saveState = () => {
-    localStorage.setItem("table1", JSON.stringify(inputValues));
+    let heureValues = [heureValueRef1.current,heureValueRef2.current]
+    console.log(">>>>>>>>", heureValues);
+    const data = {
+      heures: heureValues,
+      values: inputValues,
+    };
+    console.log("savinnnngg ", JSON.stringify(data));
+    localStorage.setItem("table1", JSON.stringify(data));
+    return data;
   };
   const ExclusiveCheckboxClassNames = [
     "checkboxWrapper critique",
@@ -88,8 +122,27 @@ const Table1 = forwardRef((props, ref) => {
         <tbody>
           <tr>
             <th>Heure Sur Paquet</th>
-            <td colSpan={critique_colspan + non_critique_colspan}>{"Time1"}</td>
-            <td colSpan={critique_colspan + non_critique_colspan}>{"Time2"}</td>
+            <td colSpan={critique_colspan + non_critique_colspan}>
+              {/* <TextInput
+                value={heureValue1}
+                onChange={handleInputChange1}
+              /> */}
+              <CustomTimePicker
+                value={heureValue1}
+                setValue={handleInputChange1}
+              />
+            </td>
+            <td colSpan={critique_colspan + non_critique_colspan}>
+              {/* <TextInput
+                value={heureValue2}
+                onChange={handleInputChange2}
+              /> */}
+
+              <CustomTimePicker
+                value={heureValue2}
+                setValue={handleInputChange2}
+              />
+            </td>
           </tr>
           <tr>
             <th>{title}</th>
