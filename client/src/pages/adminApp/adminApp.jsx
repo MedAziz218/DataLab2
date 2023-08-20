@@ -51,7 +51,13 @@ function AdminApp() {
       </Transition>
 
       <div
-        style={{ padding: "24px", backgroundColor: "#F4F5F7", width: "100%" }}
+        style={{
+          padding: "24px",
+          backgroundColor: "#f5f6f8",
+          width: "100%",
+          height: "100vh",
+          overflow: "auto",
+        }}
       >
         <Outlet />
       </div>

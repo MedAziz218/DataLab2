@@ -46,12 +46,16 @@ export function AuthenticationTitle() {
   }, [user]);
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     // const data = new FormData(event.currentTarget);
     // console.log(user)
 
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
-    const response = await loginCall({ email, password }, dispatch);
+    if (!isFetching){
+
+      const response = await loginCall({ email, password }, dispatch);
+    }
   };
   return (
     <Transition

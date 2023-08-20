@@ -27,7 +27,11 @@ function Found2() {
 }
 
 const data = [
-  { link: "/controle", label: "Feuille de controle Laboratoire", icon: IconBellRinging },
+  {
+    link: "/controle",
+    label: "Feuille de controle Laboratoire",
+    icon: IconBellRinging,
+  },
   { link: "/cisaillement", label: "Test de cisaillement", icon: IconReceipt2 },
   { link: "/mp", label: "Matiere Premiere", icon: IconFingerprint },
   { link: "/equipements", label: "Les equipements de controle", icon: IconKey },
@@ -48,7 +52,15 @@ function MainApp() {
       >
         {(styles) => <MainNavbar data={data} style={styles} />}
       </Transition>
-      <div style={{padding:"24px",backgroundColor:"#f5f6f8",width:"100%"}}>
+      <div
+        style={{
+          padding: "24px",
+          backgroundColor: "#f5f6f8",
+          width: "100%",
+          height: "100vh",
+          overflow: "auto",
+        }}
+      >
         <Outlet />
       </div>
     </div>
@@ -61,10 +73,9 @@ export function MainAppRoutes() {
         <Route exact path="controle" element={<ControlePage />} />
         <Route exact path="/cisaillement" element={<CisaillementPage />} />
         <Route exact path="mp" element={<MpPage />} />
-        <Route exact path="/equipements" element={<EquipementsPage/>} />
+        <Route exact path="/equipements" element={<EquipementsPage />} />
         <Route exact path="/notes" element={<NotesPage />} />
         <Route exact path="/validation" element={<ValidationPage />} />
-
       </Route>
 
       <Route exact path="/login" element={<Navigate to="/" />} />
