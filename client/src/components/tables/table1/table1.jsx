@@ -29,45 +29,26 @@ const TitleList = [
 ];
 
 const Table1 = forwardRef((props, ref) => {
+  const initialInputState = localStorage.getItem("table1")
+    ? JSON.parse(localStorage.getItem("table1"))
+    : Array.from({ length: TitleList.length }, () =>
+        Array.from({ length: 4 }, () => false)
+      );
+  const [inputValues, setInputValues] = useState(initialInputState);
+  const handleInputChange = (row, col, val) => {
+    const newInputValues = [...inputValues];
+    newInputValues[row][col] = val;
+    setInputValues(newInputValues);
+  };
+
   useEffect(() => {
-    loadArray();
-    console.log("started", refArrays.current);
-    
     return () => {
-    //   console.log("stopped", refArrays.current);
-      saveArray();
+      console.log(inputValues);
+      saveState();
     };
   }, []);
-
-  const refArrays = useRef(
-    Array.from({ length: TitleList.length }).map(() =>
-      Array.from({ length: 4 }).map(() => ({ val: false }))
-    )
-  );
-  useEffect(()=>{
-    
-  },[refArrays])
-  const loadArray = () => {
-    let savedArr = JSON.parse(localStorage.getItem("table1")) || null;
-    // console.log("................", savedArr);
-    if (savedArr && refArrays.current.length == savedArr.length) {
-      for (let i = 0; i < savedArr.length; i++) {
-          for (let j = 0; j < savedArr[i].length; j++) {
-              refArrays.current[i][j].val = savedArr[i][j];
-            
-              refArrays.current[i][j].current.checked = savedArr[i][j];
-          
-        }
-      }
-    }
-  };
-  const saveArray = () => {
-    let arr = refArrays.current.map((line) => line.map((obj) => obj.val));
-    localStorage.setItem("table1", JSON.stringify(arr));
-  };
-  const handleCheckboxChange = (i, j) => (val) => {
-    refArrays.current[i][j].val = val;
-    console.log(i, j, val, refArrays.current);
+  const saveState = () => {
+    localStorage.setItem("table1", JSON.stringify(inputValues));
   };
   const ExclusiveCheckboxClassNames = [
     "checkboxWrapper critique",
@@ -109,21 +90,23 @@ const Table1 = forwardRef((props, ref) => {
             ])}
           </tr>
 
-          {refArrays.current.map((innerArray, outerIndex) => (
+          {inputValues.map((innerArray, outerIndex) => (
             <tr key={outerIndex}>
               <th>{TitleList[outerIndex]}</th>
               <ExclusiveCheckboxToggle
-                onchange1={handleCheckboxChange(outerIndex, 0)}
-                onchange2={handleCheckboxChange(outerIndex, 1)}
                 classNames={ExclusiveCheckboxClassNames}
-                refs={innerArray.slice(0, 2)}
+                isChecked1={innerArray[0]}
+                isChecked2={innerArray[1]}
+                setIsChecked1={(val) => handleInputChange(outerIndex, 0, val)}
+                setIsChecked2={(val) => handleInputChange(outerIndex, 1, val)}
               />
 
               <ExclusiveCheckboxToggle
-                onchange1={handleCheckboxChange(outerIndex, 2)}
-                onchange2={handleCheckboxChange(outerIndex, 3)}
                 classNames={ExclusiveCheckboxClassNames}
-                refs={innerArray.slice(2, 4)}
+                isChecked1={innerArray[2]}
+                isChecked2={innerArray[3]}
+                setIsChecked1={(val) => handleInputChange(outerIndex, 2, val)}
+                setIsChecked2={(val) => handleInputChange(outerIndex, 3, val)}
               />
             </tr>
           ))}
@@ -135,20 +118,22 @@ const Table1 = forwardRef((props, ref) => {
 
 export default Table1;
 
-const ExclusiveCheckboxToggle = ({ classNames, onchange1, onchange2,refs }) => {
-  const [isChecked1, setIsChecked1] = useState(false);
-  const [isChecked2, setIsChecked2] = useState(false);
+const ExclusiveCheckboxToggle = ({
+  classNames,
+  isChecked1,
+  isChecked2,
+  setIsChecked1,
+  setIsChecked2,
+}) => {
+  //   const [isChecked1, setIsChecked1] = useState(false);
+  //   const [isChecked2, setIsChecked2] = useState(false);
 
   const handleToggle1 = () => {
-    onchange1(!isChecked1);
-    onchange2(false);
     setIsChecked1(!isChecked1);
     setIsChecked2(false);
   };
 
   const handleToggle2 = () => {
-    onchange1(false);
-    onchange2(!isChecked2);
     setIsChecked2(!isChecked2);
     setIsChecked1(false);
   };
@@ -166,7 +151,6 @@ const ExclusiveCheckboxToggle = ({ classNames, onchange1, onchange2,refs }) => {
         type="checkbox"
         className="input-box"
         checked={isChecked1}
-        ref={refs[0]}
         onChange={() => {}}
       />
     </td>,
@@ -182,8 +166,6 @@ const ExclusiveCheckboxToggle = ({ classNames, onchange1, onchange2,refs }) => {
         type="checkbox"
         className="input-box"
         checked={isChecked2}
-        ref={refs[1]}
-
         onChange={() => {}}
       />
     </td>,
