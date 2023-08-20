@@ -39,9 +39,12 @@ const Table1 = forwardRef((props, ref) => {
     const newInputValues = [...inputValues];
     newInputValues[row][col] = val;
     setInputValues(newInputValues);
+    updateTotalColumn(col);
   };
 
   useEffect(() => {
+    for (let col = 0; col < 4; col++) updateTotalColumn(col);
+
     return () => {
       console.log(inputValues);
       saveState();
@@ -55,6 +58,22 @@ const Table1 = forwardRef((props, ref) => {
     "checkboxWrapper ",
   ];
   const [critique_colspan, non_critique_colspan] = [1, 1];
+  const [total, setTotal] = useState([0, 0, 0, 0]);
+  const updateTotalColumn = (colIndex) => {
+    let val = 0;
+    for (let i = 0; i < inputValues.length; i++) {
+      let ref = inputValues[i][colIndex];
+      if (ref) val += 1;
+    }
+    setAtIndex(colIndex, val);
+  };
+  const setAtIndex = (index, val) => {
+    setTotal((prevValues) => {
+      const newValues = [...prevValues];
+      newValues[index] = val;
+      return newValues;
+    });
+  };
   const title = "Defaut Visuels (QP1B0)";
   return (
     <div className="table1Wrapper">
@@ -110,6 +129,21 @@ const Table1 = forwardRef((props, ref) => {
               />
             </tr>
           ))}
+          <tr>
+            <th>{"Total défauts visuels"}</th>
+            {Array.from({ length: 4 }).map((_, innerIndex) => (
+              <td
+                key={innerIndex}
+                className={
+                  "checkboxWrapper" + (innerIndex % 2 == 1 ? " critique" : "")
+                }
+
+                // data-checked={total[innerIndex] !== 0}
+              >
+                <span>{String(total[innerIndex])}</span>
+              </td>
+            ))}
+          </tr>
         </tbody>
       </Table>
     </div>
