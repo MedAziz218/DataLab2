@@ -34,3 +34,28 @@
 .table3 tbody tr:hover th {
   color: var(--yellow) !important;
 }
+.table3 tbody tr:nth-child(1) td:nth-child(2n+5) {
+  
+  border-right: 2px solid #000 !important;
+
+}
+
+.table3 tbody tr:nth-child(3) td:nth-child(2n+4) {
+  
+  border-right: 2px solid #000 !important;
+
+}
+.table3 tbody tr:nth-child(4) td:nth-child(2n+3) {
+  
+  border-right: 2px solid #000 !important;
+
+}
+.table3 tbody tr:nth-child(2) td:nth-child(2n+3) {
+  
+  border-right: 2px solid #000 !important;
+
+}
+.table3 tbody tr:nth-child(2n) {
+  border-bottom: 2px solid #000 !important;
+
+}

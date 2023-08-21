@@ -35,3 +35,8 @@
     color: var(--yellow) !important;
   }
   
+  .table4 tbody tr:nth-child(5n)  {
+  
+    border-bottom: 2px solid #000 !important;
+  
+  }
