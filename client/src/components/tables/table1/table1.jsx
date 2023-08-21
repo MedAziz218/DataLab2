@@ -65,7 +65,7 @@ const Table1 = forwardRef((props, ref) => {
     setInputValues(newInputValues);
     updateTotalColumn(col);
 
-    saveState();
+
   };
 
   useEffect(() => {
@@ -78,12 +78,12 @@ const Table1 = forwardRef((props, ref) => {
   }, []);
   const saveState = () => {
     let heureValues = [heureValueRef1.current,heureValueRef2.current]
-    console.log(">>>>>>>>", heureValues);
+    
     const data = {
       heures: heureValues,
       values: inputValues,
     };
-    console.log("savinnnngg ", JSON.stringify(data));
+    console.log("savinnnngg table1 ", JSON.stringify(data));
     localStorage.setItem("table1", JSON.stringify(data));
     return data;
   };

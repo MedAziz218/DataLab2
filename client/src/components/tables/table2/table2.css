@@ -1,0 +1,75 @@
+.table2Wrapper {
+  border: 3px solid #6c757d;
+  padding: 3px;
+  border-radius: 1%;
+}
+.table2 {
+  --th-color:#9A4C78;/*#009879;*/
+  --yellow: #ffc107;
+  table-layout: fixed;
+  border: 3px solid #6c757d;
+}
+.table2 tbody:not(:last-child)  {
+  border-bottom: 4px solid #000 !important;
+}
+.table2 tbody:not(:last-child) th{
+  border-bottom: 4px solid #fff;
+}
+/* ---------------------------------------------- */
+.table2 tbody th {
+ 
+  background-color: var(--th-color);
+  color: #fff !important;
+  
+  border-right: 5px solid #6c757d!important;
+ 
+
+}
+.table2 td {
+ 
+  display: table-cell;
+
+  text-align: center;
+}
+
+/* ---------------------------------------------- */
+/* ---------------------------------------------- */
+
+.table2 tbody .title {
+  color: #8b8000;
+  font-weight: bold;
+}
+.table2 tbody .title.critique {
+  color: #d60700;
+  font-weight: bold;
+}
+
+.table2 tbody .checkboxWrapper:hover,
+.table2 tbody .checkboxWrapper[data-checked="true"] {
+  background-color: #f5d575;
+  cursor: pointer;
+}
+.table2 tbody .checkboxWrapper input {
+  accent-color: #948607;
+  cursor: pointer;
+}
+
+.table2 tbody .checkboxWrapper.critique:hover,
+.table2 tbody .checkboxWrapper.critique[data-checked="true"] {
+  background-color: #f09893;
+  border-radius: 1%;
+  cursor: pointer;
+}
+.table2 tbody .checkboxWrapper.critique input {
+  accent-color: #e7160b;
+  cursor: pointer;
+}
+/* ---------------------------------------------- */
+
+/* ---------------------------------------------------- */
+
+
+.table2 tbody tr:hover th {
+    color: var(--yellow)!important;
+  }
+/* background-color: rgb(169, 185, 235); */

@@ -1,6 +1,7 @@
 import { Button, Paper, Text, Title, Transition } from "@mantine/core";
 import { useEffect, useState } from "react";
-import { Table1 } from "components/tables";
+import { Table1,Table2 } from "components/tables";
+
 export default function ControlePage() {
   const [mounted,setMounted] = useState(false)
   useEffect(()=>{setMounted(true)},[])
@@ -11,7 +12,7 @@ export default function ControlePage() {
         duration={200}
         timingFunction="ease"
       >
-        {(styles) => 
+        {(styles) => [
      
     <div style={styles}>
       {Array.from({ length: 1 }).map((key) => (
@@ -21,7 +22,16 @@ export default function ControlePage() {
         </Paper>
       ))}
     </div>
+    ,
     
+    <div style={styles}>
+      {Array.from({ length: 1 }).map((key) => (
+        <Paper key={key} shadow="sm" radius="md" p="sm" withBorder my={20}>
+          <Title order={4}>Paper is the most basic ui component</Title>
+          <Table2/>
+        </Paper>
+      ))}
+    </div>]
     }
    
     </Transition>,

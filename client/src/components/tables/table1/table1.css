@@ -16,6 +16,8 @@
   background-color: var(--th-color);
   color: #fff !important;
   max-width: 50px;
+  border-right: 5px solid #6c757d!important;
+
 }
 .table1 td {
   width: 100px;
