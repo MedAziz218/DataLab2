@@ -1,7 +1,8 @@
 import { Transition, Paper, Title } from "@mantine/core";
 import { Table5 } from "components/tables";
 import { useEffect, useState } from "react";
-import { TextEditor } from "components/texteditor";
+
+import { TextEditor } from "components/richtexteditor/editor";
 export default function MpPage() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
@@ -19,15 +20,14 @@ export default function MpPage() {
           <Paper shadow="sm" radius="md" p="sm" withBorder my={20}>
             <Title order={4}>{"Observation"}</Title>
             <Table5 />
-
           </Paper>
         </div>,
 
         <div style={styles}>
           <Paper shadow="sm" radius="md" p="sm" withBorder my={20}>
             <Title order={4}>{"Observations"}</Title>
-            <TextEditor />
 
+            <TextEditor compName="observation"/>
           </Paper>
         </div>,
       ]}
