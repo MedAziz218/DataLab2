@@ -1,6 +1,6 @@
 import { Popover, Button, TextInput, Select } from "@mantine/core";
 import { useEffect, useState } from "react";
-
+import { IconClock } from "@tabler/icons-react";
 export function CustomTimePicker({ value, setValue }) {
   // const [value, setValue] = useState(null);
   const [opened, setOpened] = useState(false);
@@ -52,7 +52,7 @@ export function CustomTimePicker({ value, setValue }) {
         onChange={setOpened}
       >
         <Popover.Target>
-          <Button onClick={() => setOpened((o) => !o)}>Toggle popover</Button>
+          <Button onClick={() => setOpened((o) => !o)}><IconClock/></Button>
         </Popover.Target>
         <Popover.Dropdown
           sx={(theme) => ({

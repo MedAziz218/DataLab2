@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Table, TextInput } from "@mantine/core";
 import { CustomTimePicker } from "components/customtimepicker";
+import { CiblePicker } from "components/ciblepicker";
 import "./table2.css";
 import { v4 } from "uuid";
 const TitleList = [
@@ -34,7 +35,7 @@ const Table2DefaultValues = [
   ],
   // {tbody2}
   [
-    ["3", "cible", "3", "cible"], // line6 th
+    ["3", "1.5 ≤ 2.5 ≤ 5" , "3", "1.5 ≤ 2.5 ≤ 5"], // line6 th
     ["", ""], // line7 td
     ["", ""], // line8 td
     ["", ""], // line9 td
@@ -48,31 +49,31 @@ const Table2DefaultValues = [
   ],
   // {tbody4}
   [
-    ["3", "Loop", "cible"], // line10 th
+    ["3", "Loop", "≥ 25 N"], // line10 th
     [""], // line11 td
     [""], // line12 td
     [""], // line13 td
   ],
   // {tbody5}
   [
-    ["3", "Hook", "cible"], // line14 th
+    ["3", "Hook", "≥ 1.5N"], // line14 th
     [""], // line15 td
     [""], // line16 td
     [""], // line17 td
   ],
   // {tbody6}
-  [[true, false]], // line18th
+  [[false, false]], // line18th
   // {tbody7}
   [
-    ["X1", null, "X1", null], // line19 th
+    ["X1", "cible", "X1", "cible"], // line19 th
     ["X1", "X1"], // line20 td
     ["X1", "X1"], // line21 td
     ["X1", "X1"], // line22 td
   ],
   // {tbody8}
-  [["X", null, "X", null]], // line23 th
+  [["X", ".± 50", "X", ".± 50"]], // line23 th
   [
-    ["X", null, "X", null], // line24 td
+    ["X", ".± 50", "X", ".± 50"], // line24 td
   ],
 ];
 const Table2Structure = [
@@ -148,15 +149,15 @@ export default function Table2() {
 
   const handleInputChange = (row, col, z) => {
     return (val) => {
-      console.log(row, col, z, val.target.value, "<<<<<<<<<<<<<");
+    //   console.log(row, col, z, val.target.value, "<<<<<<<<<<<<<");
       const newInputValues = [...inputValues];
       newInputValues[row][col][z] = val.target.value;
       setInputValues(newInputValues);
     };
   };
-  const _handleInputChangeChecked = (row, col, z) => {
+  const _handleInputChangeVal = (row, col, z) => {
     return (val) => {
-      console.log(row, col, z, val, "<<<<<<<<<<<<<");
+    //   console.log(row, col, z, val, "<<<<<<<<<<<<<");
       const newInputValues = [...inputValues];
       newInputValues[row][col][z] = val;
       setInputValues(newInputValues);
@@ -186,14 +187,14 @@ export default function Table2() {
       heures: heureValues,
       values: inputValues,
     };
-    console.log("savinnnngg table2 ", JSON.stringify(data));
+    // console.log("savinnnngg table2 ", JSON.stringify(data));
     localStorage.setItem("table2", JSON.stringify(data));
     return data;
   };
   useEffect(() => {
     return () => {
       saveState();
-      console.log(inputValues);
+    //   console.log(inputValues);
     };
   }, []);
   return (
@@ -225,7 +226,7 @@ export default function Table2() {
         </tbody>
         {/* 0000000000000000000000000000000000000 */}
 
-        {[0, 1, 2, 3, 4].map((tbodyIndex) => (
+        {[0, 1, 2, 3, 4,5].map((tbodyIndex) => (
           <tbody>
             {Table2Structure[tbodyIndex].map((tb, index) => (
               <tr>
@@ -237,9 +238,9 @@ export default function Table2() {
                 {tb.map((el, innerIndex) =>
                   index == 0 && el == null ? (
                     <td rowSpan={Table2Structure[tbodyIndex].length}>
-                      <TextInput
+                      <CiblePicker
                         value={inputValues[tbodyIndex][index][innerIndex]}
-                        onChange={handleInputChange(
+                        onChange={_handleInputChangeVal(
                           tbodyIndex,
                           index,
                           innerIndex
@@ -255,7 +256,7 @@ export default function Table2() {
                         {el}
                         <TextInput
                           value={inputValues[tbodyIndex][index][innerIndex]}
-                          onChange={handleInputChange(
+                          onChange={_handleInputChangeVal(
                             tbodyIndex,
                             index,
                             innerIndex
@@ -289,8 +290,8 @@ export default function Table2() {
               classNames={ExclusiveCheckboxClassNames}
               isChecked1={inputValues[6][0][0]}
               isChecked2={inputValues[6][0][1]}
-              setIsChecked1={_handleInputChangeChecked(6, 0, 0)}
-              setIsChecked2={_handleInputChangeChecked(6, 0, 1)}
+              setIsChecked1={_handleInputChangeVal(6, 0, 0)}
+              setIsChecked2={_handleInputChangeVal(6, 0, 1)}
             />
           </tr>
         </tbody>
@@ -305,7 +306,7 @@ export default function Table2() {
                 {tb.map((el, innerIndex) =>
                   el == null ? (
                     <td rowSpan={Table2Structure[tbodyIndex].length}>
-                      <TextInput
+                      <CiblePicker
                         value={inputValues[tbodyIndex][index][innerIndex]}
                         onChange={handleInputChange(
                           tbodyIndex,
@@ -345,7 +346,7 @@ export default function Table2() {
                 {tb.map((el, innerIndex) =>
                   index == 0 && el == null ? (
                     <td rowSpan={Table2Structure[tbodyIndex].length}>
-                      <TextInput
+                      <CiblePicker
                         value={inputValues[tbodyIndex][index][innerIndex]}
                         onChange={handleInputChange(
                           tbodyIndex,

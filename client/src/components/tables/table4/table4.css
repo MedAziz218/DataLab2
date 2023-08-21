@@ -1,0 +1,37 @@
+.table4Wrapper {
+    border: 3px solid #6c757d;
+    padding: 3px;
+    border-radius: 1%;
+  }
+  .table4 {
+    --th-color: #9a4c78; /*#009879;*/
+    --yellow: #ffc107;
+    table-layout: fixed;
+    border: 3px solid #6c757d;
+  }
+  .table4 th {
+    width: 100px;
+    background-color: var(--th-color);
+    color: #fff !important;
+    max-width: 50px;
+    border-right: 5px solid #6c757d !important;
+    border-bottom: 5px solid #6c757d !important;
+  }
+  .table4 td {
+    width: 100px;
+    padding: 5px;
+    display: table-cell;
+  
+    text-align: center;
+  }
+  
+  /* ---------------------------------------------- */
+  .table4 tbody:not(:first-child) td:hover {
+    background-color: rgb(209, 220, 255);
+  }
+  /* ---------------------------------------------------- */
+  
+  .table4 tbody tr:hover th {
+    color: var(--yellow) !important;
+  }
+  

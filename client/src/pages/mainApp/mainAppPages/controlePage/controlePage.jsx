@@ -5,7 +5,7 @@ import { Table1,Table2 } from "components/tables";
 export default function ControlePage() {
   const [mounted,setMounted] = useState(false)
   useEffect(()=>{setMounted(true)},[])
-  return ([
+  return (
     <Transition
         mounted={mounted}
         transition="slide-left"
@@ -17,7 +17,7 @@ export default function ControlePage() {
     <div style={styles}>
       {Array.from({ length: 1 }).map((key) => (
         <Paper key={key} shadow="sm" radius="md" p="sm" withBorder my={20}>
-          <Title order={4}>Paper is the most basic ui component</Title>
+          <Title order={4}>{"Defaut Visuels"}</Title>
           <Table1/>
         </Paper>
       ))}
@@ -27,14 +27,13 @@ export default function ControlePage() {
     <div style={styles}>
       {Array.from({ length: 1 }).map((key) => (
         <Paper key={key} shadow="sm" radius="md" p="sm" withBorder my={20}>
-          <Title order={4}>Paper is the most basic ui component</Title>
+          <Title order={4}>{"Resultats de Test"}</Title>
           <Table2/>
         </Paper>
       ))}
     </div>]
     }
    
-    </Transition>,
-     <Button onClick={()=>setMounted(!mounted)}>click</Button>]
+    </Transition>
   );
 }

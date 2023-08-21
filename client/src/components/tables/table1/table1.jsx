@@ -83,7 +83,7 @@ const Table1 = forwardRef((props, ref) => {
       heures: heureValues,
       values: inputValues,
     };
-    console.log("savinnnngg table1 ", JSON.stringify(data));
+    // console.log("savinnnngg table1 ", JSON.stringify(data));
     localStorage.setItem("table1", JSON.stringify(data));
     return data;
   };
