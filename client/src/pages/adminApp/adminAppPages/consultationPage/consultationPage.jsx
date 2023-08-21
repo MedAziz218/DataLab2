@@ -1,6 +1,13 @@
 
+import { Paper, Title } from '@mantine/core';
+
 export default function ConsultationPage() {
   return (
-    <div>ConsultationPage</div>
-  )
+    <div>
+      <Paper shadow="sm" radius="md" p="sm" withBorder my={20}>
+        <Title>ConsultationPage</Title>
+   
+      </Paper>
+    </div>
+  );
 }
