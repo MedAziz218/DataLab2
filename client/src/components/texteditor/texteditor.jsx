@@ -6,5 +6,5 @@ const initialValue =
 
 export function TextEditor() {
   const [value, onChange] = useState(initialValue);
-  return <RichTextEditor  value={value} onChange={onChange} />;
+  return <RichTextEditor value={value} onChange={onChange} />;
 }
