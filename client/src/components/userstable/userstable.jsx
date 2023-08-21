@@ -1,68 +1,57 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState } from "react";
 import {
   MantineReactTable,
   // createRow,
   useMantineReactTable,
-} from 'mantine-react-table';
-import { ActionIcon, Button, Flex, Text, Tooltip } from '@mantine/core';
-import { ModalsProvider, modals } from '@mantine/modals';
-import { IconEdit, IconTrash } from '@tabler/icons-react';
+} from "mantine-react-table";
+import { ActionIcon, Button, Flex, Text, Tooltip } from "@mantine/core";
+import { ModalsProvider, modals } from "@mantine/modals";
+import { IconEdit, IconTrash } from "@tabler/icons-react";
 import {
   QueryClient,
   QueryClientProvider,
   useMutation,
   useQuery,
   useQueryClient,
-} from '@tanstack/react-query';
-import { fakeData, usStates } from './makeData';
-
+} from "@tanstack/react-query";
+import { fakeData, usStates } from "./makeData";
+import { getUsers } from "apiCalls";
+import { updateUsers } from "apiCalls";
+import { deleteUser } from "apiCalls";
+import { createUser } from "apiCalls";
 const Example = () => {
   const [validationErrors, setValidationErrors] = useState({});
 
   const columns = useMemo(
     () => [
       {
-        accessorKey: 'id',
-        header: 'Id',
+        accessorKey: "_id",
+        header: "Id",
         enableEditing: false,
         size: 80,
       },
       {
-        accessorKey: 'firstName',
-        header: 'First Name',
+        accessorKey: "username",
+        header: "Nom et Prenom",
         mantineEditTextInputProps: {
-          type: 'email',
+          type: "email",
           required: true,
-          error: validationErrors?.firstName,
+          error: validationErrors?.username,
           //remove any previous validation errors when user focuses on the input
           onFocus: () =>
             setValidationErrors({
               ...validationErrors,
-              firstName: undefined,
+              username: undefined,
             }),
           //optionally add validation checking for onBlur or onChange
         },
       },
+
       {
-        accessorKey: 'lastName',
-        header: 'Last Name',
+        accessorKey: "email",
+        header: "Matricule",
         mantineEditTextInputProps: {
-          type: 'email',
-          required: true,
-          error: validationErrors?.lastName,
-          //remove any previous validation errors when user focuses on the input
-          onFocus: () =>
-            setValidationErrors({
-              ...validationErrors,
-              lastName: undefined,
-            }),
-        },
-      },
-      {
-        accessorKey: 'email',
-        header: 'Email',
-        mantineEditTextInputProps: {
-          type: 'email',
+          type: "email",
           required: true,
           error: validationErrors?.email,
           //remove any previous validation errors when user focuses on the input
@@ -74,16 +63,22 @@ const Example = () => {
         },
       },
       {
-        accessorKey: 'state',
-        header: 'State',
-        editVariant: 'select',
-        mantineEditSelectProps: {
-          data: usStates,
-          error: validationErrors?.state,
+        accessorKey: "password",
+        header: "password",
+        mantineEditTextInputProps: {
+          type: "email",
+          required: true,
+          error: validationErrors?.email,
+          //remove any previous validation errors when user focuses on the input
+          onFocus: () =>
+            setValidationErrors({
+              ...validationErrors,
+              email: undefined,
+            }),
         },
       },
     ],
-    [validationErrors],
+    [validationErrors]
   );
 
   //call CREATE hook
@@ -105,24 +100,25 @@ const Example = () => {
 
   //CREATE action
   const handleCreateUser = async ({ values, exitCreatingMode }) => {
-    const newValidationErrors = validateUser(values);
-    if (Object.values(newValidationErrors).some((error) => error)) {
-      setValidationErrors(newValidationErrors);
-      return;
-    }
-    setValidationErrors({});
+    // const newValidationErrors = validateUser(values);
+    // if (Object.values(newValidationErrors).some((error) => error)) {
+    //   setValidationErrors(newValidationErrors);
+    //   return;
+    // }
+    // setValidationErrors({});
+    
     await createUser(values);
     exitCreatingMode();
   };
 
   //UPDATE action
   const handleSaveUser = async ({ values, table }) => {
-    const newValidationErrors = validateUser(values);
-    if (Object.values(newValidationErrors).some((error) => error)) {
-      setValidationErrors(newValidationErrors);
-      return;
-    }
-    setValidationErrors({});
+    // const newValidationErrors = validateUser(values);
+    // if (Object.values(newValidationErrors).some((error) => error)) {
+    //   setValidationErrors(newValidationErrors);
+    //   return;
+    // }
+    // setValidationErrors({});
     await updateUser(values);
     table.setEditingRow(null); //exit editing mode
   };
@@ -130,34 +126,34 @@ const Example = () => {
   //DELETE action
   const openDeleteConfirmModal = (row) =>
     modals.openConfirmModal({
-      title: 'Are you sure you want to delete this user?',
+      title: "Are you sure you want to delete this user?",
       children: (
         <Text>
-          Are you sure you want to delete {row.original.firstName}{' '}
+          Are you sure you want to delete {row.original.firstName}{" "}
           {row.original.lastName}? This action cannot be undone.
         </Text>
       ),
-      labels: { confirm: 'Delete', cancel: 'Cancel' },
-      confirmProps: { color: 'red' },
+      labels: { confirm: "Delete", cancel: "Cancel" },
+      confirmProps: { color: "red" },
       onConfirm: () => deleteUser(row.original.id),
     });
 
   const table = useMantineReactTable({
     columns,
     data: fetchedUsers,
-    createDisplayMode: 'row', // ('modal', and 'custom' are also available)
-    editDisplayMode: 'row', // ('modal', 'cell', 'table', and 'custom' are also available)
+    createDisplayMode: "row", // ('modal', and 'custom' are also available)
+    editDisplayMode: "row", // ('modal', 'cell', 'table', and 'custom' are also available)
     enableEditing: true,
     getRowId: (row) => row.id,
     mantineToolbarAlertBannerProps: isLoadingUsersError
       ? {
-          color: 'red',
-          children: 'Error loading data',
+          color: "red",
+          children: "Error loading data",
         }
       : undefined,
     mantineTableContainerProps: {
       sx: {
-        minHeight: '500px',
+        minHeight: "500px",
       },
     },
     onCreatingRowCancel: () => setValidationErrors({}),
@@ -210,12 +206,14 @@ function useCreateUser() {
   return useMutation({
     mutationFn: async (user) => {
       //send api update request here
-      await new Promise((resolve) => setTimeout(resolve, 1000)); //fake api call
-      return Promise.resolve();
+      // await new Promise((resolve) => setTimeout(resolve, 1000)); //fake api call
+      // return Promise.resolve();
+      const res = await createUser(user)
+      return res
     },
     //client side optimistic update
     onMutate: (newUserInfo) => {
-      queryClient.setQueryData(['users'], (prevUsers) => [
+      queryClient.setQueryData(["users"], (prevUsers) => [
         ...prevUsers,
         {
           ...newUserInfo,
@@ -230,11 +228,13 @@ function useCreateUser() {
 //READ hook (get users from api)
 function useGetUsers() {
   return useQuery({
-    queryKey: ['users'],
+    queryKey: ["users"],
     queryFn: async () => {
       //send api request here
-      await new Promise((resolve) => setTimeout(resolve, 1000)); //fake api call
-      return Promise.resolve(fakeData);
+      // await new Promise((resolve) => setTimeout(resolve, 1000)); //fake api call
+      // return Promise.resolve(fakeData);
+  const users = await getUsers()
+  return users
     },
     refetchOnWindowFocus: false,
   });
@@ -246,15 +246,17 @@ function useUpdateUser() {
   return useMutation({
     mutationFn: async (user) => {
       //send api update request here
-      await new Promise((resolve) => setTimeout(resolve, 1000)); //fake api call
-      return Promise.resolve();
+      // await new Promise((resolve) => setTimeout(resolve, 1000)); //fake api call
+      // return Promise.resolve();
+      const res = await updateUsers(user)
+      return res
     },
     //client side optimistic update
     onMutate: (newUserInfo) => {
-      queryClient.setQueryData(['users'], (prevUsers) =>
+      queryClient.setQueryData(["users"], (prevUsers) =>
         prevUsers?.map((prevUser) =>
-          prevUser.id === newUserInfo.id ? newUserInfo : prevUser,
-        ),
+          prevUser.id === newUserInfo.id ? newUserInfo : prevUser
+        )
       );
     },
     // onSettled: () => queryClient.invalidateQueries({ queryKey: ['users'] }), //refetch users after mutation, disabled for demo
@@ -268,12 +270,14 @@ function useDeleteUser() {
     mutationFn: async (userId) => {
       //send api update request here
       await new Promise((resolve) => setTimeout(resolve, 1000)); //fake api call
-      return Promise.resolve();
+      
+      const res = await deleteUser(userId)
+      return res
     },
     //client side optimistic update
     onMutate: (userId) => {
-      queryClient.setQueryData(['users'], (prevUsers) =>
-        prevUsers?.filter((user) => user.id !== userId),
+      queryClient.setQueryData(["users"], (prevUsers) =>
+        prevUsers?.filter((user) => user._id !== userId)
       );
     },
     // onSettled: () => queryClient.invalidateQueries({ queryKey: ['users'] }), //refetch users after mutation, disabled for demo
@@ -299,15 +303,15 @@ const validateEmail = (email) =>
   email
     .toLowerCase()
     .match(
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     );
 
 function validateUser(user) {
   return {
     firstName: !validateRequired(user.firstName)
-      ? 'First Name is Required'
-      : '',
-    lastName: !validateRequired(user.lastName) ? 'Last Name is Required' : '',
-    email: !validateEmail(user.email) ? 'Incorrect Email Format' : '',
+      ? "First Name is Required"
+      : "",
+    lastName: !validateRequired(user.lastName) ? "Last Name is Required" : "",
+    email: !validateEmail(user.email) ? "Incorrect Email Format" : "",
   };
 }

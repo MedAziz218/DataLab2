@@ -1,5 +1,7 @@
 import axios from "axios";
 const loginURL = "http://localhost:3001/api/auth/login";
+const UsersURL = "http://localhost:3001/api/users";
+const createUserURL = "http://localhost:3001/api/auth/register";
 //process.env.REACT_APP_BACK_ADRESS+"/auth/login"
 
 function sleep(ms) {
@@ -37,4 +39,66 @@ export const logoutCall = async (dispatch) => {
   // localStorage.setItem("user", JSON.stringify(null))
   localStorage.clear();
   dispatch && dispatch({ type: "LOGOUT" });
+};
+
+export const getUsers = async () => {
+  try {
+    const res = await axios.get(UsersURL);
+    res.data.map((user) => {
+      user.password = "";
+      user.id = user._id;
+    });
+    console.log(res.data);
+    return res.data;
+  } catch (err) {
+    let error_message = err.response ? err.response.data : err.message;
+    console.log(error_message);
+
+    return err;
+  }
+};
+export const updateUsers = async (userCredential) => {
+  try {
+    if (userCredential.password === "") {
+      delete userCredential.password;
+    }
+    const res = await axios.put(
+      UsersURL + "/" + userCredential._id,
+      userCredential
+    );
+
+    console.log(res.data);
+    return res.data;
+  } catch (err) {
+    let error_message = err.response ? err.response.data : err.message;
+    console.log(error_message);
+
+    return err;
+  }
+};
+export const deleteUser = async (userID) => {
+  try {
+    console.log(UsersURL + "/" + userID);
+    const res = await axios.delete(UsersURL + "/" + userID);
+
+    return res.data;
+  } catch (err) {
+    let error_message = err.response ? err.response.data : err.message;
+    console.log(error_message);
+
+    return err;
+  }
+};
+
+export const createUser = async (userCredential) => {
+  try {
+    const res = await axios.post(createUserURL, userCredential);
+    console.log(res.data);
+    return res.data;
+  } catch (err) {
+    let error_message = err.response ? err.response.data : err.message;
+    console.log(error_message);
+
+    return err;
+  }
 };

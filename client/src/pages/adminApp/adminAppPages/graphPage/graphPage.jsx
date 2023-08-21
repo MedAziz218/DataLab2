@@ -1,7 +1,13 @@
 import { Paper, Title } from '@mantine/core';
 import React from 'react';
 import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ReferenceLine } from 'recharts';
-
+function formatDateToYYYYMMDD(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  
+  return `${day}`;
+}
 const generateRandomData = () => {
   const startDate = new Date('2023-08-01').getTime();
   const seriesData = {};
@@ -11,7 +17,7 @@ const generateRandomData = () => {
     for (let i = 0; i < 30; i++) {
       const randomDate = new Date(startDate + i * 24 * 60 * 60 * 1000); // Increment by a day
       const randomValue = (Math.random() * 20 + 5).toFixed(2); // Generate random value between 5 and 25
-      sampleData.push({ x: randomDate.getTime(), y: parseFloat(randomValue) });
+      sampleData.push({ x: formatDateToYYYYMMDD(randomDate), y: parseFloat(randomValue) });
     }
     seriesData[sampleName] = sampleData;
   };
