@@ -1,6 +1,6 @@
-
+import { TextEditor } from "components/texteditor"
 export default function NotesPage() {
   return (
-    <div>NotesPage</div>
+    <div><TextEditor/></div>
   )
 }

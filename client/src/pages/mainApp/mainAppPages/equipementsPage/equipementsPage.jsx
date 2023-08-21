@@ -1,6 +1,36 @@
-
-export default function EquipementsPage() {
+import { Transition, Paper, Title } from "@mantine/core";
+import { Table5 } from "components/tables";
+import { useEffect, useState } from "react";
+import { TextEditor } from "components/texteditor";
+export default function MpPage() {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   return (
-    <div>EquipementsPage</div>
-  )
+    <Transition
+      mounted={mounted}
+      transition="slide-left"
+      duration={200}
+      timingFunction="ease"
+    >
+      {(styles) => [
+        <div style={styles}>
+          <Paper shadow="sm" radius="md" p="sm" withBorder my={20}>
+            <Title order={4}>{"Observation"}</Title>
+            <Table5 />
+
+          </Paper>
+        </div>,
+
+        <div style={styles}>
+          <Paper shadow="sm" radius="md" p="sm" withBorder my={20}>
+            <Title order={4}>{"Observations"}</Title>
+            <TextEditor />
+
+          </Paper>
+        </div>,
+      ]}
+    </Transition>
+  );
 }
