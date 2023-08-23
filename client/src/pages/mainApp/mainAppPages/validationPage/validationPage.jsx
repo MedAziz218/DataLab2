@@ -19,10 +19,9 @@ export default function MpPage() {
         <div style={styles}>
           <Paper shadow="sm" radius="md" p="sm" withBorder my={20}>
             <Title order={4}>{" Validation"}</Title>
-            <PosteSelection/>
+            <PosteSelection />
           </Paper>
         </div>,
-        
       ]}
     </Transition>
   );

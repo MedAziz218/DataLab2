@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Select, Button, Popover, Modal, Title, Alert } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
 const tailleOptions = ["T2", "T3", "T4", "T5", "T6"];
@@ -18,11 +18,27 @@ const formatDate = (date) => {
   return `${year}-${month}-${day}`;
 };
 const PosteSelection = () => {
+  const tableName = "PosteSelection";
+  const initialState = JSON.parse(localStorage.getItem(tableName)) || null;
   const [opened, setOpened] = useState(false);
-  const [selectedTaille, setSelectedTaille] = useState("");
-  const [selectedPoste, setSelectedPoste] = useState("");
-  const [selectedDate, setSelectedDate] = useState(getCurrentDate());
+  const [selectedTaille, setSelectedTaille] = useState(
+    initialState ? initialState.selectedTaille : tailleOptions[0]
+  );
+  const [selectedPoste, setSelectedPoste] = useState(
+    initialState ? initialState.selectedPoste : posteOptions[0]
+  );
+  const [selectedDate, setSelectedDate] = useState(
+    initialState ? initialState.selectedDate : getCurrentDate()
+  );
   const [goodToSend, setGoodToSend] = useState(false);
+  const saveState = ()=>{
+    localStorage.setItem(tableName,JSON.stringify({selectedPoste,selectedTaille,selectedDate}))
+  }
+  useEffect(() => {
+    return () => {
+      saveState()
+    };
+  });
   const handleEnregistrerClick = () => {
     // Handle saving and sending data here
     const table1 = JSON.parse(localStorage.getItem("table1")) || null;
@@ -36,7 +52,10 @@ const PosteSelection = () => {
     const observation = JSON.parse(localStorage.getItem("observation")) || null;
     const notes = JSON.parse(localStorage.getItem("notes")) || null;
 
-    setGoodToSend(table1&&table2&&table30&&table31&&table32&&table32&&table33,table4&&table5)
+    setGoodToSend(
+      table1 && table2 && table30 && table31 && table32 && table32 && table33,
+      table4 && table5
+    );
     console.log(table33);
     setOpened(true);
   };
@@ -86,19 +105,17 @@ const PosteSelection = () => {
       </Button>
       <Modal opened={opened} onClose={() => setOpened(false)}>
         <Title order={5}>Notification</Title>
-        {goodToSend ? <Alert
-          title="Succès !"
-          description={`La date  a été enregistrée avec succès.`}
-          color="green"
-          style={{ marginTop: "1rem" }}
-        />:
-        <Alert
-          title="Echec !"
-         
-          color="red"
-          style={{ marginTop: "1rem" }}
-        />}
-        <Button  variant="filled" onClick={() => setOpened(false)}>
+        {goodToSend ? (
+          <Alert
+            title="Succès !"
+            description={`La date  a été enregistrée avec succès.`}
+            color="green"
+            style={{ marginTop: "1rem" }}
+          />
+        ) : (
+          <Alert title="Echec !" color="red" style={{ marginTop: "1rem" }} />
+        )}
+        <Button variant="filled" onClick={() => setOpened(false)}>
           ok
         </Button>
       </Modal>

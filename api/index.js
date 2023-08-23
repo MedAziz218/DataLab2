@@ -1,26 +1,39 @@
+require("dotenv").config();
+
 const express = require("express");
 const app = express();
-const port = 3001;
 
 const mongoose = require("mongoose");
-const dotenv = require("dotenv");
+const morgan = require('morgan');
 const helmet = require("helmet");
-const morgan = require("morgan");
-const usersRoute = require("./routes/users")
-const authRoute = require("./routes/auth")
+// const workoutRoutes = require("./routes/workouts");
+const userRoutes = require("./routes/user");
+const page1Routes = require("./routes/page1");
+const page2Routes = require("./routes/page2");
+const page3Routes = require("./routes/page3");
+const page4Routes = require("./routes/page4");
 
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  next();
-});
-dotenv.config(process.env.MONGO_URL);
-console.log();
 
-// Connect to MongoDB
+// middleware
+app.use(express.json());
+app.use(morgan('dev'));
+app.use(helmet())
+// app.use((req, res, next) => {
+//   console.log(req.path, req.method);
+//   next();
+// });
+
+// routes
+// app.use("/api/workouts", workoutRoutes);
+app.use("/api/user", userRoutes);
+app.use("/api/page1", page1Routes);
+app.use("/api/page2", page2Routes);
+app.use("/api/page3", page3Routes);
+app.use("/api/page4", page4Routes);
+//connection to db
+
 mongoose
-  .connect(process.env.MONGO_URL, {
+  .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -30,28 +43,7 @@ mongoose
   .catch((error) => {
     console.error("Error connecting to MongoDB:", error);
   });
-// Middle Ware
-app.use(express.json())
-app.use(helmet())
-app.use(morgan("combined"))
 
-
-
-// Routes
-app.use("/api/users",usersRoute)
-app.use("/api/auth",authRoute)
-
-  
-
-
-
-app.get("/", (req, res) => {
-  res.send("Hello, Express!");
-});
-
-app.get("/users", (req, res) => {
-    res.send("Hello, users!");
-  });
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+app.listen(3001, () => {
+  console.log("Server is running on port 3000");
 });
