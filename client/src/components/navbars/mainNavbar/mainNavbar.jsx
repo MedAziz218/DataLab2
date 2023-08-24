@@ -15,12 +15,13 @@ import { UserButton } from "components/userbutton/userbutton";
 import { logoutCall } from "apiCalls";
 import { AuthContext } from "context/AuthContext";
 import "./mainNavbar.css"
+
 const useStyles = createStyles((theme) => ({
   navbar: {
     
     backgroundColor: theme.fn.variant({
       variant: "filled",
-      color: theme.primaryColor,
+      color: theme.colors.primary,
     }).background,
   },
 
@@ -121,6 +122,8 @@ export function MainNavbar({data,style}) {
   ));
 
   return (
+ 
+
     <Navbar
     id="mainNavbar"
     style={style}
@@ -163,5 +166,6 @@ export function MainNavbar({data,style}) {
         </a>
       </Navbar.Section>
     </Navbar>
+
   );
 }

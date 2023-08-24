@@ -35,14 +35,16 @@ const Table2DefaultValues = [
   ],
   // {tbody2}
   [
-    ["3", "1.5 ≤ 2.5 ≤ 5" , "3", "1.5 ≤ 2.5 ≤ 5"], // line6 th
+    ["3", "cible", "3", "cible"], // line6 th
+
     ["", ""], // line7 td
     ["", ""], // line8 td
     ["", ""], // line9 td
   ],
   // {tbody3}
   [
-    ["3", "cible", "3", "cible"], // line6 th
+    ["3", "1.5 ≤ 2.5 ≤ 5" , "3", "1.5 ≤ 2.5 ≤ 5"], // line6 th
+
     ["", ""], // line7 td
     ["", ""], // line8 td
     ["", ""], // line9 td

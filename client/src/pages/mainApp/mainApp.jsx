@@ -19,6 +19,7 @@ import MpPage from "./mainAppPages/mpPage/mpPage";
 import EquipementsPage from "./mainAppPages/equipementsPage/equipementsPage";
 import NotesPage from "./mainAppPages/notesPage/notesPage";
 import ValidationPage from "./mainAppPages/validationPage/validationPage";
+import "./mainApp.css"
 function Found() {
   return <div>Found</div>;
 }

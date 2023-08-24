@@ -15,7 +15,7 @@ import "./table5.css"
 
 const TitleList = [
     "Ejecteur MP",
-    "Bqlqnces électronique",
+    "Balances électronique",
     "Detecteur de métaux",
     "Table de qualité"
   
@@ -102,7 +102,7 @@ const Table5 = forwardRef((props, ref) => {
       return newValues;
     });
   };
-  const title = "Defaut Visuels (QP1B0)";
+  const title = "Condition";
   return (
     <div className="table5Wrapper">
       <Table

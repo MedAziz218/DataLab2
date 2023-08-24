@@ -4,8 +4,7 @@
   border-radius: 1%;
 }
 .table3 {
-  --th-color: #9a4c78; /*#009879;*/
-  --yellow: #ffc107;
+
   table-layout: fixed;
   border: 3px solid #6c757d;
 }
@@ -14,8 +13,8 @@
   background-color: var(--th-color);
   color: #fff !important;
   max-width: 50px;
-  border-right: 5px solid #6c757d !important;
-  border-bottom: 5px solid #6c757d !important;
+  border-right: 2px solid #6c757d !important;
+  border-bottom: 2px solid #6c757d !important;
 }
 .table3 td {
   width: 100px;

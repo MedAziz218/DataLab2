@@ -56,24 +56,28 @@ const Table4 = forwardRef((props, ref) => {
     setInputValues(newInputValues);
   };
   const saveState = () => {
-    
     const data = {
-        
-        values: inputValues,
+      values: inputValues,
     };
-    console.log(data,"<<<<<<<<<<<<",tableName,)
+    console.log(data, "<<<<<<<<<<<<", tableName);
     // console.log("savinnnngg table1 ", JSON.stringify(data));
     localStorage.setItem(tableName, JSON.stringify(data));
     return data;
   };
-  useEffect(()=>{
-    return ()=>{
-      saveState()
-    }
-    },[])
+  useEffect(() => {
+    return () => {
+      saveState();
+    };
+  }, []);
   return (
     <div className="table4Wrapper">
-      <Table className="table4">
+      <Table
+        className="table4"
+        highlightOnHover
+        withBorder
+        withColumnBorders
+        striped
+      >
         <thead>
           <tr>
             <th>Matiere</th>
@@ -123,8 +127,10 @@ const Table4 = forwardRef((props, ref) => {
                 <TextInput
                   fullWidth
                   size="sm"
-                  value={inputValues[index+list1.length][0]}
-                  onChange={(e) => handleInputChange(index+list1.length, 0, e.target.value)}
+                  value={inputValues[index + list1.length][0]}
+                  onChange={(e) =>
+                    handleInputChange(index + list1.length, 0, e.target.value)
+                  }
                 />
               </td>
 
@@ -132,8 +138,10 @@ const Table4 = forwardRef((props, ref) => {
                 <TextInput
                   fullWidth
                   size="sm"
-                  value={inputValues[index+list1.length][1]}
-                  onChange={(e) => handleInputChange(index+list1.length, 1, e.target.value)}
+                  value={inputValues[index + list1.length][1]}
+                  onChange={(e) =>
+                    handleInputChange(index + list1.length, 1, e.target.value)
+                  }
                 />
               </td>
             </tr>

@@ -33,7 +33,7 @@ mongoose
 // Middle Ware
 app.use(express.json())
 app.use(helmet())
-app.use(morgan("combined"))
+app.use(morgan("dev"))
 
 
 

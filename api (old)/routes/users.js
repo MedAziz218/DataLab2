@@ -17,7 +17,7 @@ router.get("/", GetUsers);
 const UpdateUser = async (req, res) => {
   const { userId } = req.params; // Assuming userId is passed as a URL parameter
   const updateData = req.body; // Assuming the updated user data is sent in the request body
-  console.log(updateData)
+  console.log(updateData,userId)
   if (updateData.password) {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
