@@ -1,6 +1,6 @@
 const express = require('express');
 const { getTable4,addTable4 } = require('../controllers/page3/schema4Controller'); // Replace with the correct path
-const requireAuth = require('../middleware/requireAuth')
+const {requireAuth} = require('../middleware/requireAuth')
 const router = express.Router();
 
 // require auth for all workout routes

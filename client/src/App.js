@@ -8,7 +8,8 @@ import {
 import { LoginPageRoute, LoginPage, Hero } from "pages/loginpage/login";
 import { AuthContext } from "context/AuthContext";
 
-import { NotFoundTitle as NotFound } from "pages/notFound/notfound";
+import { NotFoundTitle as NotFound } from "pages/errorPages/notFound/notfound";
+import { UnauthorizedPage } from "pages/errorPages/Unauthorized/Unauthorized";
 import { MainAppRoutes } from "pages/mainApp";
 import { AdminAppRoutes } from "pages/adminApp/adminApp";
 import { MantineProvider } from "@mantine/core";
@@ -104,6 +105,8 @@ function App() {
 
           <Routes>
             <Route exact path="/errors/notFound" element={<NotFound />} />
+            <Route exact path="/errors/401" element={<UnauthorizedPage />} />
+
           </Routes>
         </Router>
       </div>

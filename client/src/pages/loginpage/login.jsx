@@ -13,7 +13,7 @@ import { Navbar1 } from "components/navbars";
 import { AuthenticationTitle } from "components/authenticationtitle/authenticationtitle";
 import { useState, useEffect } from "react";
 import { Outlet, useNavigate, Route, Routes, Navigate } from "react-router-dom";
-import { NotFoundTitle as NotFound } from "pages/notFound/notfound";
+
 const useStyles = createStyles((theme) => ({
   hero: {
     position: "relative",
@@ -151,6 +151,7 @@ export function LoginPageRoute() {
         <Route exact path="" element={<Hero />} />
         <Route path="login" element={<AuthenticationTitle />} />
       </Route>
+      <Route path="/errors/401" element={<Navigate to="/errors/401" />} />
       <Route exact path="*" element={<Navigate to="/errors/notFound" />} />
     </Routes>
   );

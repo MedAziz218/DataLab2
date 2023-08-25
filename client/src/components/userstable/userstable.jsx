@@ -68,7 +68,7 @@ const Example = () => {
         mantineEditTextInputProps: {
           type: "email",
           required: true,
-          error: validationErrors?.email,
+          error: validationErrors?.password,
           //remove any previous validation errors when user focuses on the input
           onFocus: () =>
             setValidationErrors({
@@ -100,25 +100,27 @@ const Example = () => {
 
   //CREATE action
   const handleCreateUser = async ({ values, exitCreatingMode }) => {
-    // const newValidationErrors = validateUser(values);
-    // if (Object.values(newValidationErrors).some((error) => error)) {
-    //   setValidationErrors(newValidationErrors);
-    //   return;
-    // }
-    // setValidationErrors({});
-    
+    const newValidationErrors = validateUser(values);
+    if (Object.values(newValidationErrors).some((error) => error)) {
+      setValidationErrors(newValidationErrors);
+      return;
+    }
+    setValidationErrors({});
+
     await createUser(values);
     exitCreatingMode();
   };
 
   //UPDATE action
   const handleSaveUser = async ({ values, table }) => {
-    // const newValidationErrors = validateUser(values);
-    // if (Object.values(newValidationErrors).some((error) => error)) {
-    //   setValidationErrors(newValidationErrors);
-    //   return;
-    // }
-    // setValidationErrors({});
+    const newValidationErrors = validateUser(values);
+    newValidationErrors.password = "";
+
+    if (Object.values(newValidationErrors).some((error) => error)) {
+      setValidationErrors(newValidationErrors);
+      return;
+    }
+    setValidationErrors({});
     await updateUser(values);
     table.setEditingRow(null); //exit editing mode
   };
@@ -135,9 +137,9 @@ const Example = () => {
       ),
       labels: { confirm: "Delete", cancel: "Cancel" },
       confirmProps: { color: "red" },
-      onConfirm: () => deleteUser(row.original.id),
+      onConfirm: () => deleteUser(row.original.email),
     });
-
+  
   const table = useMantineReactTable({
     columns,
     data: fetchedUsers,
@@ -167,11 +169,13 @@ const Example = () => {
             <IconEdit />
           </ActionIcon>
         </Tooltip>
-        <Tooltip label="Delete">
-          <ActionIcon color="red" onClick={() => openDeleteConfirmModal(row)}>
-            <IconTrash />
-          </ActionIcon>
-        </Tooltip>
+        {!row.original.isAdmin && (
+          <Tooltip label="Delete">
+            <ActionIcon color="red" onClick={() => openDeleteConfirmModal(row)}>
+              <IconTrash />
+            </ActionIcon>
+          </Tooltip>
+        )}
       </Flex>
     ),
     renderTopToolbarCustomActions: ({ table }) => (
@@ -186,7 +190,7 @@ const Example = () => {
           // );
         }}
       >
-        Create New User
+        Créer un nouvel utilisateur
       </Button>
     ),
     state: {
@@ -208,8 +212,13 @@ function useCreateUser() {
       //send api update request here
       // await new Promise((resolve) => setTimeout(resolve, 1000)); //fake api call
       // return Promise.resolve();
-      const res = await createUser(user)
-      return res
+      const res = await createUser(user);
+
+      if (res.error) {
+        console.log("erorrrrrrr", res.error);
+        
+      }
+      return res;
     },
     //client side optimistic update
     onMutate: (newUserInfo) => {
@@ -221,7 +230,7 @@ function useCreateUser() {
         },
       ]);
     },
-    // onSettled: () => queryClient.invalidateQueries({ queryKey: ['users'] }), //refetch users after mutation, disabled for demo
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ["users"] }), //refetch users after mutation, disabled for demo
   });
 }
 
@@ -233,10 +242,13 @@ function useGetUsers() {
       //send api request here
       // await new Promise((resolve) => setTimeout(resolve, 1000)); //fake api call
       // return Promise.resolve(fakeData);
-  const users = await getUsers()
-  return users
+      const users = await getUsers();
+      if (users.error){
+        throw Error("problem happened")
+      }
+      return users;
     },
-    refetchOnWindowFocus: false,
+    refetchOnWindowFocus: true,
   });
 }
 
@@ -248,18 +260,24 @@ function useUpdateUser() {
       //send api update request here
       // await new Promise((resolve) => setTimeout(resolve, 1000)); //fake api call
       // return Promise.resolve();
-      const res = await updateUsers(user)
-      return res
+      const userData = Object(queryClient.getQueryData(["users"]));
+      const oldValues = userData.filter((item) => item._id == user._id)[0];
+      try {
+        const res = await updateUsers(oldValues.email, user);
+        return res;
+      } catch (err) {
+        return false;
+      }
     },
     //client side optimistic update
-    onMutate: (newUserInfo) => {
-      queryClient.setQueryData(["users"], (prevUsers) =>
-        prevUsers?.map((prevUser) =>
-          prevUser.id === newUserInfo.id ? newUserInfo : prevUser
-        )
-      );
-    },
-    // onSettled: () => queryClient.invalidateQueries({ queryKey: ['users'] }), //refetch users after mutation, disabled for demo
+    // onMutate: (newUserInfo) => {
+    //   queryClient.setQueryData(["users"], (prevUsers) =>
+    //     prevUsers?.map((prevUser) =>
+    //       prevUser.id === newUserInfo.id ? newUserInfo : prevUser
+    //     )
+    //   );
+    // },
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ["users"] }), //refetch users after mutation, disabled for demo
   });
 }
 
@@ -270,9 +288,9 @@ function useDeleteUser() {
     mutationFn: async (userId) => {
       //send api update request here
       await new Promise((resolve) => setTimeout(resolve, 1000)); //fake api call
-      
-      const res = await deleteUser(userId)
-      return res
+
+      const res = await deleteUser(userId);
+      return res;
     },
     //client side optimistic update
     onMutate: (userId) => {
@@ -280,7 +298,7 @@ function useDeleteUser() {
         prevUsers?.filter((user) => user._id !== userId)
       );
     },
-    // onSettled: () => queryClient.invalidateQueries({ queryKey: ['users'] }), //refetch users after mutation, disabled for demo
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ["users"] }), //refetch users after mutation, disabled for demo
   });
 }
 
@@ -308,10 +326,16 @@ const validateEmail = (email) =>
 
 function validateUser(user) {
   return {
-    firstName: !validateRequired(user.firstName)
-      ? "First Name is Required"
+    password: !validateRequired(user.password)
+      ? "Le champ 'Mot de Passe' ne peut pas être vide."
       : "",
-    lastName: !validateRequired(user.lastName) ? "Last Name is Required" : "",
-    email: !validateEmail(user.email) ? "Incorrect Email Format" : "",
+    email: !validateRequired(user.email)
+      ? "Le champ  'Matricule' ne peut pas être vide"
+      : "",
+    username: !validateRequired(user.username)
+      ? "Le champ  'Nom et Prenom' ne peut pas être vide"
+      : "",
+    // lastName: !validateRequired(user.lastName) ? "Last Name is Required" : "",
+    // email: !validateEmail(user.email) ? "Incorrect Email Format" : "",
   };
 }

@@ -1,7 +1,12 @@
 require("dotenv").config();
-
 const express = require("express");
+const cors = require("cors"); // Import the cors package
+
+const DB_CONNECTION_TIMEOUT = 5000
+const DB_HEARTBEAT_INTERVAL = 5000
+const APP_PORT = 3001
 const app = express();
+app.use(cors());
 
 const mongoose = require("mongoose");
 const morgan = require("morgan");
@@ -17,12 +22,6 @@ const page4Routes = require("./routes/page4");
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(helmet());
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  next();
-});
 
 // routes
 // app.use("/api/workouts", workoutRoutes);
@@ -33,18 +32,56 @@ app.use("/api/page3", page3Routes);
 app.use("/api/page4", page4Routes);
 //connection to db
 
-mongoose
-  .connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    console.log("Connected to MongoDB");
-  })
-  .catch((error) => {
-    console.error("Error connecting to MongoDB:", error);
+
+const dbConnectionPromise = new Promise((resolve, reject) => {
+  console.log("Trying to Connect to DataBase");
+
+  const connectWithRetry = () => {
+    return mongoose.connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+  };
+
+  connectWithRetry()
+    .then(() => {
+      console.log("Connected to MongoDB");
+      resolve();
+    })
+    .catch((error) => {
+      reject(error);
+    });
+});
+
+const startServer = () => {
+  const server = app.listen(APP_PORT, () => {
+    console.log("Server is running on port 3001");
   });
 
-app.listen(3001, () => {
-  console.log("Server is running on port 3000");
-});
+  const db = mongoose.connection;
+
+  setInterval(() => {
+    if (db.readyState !== 1) {
+      console.log("Lost connection to MongoDB. Exiting...");
+      server.close(() => {
+        console.log("Server closed due to lost database connection.");
+        process.exit(1);
+      });
+    } 
+  }, DB_HEARTBEAT_INTERVAL); // Check every 5 seconds
+};
+
+Promise.race([
+  dbConnectionPromise,
+  
+  new Promise((_, reject) => {
+    setTimeout(() => {
+      reject(new Error("Database connection timeout"));
+    }, DB_CONNECTION_TIMEOUT); // 4 seconds
+  }),
+])
+  .then(startServer)
+  .catch((error) => {
+    console.error("Error connecting to MongoDB:", error);
+    process.exit(1);
+  });

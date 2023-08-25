@@ -80,6 +80,7 @@ export function MainAppRoutes() {
       </Route>
 
       <Route exact path="/login" element={<Navigate to="/" />} />
+      <Route path="/errors/401" element={<Navigate to="/errors/401" />} />
 
       <Route path="*" element={<Navigate to="/errors/notFound" />} />
     </Routes>

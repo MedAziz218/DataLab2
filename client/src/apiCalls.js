@@ -1,8 +1,12 @@
-import axios from "axios";
-const baseURL = "http://localhost:3001";
+import { instance as axios } from "./axiosInstance";
+const baseURL = "";
 const UsersURL = `${baseURL}/api/user`;
 const loginURL = `${baseURL}/api/user/login`;
 const createUserURL = `${baseURL}/api/user/signup`;
+const checkIsUserURL = `${baseURL}/api/user/isUser`;
+const checkIsAdminURL = `${baseURL}/api/user/isAdmin`;
+
+
 //process.env.REACT_APP_BACK_ADRESS+"/auth/login"
 
 function sleep(ms) {
@@ -12,32 +16,19 @@ export const loginCall = async (userCredential, dispatch) => {
   dispatch({ type: "LOGIN_START" });
   try {
     await sleep(200);
-    console.log(loginURL)
+    console.log(loginURL);
     const res = await axios.post(loginURL, userCredential);
     dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
-    console.log("login success",res.data );
-
-    
+    console.log("login success", res.data);
   } catch (err) {
     let error_message = err.response ? err.response.data : err.message;
-    // console.log(error_message);
-    // console.log(err);
+    console.log("error", err);
 
-    // if (error_message == "wrong_password")
-    //   error_message = "Mot de passe incorrect. Veuillez réessayer.";
-    // else if (error_message == "bad_request")
-    //   error_message =
-    //     "Matricule ou mot de passe incorrect. Veuillez réessayer.";
-    // else if (error_message == "user_not_found")
-    //   error_message =
-    //     "Matricule ou mot de passe incorrect. Veuillez réessayer.";
-    if (error_message.error) 
-     error_message = error_message.error;
-
+    if (error_message.error) error_message = error_message.error;
     else error_message = "Probleme de Connection";
     dispatch({ type: "LOGIN_FAILURE", payload: error_message });
 
-    return err;
+    return error_message;
   }
 };
 
@@ -54,32 +45,31 @@ export const getUsers = async () => {
       user.password = "";
       user.id = user._id;
     });
-    console.log(res.data);
+
     return res.data;
   } catch (err) {
     let error_message = err.response ? err.response.data : err.message;
-    console.log(error_message);
+    if (error_message.error) error_message = error_message.error;
+    else error_message = "Probleme de Connection";
 
-    return err;
+    return error_message;
   }
 };
-export const updateUsers = async (userCredential) => {
+export const updateUsers = async (userId, userCredential) => {
   try {
     if (userCredential.password === "") {
       delete userCredential.password;
     }
-    const res = await axios.put(
-      UsersURL + "/" + userCredential._id,
-      userCredential
-    );
+    const res = await axios.put(UsersURL + "/" + userId, userCredential);
 
-    console.log(res.data);
+    console.log("UPDATE:", res.data);
     return res.data;
   } catch (err) {
     let error_message = err.response ? err.response.data : err.message;
-    console.log(error_message);
+    if (error_message.error) error_message = error_message.error;
+    else error_message = "Probleme de Connection";
 
-    return err;
+    return error_message;
   }
 };
 export const deleteUser = async (userID) => {
@@ -90,21 +80,48 @@ export const deleteUser = async (userID) => {
     return res.data;
   } catch (err) {
     let error_message = err.response ? err.response.data : err.message;
-    console.log(error_message);
+    if (error_message.error) error_message = error_message.error;
+    else error_message = "Probleme de Connection";
 
-    return err;
+    return error_message;
   }
 };
 
 export const createUser = async (userCredential) => {
   try {
     const res = await axios.post(createUserURL, userCredential);
-    console.log(res.data);
+    console.log("CREATE:", res.data);
     return res.data;
   } catch (err) {
     let error_message = err.response ? err.response.data : err.message;
     console.log(error_message);
 
-    return err;
+    return error_message;
+  }
+};
+
+export const checkIsUser = async () => {
+  try {
+    const res = await axios.get(checkIsUserURL);
+    console.log("Check User:", res.data);
+    return res.data;
+  } catch (err) {
+    let error_message = err.response ? err.response.data : err.message;
+    console.log(error_message);
+
+    return error_message;
+  }
+};
+
+export const checkIsAdmin = async () => {
+  try {
+    const res = await axios.get(checkIsAdminURL);
+    console.log("Check Admin:", res.data);
+    return res.data;
+  } catch (err) {
+    let error_message = err.response ? err.response.data : err.message;
+    console.log(error_message);
+
+    return error_message;
   }
 };

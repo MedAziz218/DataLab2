@@ -1,7 +1,7 @@
 const express = require('express')
 const multer = require('multer');
 const schema5Controller = require('../controllers/page4/schema5Controller');
-const requireAuth = require('../middleware/requireAuth')
+const {requireAuth} = require('../middleware/requireAuth')
 const router = express.Router();
 
 // require auth for all workout routes
