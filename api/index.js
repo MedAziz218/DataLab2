@@ -4,7 +4,7 @@ const express = require("express");
 const app = express();
 
 const mongoose = require("mongoose");
-const morgan = require('morgan');
+const morgan = require("morgan");
 const helmet = require("helmet");
 // const workoutRoutes = require("./routes/workouts");
 const userRoutes = require("./routes/user");
@@ -13,15 +13,16 @@ const page2Routes = require("./routes/page2");
 const page3Routes = require("./routes/page3");
 const page4Routes = require("./routes/page4");
 
-
 // middleware
 app.use(express.json());
-app.use(morgan('dev'));
-app.use(helmet())
-// app.use((req, res, next) => {
-//   console.log(req.path, req.method);
-//   next();
-// });
+app.use(morgan("dev"));
+app.use(helmet());
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  next();
+});
 
 // routes
 // app.use("/api/workouts", workoutRoutes);

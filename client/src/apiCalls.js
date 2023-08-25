@@ -1,7 +1,8 @@
 import axios from "axios";
-const loginURL = "http://localhost:3001/api/auth/login";
-const UsersURL = "http://localhost:3001/api/users";
-const createUserURL = "http://localhost:3001/api/auth/register";
+const baseURL = "http://localhost:3001";
+const UsersURL = `${baseURL}/api/user`;
+const loginURL = `${baseURL}/api/user/login`;
+const createUserURL = `${baseURL}/api/user/signup`;
 //process.env.REACT_APP_BACK_ADRESS+"/auth/login"
 
 function sleep(ms) {
@@ -11,23 +12,28 @@ export const loginCall = async (userCredential, dispatch) => {
   dispatch({ type: "LOGIN_START" });
   try {
     await sleep(200);
-
+    console.log(loginURL)
     const res = await axios.post(loginURL, userCredential);
     dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
-    console.log("login success");
+    console.log("login success",res.data );
+
+    
   } catch (err) {
     let error_message = err.response ? err.response.data : err.message;
     // console.log(error_message);
     // console.log(err);
 
-    if (error_message == "wrong_password")
-      error_message = "Mot de passe incorrect. Veuillez réessayer.";
-    else if (error_message == "bad_request")
-      error_message =
-        "Matricule ou mot de passe incorrect. Veuillez réessayer.";
-    else if (error_message == "user_not_found")
-      error_message =
-        "Matricule ou mot de passe incorrect. Veuillez réessayer.";
+    // if (error_message == "wrong_password")
+    //   error_message = "Mot de passe incorrect. Veuillez réessayer.";
+    // else if (error_message == "bad_request")
+    //   error_message =
+    //     "Matricule ou mot de passe incorrect. Veuillez réessayer.";
+    // else if (error_message == "user_not_found")
+    //   error_message =
+    //     "Matricule ou mot de passe incorrect. Veuillez réessayer.";
+    if (error_message.error) 
+     error_message = error_message.error;
+
     else error_message = "Probleme de Connection";
     dispatch({ type: "LOGIN_FAILURE", payload: error_message });
 
