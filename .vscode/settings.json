@@ -1,6 +1,6 @@
 {
   "restoreTerminals.keepExistingTerminalsOpen": false,
-  "restoreTerminals.artificialDelayMilliseconds": 500,
+  "restoreTerminals.artificialDelayMilliseconds": 3000,
   "restoreTerminals.terminals": [
     {
       "splitTerminals": [
