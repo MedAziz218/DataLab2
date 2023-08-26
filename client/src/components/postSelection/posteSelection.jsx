@@ -56,7 +56,7 @@ const PosteSelection = () => {
       table1 && table2 && table30 && table31 && table32 && table32 && table33,
       table4 && table5
     );
-    console.log(table33);
+    
     setOpened(true);
   };
 

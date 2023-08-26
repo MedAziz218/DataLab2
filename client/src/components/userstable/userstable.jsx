@@ -100,7 +100,7 @@ const Example = () => {
 
   //CREATE action
   const handleCreateUser = async ({ values, exitCreatingMode }) => {
-    const newValidationErrors = validateUser(values);
+    const newValidationErrors = validateCreateUser(values);
     if (Object.values(newValidationErrors).some((error) => error)) {
       setValidationErrors(newValidationErrors);
       return;
@@ -113,8 +113,8 @@ const Example = () => {
 
   //UPDATE action
   const handleSaveUser = async ({ values, table }) => {
-    const newValidationErrors = validateUser(values);
-    newValidationErrors.password = "";
+    const newValidationErrors = validateSaveUser(values);
+
 
     if (Object.values(newValidationErrors).some((error) => error)) {
       setValidationErrors(newValidationErrors);
@@ -320,7 +320,7 @@ const ExampleWithProviders = () => (
 
 export default ExampleWithProviders;
 
-const validateRequired = (value) => !!value.length;
+const validateRequired = (value) => !!String(value).length;
 const validateMatricule = (value) => {
   const userData = Object(queryClient.getQueryData(["users"]));
   const oldValues = userData.filter((item) => item.email == value);
@@ -334,7 +334,7 @@ const validateEmail = (email) =>
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     );
 
-function validateUser(user) {
+function validateCreateUser(user) {
   return {
     password: !validateRequired(user.password)
       ? "Le champ 'Mot de Passe' ne peut pas être vide."
@@ -345,7 +345,19 @@ function validateUser(user) {
     username: !validateRequired(user.username)
       ? "Le champ  'Nom et Prenom' ne peut pas être vide"
       : "",
-    // lastName: !validateRequired(user.lastName) ? "Last Name is Required" : "",
-    // email: !validateEmail(user.email) ? "Incorrect Email Format" : "",
+  };
+}
+
+function validateSaveUser(user) {
+  return {
+    // password: !validateRequired(user.password)
+    //   ? "Le champ 'Mot de Passe' ne peut pas être vide."
+    //   : "",
+    email: !validateRequired(user.email)
+      ? "Le champ  'Matricule' ne peut pas être vide" 
+      : "",
+    username: !validateRequired(user.username)
+      ? "Le champ  'Nom et Prenom' ne peut pas être vide"
+      : "",
   };
 }
