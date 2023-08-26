@@ -6,7 +6,7 @@ import {
 } from "mantine-react-table";
 import { ActionIcon, Button, Flex, Text, Tooltip } from "@mantine/core";
 import { ModalsProvider, modals } from "@mantine/modals";
-import { IconEdit, IconTrash } from "@tabler/icons-react";
+import { IconEdit, IconTrash, IconUserCheck } from "@tabler/icons-react";
 import {
   QueryClient,
   QueryClientProvider,
@@ -139,7 +139,7 @@ const Example = () => {
       confirmProps: { color: "red" },
       onConfirm: () => deleteUser(row.original.email),
     });
-  
+
   const table = useMantineReactTable({
     columns,
     data: fetchedUsers,
@@ -169,10 +169,16 @@ const Example = () => {
             <IconEdit />
           </ActionIcon>
         </Tooltip>
-        {!row.original.isAdmin && (
+        {!row.original.isAdmin ? (
           <Tooltip label="Delete">
             <ActionIcon color="red" onClick={() => openDeleteConfirmModal(row)}>
               <IconTrash />
+            </ActionIcon>
+          </Tooltip>
+        ) : (
+          <Tooltip label="Admin">
+            <ActionIcon color="green">
+              <IconUserCheck />
             </ActionIcon>
           </Tooltip>
         )}
@@ -216,7 +222,6 @@ function useCreateUser() {
 
       if (res.error) {
         console.log("erorrrrrrr", res.error);
-        
       }
       return res;
     },
@@ -243,8 +248,8 @@ function useGetUsers() {
       // await new Promise((resolve) => setTimeout(resolve, 1000)); //fake api call
       // return Promise.resolve(fakeData);
       const users = await getUsers();
-      if (users.error){
-        throw Error("problem happened")
+      if (users.error) {
+        throw Error("problem happened");
       }
       return users;
     },
@@ -316,6 +321,11 @@ const ExampleWithProviders = () => (
 export default ExampleWithProviders;
 
 const validateRequired = (value) => !!value.length;
+const validateMatricule = (value) => {
+  const userData = Object(queryClient.getQueryData(["users"]));
+  const oldValues = userData.filter((item) => item.email == value);
+  return ! oldValues.length 
+}
 const validateEmail = (email) =>
   !!email.length &&
   email
@@ -330,8 +340,8 @@ function validateUser(user) {
       ? "Le champ 'Mot de Passe' ne peut pas être vide."
       : "",
     email: !validateRequired(user.email)
-      ? "Le champ  'Matricule' ne peut pas être vide"
-      : "",
+      ? "Le champ  'Matricule' ne peut pas être vide" 
+      : !validateMatricule(user.email) ? "Matricule deja utilise" :"",
     username: !validateRequired(user.username)
       ? "Le champ  'Nom et Prenom' ne peut pas être vide"
       : "",

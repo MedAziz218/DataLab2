@@ -27,7 +27,7 @@ router.post("/login", loginUser);
 
 // signup route
 router.get("/", requireAuth, GetUsers);
-router.post("/signup", requireAuth, signupUser);
+router.post("/signup", signupUser);
 router.delete("/:email", requireAuth, deleteUser);
 
 router.put("/:email", requireAuth, updateUser);
