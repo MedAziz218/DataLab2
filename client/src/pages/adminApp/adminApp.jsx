@@ -1,12 +1,12 @@
 import {
   IconBellRinging,
   IconFingerprint,
-  IconKey,
-  IconSettings,
-  Icon2fa,
-  IconDatabaseImport,
+  // IconKey,
+  // IconSettings,
+  // Icon2fa,
+  // IconDatabaseImport,
   IconReceipt2,
-  IconSwitchHorizontal,
+  // IconSwitchHorizontal,
 } from "@tabler/icons-react";
 import { Route, Routes, Navigate, Outlet } from "react-router-dom";
 import { AdminNavbar } from "components/navbars";
@@ -15,12 +15,7 @@ import { Transition } from "@mantine/core";
 import ConsultationPage from "./adminAppPages/consultationPage/consultationPage";
 import UtilisateurPage from "./adminAppPages/utilisateurPage/utilisateurPage";
 import GraphPage from "./adminAppPages/graphPage/graphPage";
-function Found() {
-  return <div>Found</div>;
-}
-function Found2() {
-  return <div>Found2</div>;
-}
+
 
 const data = [
   {
