@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Select, Button, Popover, Modal, Title, Alert } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
+import { parseTables } from "apiCalls";
 const tailleOptions = ["T2", "T3", "T4", "T5", "T6"];
 const posteOptions = ["NUIT", "MATIN", "SOIR"];
 const ligneOptions = ["FAM2"];
@@ -30,10 +31,17 @@ const PosteSelection = () => {
   const [selectedDate, setSelectedDate] = useState(
     initialState ? initialState.selectedDate : getCurrentDate()
   );
+  const [selectedLigne, setSelectedLigne] = useState(
+    initialState ? initialState.selectedLigne : ligneOptions[0]
+  );
   const [goodToSend, setGoodToSend] = useState(false);
   const saveState = ()=>{
-    localStorage.setItem(tableName,JSON.stringify({selectedPoste,selectedTaille,selectedDate}))
+
+    localStorage.setItem(tableName,JSON.stringify({selectedPoste,selectedTaille,selectedDate,selectedLigne}))
   }
+  useEffect(()=>{
+    saveState()
+  },[selectedPoste,selectedTaille,selectedDate,selectedLigne])
   useEffect(() => {
     return () => {
       saveState()
@@ -41,22 +49,8 @@ const PosteSelection = () => {
   });
   const handleEnregistrerClick = () => {
     // Handle saving and sending data here
-    const table1 = JSON.parse(localStorage.getItem("table1")) || null;
-    const table2 = JSON.parse(localStorage.getItem("table2")) || null;
-    const table30 = JSON.parse(localStorage.getItem("table3-0")) || null;
-    const table31 = JSON.parse(localStorage.getItem("table3-1")) || null;
-    const table32 = JSON.parse(localStorage.getItem("table3-2")) || null;
-    const table33 = JSON.parse(localStorage.getItem("table3-3")) || null;
-    const table4 = JSON.parse(localStorage.getItem("table4")) || null;
-    const table5 = JSON.parse(localStorage.getItem("table5")) || null;
-    const observation = JSON.parse(localStorage.getItem("observation")) || null;
-    const notes = JSON.parse(localStorage.getItem("notes")) || null;
-
-    setGoodToSend(
-      table1 && table2 && table30 && table31 && table32 && table32 && table33,
-      table4 && table5
-    );
     
+    parseTables(selectedDate,selectedPoste,selectedTaille,selectedLigne)
     setOpened(true);
   };
 
