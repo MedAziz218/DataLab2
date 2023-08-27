@@ -321,9 +321,12 @@ const ExampleWithProviders = () => (
 export default ExampleWithProviders;
 
 const validateRequired = (value) => !!String(value).length;
-const validateMatricule = (value) => {
+const validateMatricule = (value,id) => {
   const userData = Object(queryClient.getQueryData(["users"]));
-  const oldValues = userData.filter((item) => item.email == value);
+  let oldValues = userData.filter((item) => item.email == value);
+  if (id){
+    oldValues = oldValues.filter((item) => item._id !== id);
+  }
   return !oldValues.length;
 };
 const validateEmail = (email) =>
@@ -357,7 +360,7 @@ function validateSaveUser(user) {
     //   : "",
     email: !validateRequired(user.email)
       ? "Le champ  'Matricule' ne peut pas être vide"
-      : !validateMatricule(user.email)
+      : !validateMatricule(user.email,user._id)
       ? "Matricule deja utiluse"
       : "",
     username: !validateRequired(user.username)

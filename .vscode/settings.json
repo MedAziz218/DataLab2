@@ -1,5 +1,5 @@
 {
-  "restoreTerminals.keepExistingTerminalsOpen": false,
+  "restoreTerminals.keepExistingTerminalsOpen": true,
   "restoreTerminals.artificialDelayMilliseconds": 3000,
   "restoreTerminals.terminals": [
     {
