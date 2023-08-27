@@ -6,9 +6,9 @@ const router = express.Router();
 // require auth for all workout routes
 router.use(requireAuth)
 // GET request to retrieve all schema1 data
-router.get('/schema6', getTable6);
+router.get('/form', getTable6);
 
 // POST request to create a new schema1 data
-router.post('/schema6', addTable6);
+router.post('/form', addTable6);
 
 module.exports = router
