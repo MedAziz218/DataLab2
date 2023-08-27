@@ -29,7 +29,7 @@
       const savedData = await newData.save();
       res.status(201).json(savedData);
     } catch (error) {
-      res.status(400).json({ error: 'Bad Request' });
+      res.status(400).json({ error: 'Bad Request', data:error });
     }
   };
 

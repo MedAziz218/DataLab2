@@ -115,7 +115,6 @@ const Example = () => {
   const handleSaveUser = async ({ values, table }) => {
     const newValidationErrors = validateSaveUser(values);
 
-
     if (Object.values(newValidationErrors).some((error) => error)) {
       setValidationErrors(newValidationErrors);
       return;
@@ -247,6 +246,7 @@ function useGetUsers() {
       //send api request here
       // await new Promise((resolve) => setTimeout(resolve, 1000)); //fake api call
       // return Promise.resolve(fakeData);
+      console.log("gettttttttttttttt");
       const users = await getUsers();
       if (users.error) {
         throw Error("problem happened");
@@ -324,8 +324,8 @@ const validateRequired = (value) => !!String(value).length;
 const validateMatricule = (value) => {
   const userData = Object(queryClient.getQueryData(["users"]));
   const oldValues = userData.filter((item) => item.email == value);
-  return ! oldValues.length 
-}
+  return !oldValues.length;
+};
 const validateEmail = (email) =>
   !!email.length &&
   email
@@ -340,8 +340,10 @@ function validateCreateUser(user) {
       ? "Le champ 'Mot de Passe' ne peut pas être vide."
       : "",
     email: !validateRequired(user.email)
-      ? "Le champ  'Matricule' ne peut pas être vide" 
-      : !validateMatricule(user.email) ? "Matricule deja utilise" :"",
+      ? "Le champ  'Matricule' ne peut pas être vide"
+      : !validateMatricule(user.email)
+      ? "Matricule deja utilise"
+      : "",
     username: !validateRequired(user.username)
       ? "Le champ  'Nom et Prenom' ne peut pas être vide"
       : "",
@@ -354,7 +356,9 @@ function validateSaveUser(user) {
     //   ? "Le champ 'Mot de Passe' ne peut pas être vide."
     //   : "",
     email: !validateRequired(user.email)
-      ? "Le champ  'Matricule' ne peut pas être vide" 
+      ? "Le champ  'Matricule' ne peut pas être vide"
+      : !validateMatricule(user.email)
+      ? "Matricule deja utiluse"
       : "",
     username: !validateRequired(user.username)
       ? "Le champ  'Nom et Prenom' ne peut pas être vide"

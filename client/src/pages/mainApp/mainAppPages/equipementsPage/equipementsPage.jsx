@@ -18,7 +18,7 @@ export default function MpPage() {
       {(styles) => [
         <div style={styles}>
           <Paper shadow="sm" radius="md" p="sm" withBorder my={20}>
-            <Title order={4}>{"Observation"}</Title>
+            <Title order={4}>{"Equipement"}</Title>
             <Table5 />
           </Paper>
         </div>,
@@ -27,7 +27,7 @@ export default function MpPage() {
           <Paper shadow="sm" radius="md" p="sm" withBorder my={20}>
             <Title order={4}>{"Observations"}</Title>
 
-            <TextEditor compName="observation"/>
+            <TextEditor compName="observation" />
           </Paper>
         </div>,
       ]}

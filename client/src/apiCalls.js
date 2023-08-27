@@ -40,6 +40,7 @@ export const logoutCall = async (dispatch) => {
 
 export const getUsers = async () => {
   try {
+    console.log("getting")
     const res = await axios.get(UsersURL);
     res.data.map((user) => {
       user.password = "";
@@ -49,6 +50,7 @@ export const getUsers = async () => {
     return res.data;
   } catch (err) {
     let error_message = err.response ? err.response.data : err.message;
+    console.log(err)
     if (error_message.error) error_message = error_message.error;
     else error_message = "Probleme de Connection";
 

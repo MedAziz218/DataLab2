@@ -13,7 +13,7 @@ const createToken = (_id) => {
 const GetUsers = async (req, res) => {
   try {
     const users = await User.find({});
-    
+
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -28,14 +28,12 @@ const loginUser = async (req, res) => {
     // create a token
     const token = createToken(user._id);
 
-    res
-      .status(200)
-      .json({
-        email: user.email,
-        username: user.username,
-        isAdmin: user.isAdmin,
-        token,
-      });
+    res.status(200).json({
+      email: user.email,
+      username: user.username,
+      isAdmin: user.isAdmin,
+      token,
+    });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -60,6 +58,12 @@ const deleteUser = async (req, res) => {
   const { email } = req.params; // Assuming userId is passed as a URL parameter
   console.log(email);
   try {
+    const adminUser = await User.findOne({ email }); // Change to the actual admin email
+    console.log(adminUser," >> admin")
+    if (adminUser && adminUser.isAdmin) {
+      return res.status(400).json({ error: "Admin user cannot be deleted." });
+    }
+    
     const deletedUser = await User.findOneAndDelete({ email });
 
     if (!deletedUser) {

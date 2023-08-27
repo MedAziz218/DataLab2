@@ -1,8 +1,15 @@
 const mongoose = require('mongoose');
 
 const schema1Schema = new mongoose.Schema({
-  date: String,
-  poste: String,
+  // date: String,
+  date: {
+    type: String,
+    required: true,
+  },
+  poste:  {
+    type: String,
+    required: true,
+  },
   heures: [String],
   values: [[Boolean]],
   user_id :{
