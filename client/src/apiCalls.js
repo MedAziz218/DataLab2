@@ -190,20 +190,38 @@ export const parseTables = async (
 
   // schema1 send >>>>>>>
   const schema1 = {
-    // date: String,
     date: selectedDate,
     poste: selectedPoste,
     heures: table1.heures,
     values: table1.values,
   };
-  const res1 = await sendPage1Schema1(schema1);
 
   console.log(">>> schema1");
   console.log(JSON.stringify(schema1));
-  console.log(res1);
+  const res11 = await sendPage1Schema1(schema1);
+  console.log(res11);
 
+  // schema1 send >>>>>>>
+  const schema2 = {
+    date: selectedDate,
+    poste: selectedPoste,
+    heures: table2.heures,
+    values: table2.values,
+  };
+
+  console.log(">>> schema2");
+  console.log(JSON.stringify(schema2));
+  const res12 = await sendPage1Schema2(schema2);
+  console.log(res12);
+
+  // schema3 send >>>>>>>
+  const schema3 = {
+    date: selectedDate,
+    poste: selectedPoste,
+    heures: table3.heures,
+    values: table3.values,
+  };
   // form send >>>>>>>
-
   const form = {
     date: selectedDate,
     poste: selectedPoste,
@@ -214,8 +232,6 @@ export const parseTables = async (
   console.log(JSON.stringify(form));
   const res5 = await sendPage5Form(form);
   console.log(res5);
-
-  
 };
 
 const page1schema1URL = "/api/page1/schema1";
@@ -228,6 +244,15 @@ const sendPage1Schema1 = async (body) => {
   }
 };
 
+const page1schema2URL = "/api/page1/schema2";
+const sendPage1Schema2 = async (body) => {
+  try {
+    await axios.post(page1schema2URL, body);
+    return true;
+  } catch (err) {
+    return false;
+  }
+};
 const page5FormURL = "/api/page5/form";
 const sendPage5Form = async (body) => {
   try {

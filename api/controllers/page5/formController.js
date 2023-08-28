@@ -17,7 +17,7 @@ const getForm = async (req, res) => {
 const addForm = async (req, res) => {
   const user_id = req.user._id;
   const { date, poste, taille, ligne } = req.body;
-  console.log(req.user)
+  console.log(req.user);
   try {
     const email = req.user.email;
     const username = req.user.username;
