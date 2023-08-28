@@ -11,8 +11,16 @@ const data = [
 export default function ConsultationPage() {
   return (
     <div>
-      <Paper shadow="sm" radius="md" p="sm" withBorder my={20}>
-        <Title>ConsultationPage</Title>
+      <Paper shadow="sm" radius="md" p="sm" withBorder my={10}>
+      <Title
+          style={{
+            fontSize: "24px", // Customize the font size
+            fontWeight: "bold", // Customize the font weight
+            color: "#333", // Customize the text color
+          }}
+        >
+          ConsultationPage
+        </Title>
       </Paper>
       <SearchAndDataTable data={data} />
     </div>

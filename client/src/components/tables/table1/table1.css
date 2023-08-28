@@ -6,7 +6,7 @@
 .table1 {
  /* --th-color:#9A4C78;#009879;*/
 
-  --yellow: #ffc107;
+  --yellow: #d92828;
 
   table-layout: fixed;
   border: 3px solid #6c757d;
@@ -15,8 +15,8 @@
 /* ---------------------------------------------- */
 .table1 th {
   width: 100px;
-  background-color: var(--th-color);
-  color: #fff !important;
+  background-color: #F5F5F5;;
+  color: #1A1A1A !important;
   max-width: 50px;
   border-right: 5px solid #6c757d!important;
 
@@ -81,6 +81,6 @@
 
 
 .table1 tbody tr:hover th {
-    color: var(--yellow)!important;
+    color:black;
   }
 /* background-color: rgb(169, 185, 235); */
