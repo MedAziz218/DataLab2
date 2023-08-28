@@ -17,7 +17,7 @@ const page1Routes = require("./routes/page1");
 const page2Routes = require("./routes/page2");
 const page3Routes = require("./routes/page3");
 const page4Routes = require("./routes/page4");
-
+const page5Routes = require("./routes/page5")
 // middleware
 app.use(express.json());
 app.use(morgan("dev"));
@@ -30,11 +30,13 @@ app.use("/api/page1", page1Routes);
 app.use("/api/page2", page2Routes);
 app.use("/api/page3", page3Routes);
 app.use("/api/page4", page4Routes);
+app.use("/api/page5", page5Routes);
+
 //connection to db
 
 
 const dbConnectionPromise = new Promise((resolve, reject) => {
-  console.log("Trying to Connect to DataBase");
+  console.log("Trying to Connect to DxxataBase");
 
   const connectWithRetry = () => {
     return mongoose.connect(process.env.MONGO_URI, {
@@ -55,7 +57,7 @@ const dbConnectionPromise = new Promise((resolve, reject) => {
 
 const startServer = () => {
   const server = app.listen(APP_PORT, () => {
-    console.log("Server is running on port 3001");
+    console.log("Server is runsning on port 3001");
   });
 
   const db = mongoose.connection;
