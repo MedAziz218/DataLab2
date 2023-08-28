@@ -221,6 +221,10 @@ export const parseTables = async (
     heures: table3.heures,
     values: table3.values,
   };
+  console.log(">>> schema3");
+  console.log(JSON.stringify(schema3));
+  // const res3 = await sendPage2Schema3(schema3);
+  // console.log(res3);
   // form send >>>>>>>
   const form = {
     date: selectedDate,
