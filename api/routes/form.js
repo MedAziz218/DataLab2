@@ -56,7 +56,7 @@ const getform = async (req, res) => {
       _table5: await Schema6Model.find({ date, poste }).exec(),
       _form: existingData,
     };
-  
+    console.log(form._table3)
     res.status(200).json(form);
   } catch (err) {
     console.log(err);

@@ -18,7 +18,7 @@ const addTable3 = async (req, res) => {
   const user_id = req.user._id;
 
   const { date, poste, heures, values } = req.body;
-
+  console.log(values)
   try {
     // Check if a document with the same (date, poste) combination already exists
     const existingData = await Schema1Model.findOne({ date, poste });

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Select, Button, Popover, Modal, Title, Alert } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
-import { parseTables,loadTables } from "apiCalls";
+import { parseTables, loadTables } from "apiCalls";
 import { sleep } from "apiCalls";
 import { isValidDatePoste } from "apiCalls";
 
@@ -37,6 +37,8 @@ const PosteSelection = () => {
   const [selectedLigne, setSelectedLigne] = useState(
     initialState ? initialState.selectedLigne : ligneOptions[0]
   );
+  const [error, setError] = useState("");
+
   const [goodToSend, setGoodToSend] = useState(false);
   const saveState = () => {
     localStorage.setItem(
@@ -49,13 +51,15 @@ const PosteSelection = () => {
       })
     );
   };
-
-  useEffect(() => {
-    saveState();
+  const updateButton = () => {
     isValidDatePoste({ selectedDate, selectedPoste }).then((val) => {
       console.log(val);
       setGoodToSend(val);
     });
+  };
+  useEffect(() => {
+    saveState();
+    updateButton();
   }, [selectedPoste, selectedTaille, selectedDate, selectedLigne]);
   useEffect(() => {
     return () => {
@@ -64,29 +68,38 @@ const PosteSelection = () => {
   });
   const handleEnregistrerClick = async () => {
     // Handle saving and sending data here
+    setError("");
+    const parseResult = await parseTables(
+      selectedDate,
+      selectedPoste,
+      selectedTaille,
+      selectedLigne
+    );
+    if (parseResult) setError(parseResult);
+    updateButton();
+    // await loadTables({selectedDate,selectedPoste})
+    // isValidDatePoste({ selectedDate, selectedPoste }).then((val) => {
+    //   console.log(val);
+    //   setGoodToSend(val);
+    // });
 
-    // const parseResult = await parseTables(
-    //   selectedDate,
-    //   selectedPoste,
-    //   selectedTaille,
-    //   selectedLigne
-    // );
-    await loadTables({selectedDate,selectedPoste})
-    isValidDatePoste({ selectedDate, selectedPoste }).then((val) => {
-      console.log(val);
-      setGoodToSend(val);
-    });
-  
     setOpened(true);
   };
 
   return (
     <div>
+      {!goodToSend && <Alert
+        title={
+          "Attention : Le formulaire que vous souhaitez remplir a déjà été complété. Veuillez choisir une autre date ou un autre poste. Si vous pensez qu'il s'agit d'une erreur, veuillez contacter l'administrateur."
+        }
+        color="orange"
+        style={{ marginTop: "1rem" }}
+      ></Alert>}
       <Popover zIndex={999} position="bottom" withArrow shadow="md">
         <Popover.Target>
           <div style={{ display: "flex", flexDirection: "column" }}>
             <p> Date</p>
-            <Button >{String(selectedDate)}</Button>
+            <Button>{String(selectedDate)}</Button>
           </div>
         </Popover.Target>
         <Popover.Dropdown>
@@ -120,20 +133,33 @@ const PosteSelection = () => {
         value={ligneOptions[0]}
         disabled
       />
-      <Button disabled={!goodToSend} onClick={handleEnregistrerClick} style={{ marginTop: "1rem" }}>
+      <Button
+        disabled={!goodToSend}
+        onClick={handleEnregistrerClick}
+        style={{ marginTop: "1rem" }}
+      >
         Enregistrer et Envoyer
       </Button>
       <Modal opened={opened} onClose={() => setOpened(false)}>
         <Title order={5}>Notification</Title>
-        {goodToSend ? (
+        {!error ? (
           <Alert
             title="Succès !"
-            description={`La date  a été enregistrée avec succès.`}
+            description={"succès"}
             color="green"
             style={{ marginTop: "1rem" }}
-          />
+          >
+            `enregistrée avec succès.`
+          </Alert>
         ) : (
-          <Alert title="Echec !" color="red" style={{ marginTop: "1rem" }} />
+          <Alert
+            title="Echec !"
+            color="red"
+            style={{ marginTop: "1rem" }}
+            description={error}
+          >
+            `{error}`
+          </Alert>
         )}
         <Button variant="filled" onClick={() => setOpened(false)}>
           ok

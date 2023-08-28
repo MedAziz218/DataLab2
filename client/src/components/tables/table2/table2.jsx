@@ -43,7 +43,7 @@ const Table2DefaultValues = [
   ],
   // {tbody3}
   [
-    ["3", "1.5 ≤ 2.5 ≤ 5" , "3", "1.5 ≤ 2.5 ≤ 5"], // line6 th
+    ["3", "1.5 ≤ 2.5 ≤ 5", "3", "1.5 ≤ 2.5 ≤ 5"], // line6 th
 
     ["", ""], // line7 td
     ["", ""], // line8 td
@@ -151,7 +151,7 @@ export default function Table2() {
 
   const handleInputChange = (row, col, z) => {
     return (val) => {
-    //   console.log(row, col, z, val.target.value, "<<<<<<<<<<<<<");
+      //   console.log(row, col, z, val.target.value, "<<<<<<<<<<<<<");
       const newInputValues = [...inputValues];
       newInputValues[row][col][z] = val.target.value;
       setInputValues(newInputValues);
@@ -159,7 +159,8 @@ export default function Table2() {
   };
   const _handleInputChangeVal = (row, col, z) => {
     return (val) => {
-    //   console.log(row, col, z, val, "<<<<<<<<<<<<<");
+      console.log(val, "vvvvvvvvvvvvvvvvvvvvvvv");
+      //   console.log(row, col, z, val, "<<<<<<<<<<<<<");
       const newInputValues = [...inputValues];
       newInputValues[row][col][z] = val;
       setInputValues(newInputValues);
@@ -196,7 +197,7 @@ export default function Table2() {
   useEffect(() => {
     return () => {
       saveState();
-    //   console.log(inputValues);
+      //   console.log(inputValues);
     };
   }, []);
   return (
@@ -228,7 +229,7 @@ export default function Table2() {
         </tbody>
         {/* 0000000000000000000000000000000000000 */}
 
-        {[0, 1, 2, 3, 4,5].map((tbodyIndex) => (
+        {[0, 1, 2, 3, 4, 5].map((tbodyIndex) => (
           <tbody>
             {Table2Structure[tbodyIndex].map((tb, index) => (
               <tr>
@@ -258,7 +259,7 @@ export default function Table2() {
                         {el}
                         <TextInput
                           value={inputValues[tbodyIndex][index][innerIndex]}
-                          onChange={_handleInputChangeVal(
+                          onChange={handleInputChange(
                             tbodyIndex,
                             index,
                             innerIndex
@@ -304,7 +305,7 @@ export default function Table2() {
           {[7].map((tbodyIndex) =>
             Table2Structure[tbodyIndex].map((tb, index) => (
               <tr>
-                <th>{TitleList[tbodyIndex+index]}</th>
+                <th>{TitleList[tbodyIndex + index]}</th>
                 {tb.map((el, innerIndex) =>
                   el == null ? (
                     <td rowSpan={Table2Structure[tbodyIndex].length}>
@@ -336,13 +337,13 @@ export default function Table2() {
           )}
         </tbody>
         {/* 8888888888888888888888888 */}
-        {[8,9].map((tbodyIndex) => (
+        {[8, 9].map((tbodyIndex) => (
           <tbody>
             {Table2Structure[tbodyIndex].map((tb, index) => (
               <tr>
                 {index == 0 && (
                   <th rowSpan={Table2Structure[tbodyIndex].length}>
-                    {TitleList[tbodyIndex +3]}
+                    {TitleList[tbodyIndex + 3]}
                   </th>
                 )}
                 {tb.map((el, innerIndex) =>
