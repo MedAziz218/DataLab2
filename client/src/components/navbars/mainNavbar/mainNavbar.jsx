@@ -104,12 +104,12 @@ export function MainNavbar({data,style}) {
   const [active, setActive] = useState("Billing");
 
   const links = data.map((item) => (
-    <NavLink to={item.link}
+    <NavLink to={ (user.isAdmin ?( "/viewData/" + item.link) : item.link )}
       
       className={({ isActive, isPending }) =>
       classes.link+" " + (isActive ? classes.linkActive : "")
     }
-      key={item.label}
+      key={ (user.isAdmin ?( "/viewData/" + item.label) : item.label )}
       onClick={(event) => {
         // event.preventDefault();
         setActive(item.label);
