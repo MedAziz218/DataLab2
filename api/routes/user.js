@@ -26,10 +26,10 @@ router.get("/isAdmin", requireAdminAuth, checkAdminToken);
 router.post("/login", loginUser);
 
 // signup route
-router.get("/", requireAuth, GetUsers);
-router.post("/signup", signupUser);
-router.delete("/:email", requireAuth, deleteUser);
+router.get("/", requireAdminAuth, GetUsers);
+router.post("/signup",requireAdminAuth, signupUser);
 
-router.put("/:email", requireAuth, updateUser);
+router.delete("/:email", requireAdminAuth, deleteUser);
+router.put("/:email", requireAdminAuth, updateUser);
 
 module.exports = router;
