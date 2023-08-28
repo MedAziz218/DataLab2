@@ -1,13 +1,20 @@
-
+import React from 'react';
 import { Paper, Title } from '@mantine/core';
-import SearchForm from './tableSearch';
+import SearchAndDataTable from './SearchAndDataTable';
+const data = [
+  { date: '2023-08-27', poste: 'Matin', nomPrenom: 'John Doe' },
+  { date: '2023-08-28', poste: 'Nuit', nomPrenom: 'Jane Smith' },
+  // Add more data entries
+];
+
+
 export default function ConsultationPage() {
   return (
     <div>
       <Paper shadow="sm" radius="md" p="sm" withBorder my={20}>
         <Title>ConsultationPage</Title>
-      <SearchForm />
       </Paper>
+      <SearchAndDataTable data={data} />
     </div>
   );
 }
