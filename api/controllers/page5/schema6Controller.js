@@ -25,8 +25,7 @@ const addTable6 = async (req, res) => {
       return res.status(409).json({
         error: "Data with the same (date, poste) combination already exists.",
       });
-    } //--------------------------------------------------------
-
+    } 
     const newData = new Schema6Model({
       date,
       poste,
@@ -34,6 +33,7 @@ const addTable6 = async (req, res) => {
       values,
       user_id,
     });
+   
 
     const savedData = await newData.save();
     res.status(201).json(savedData);
