@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Select, Button, Popover, Modal, Title, Alert } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
-import { parseTables } from "apiCalls";
+import { parseTables,loadTables } from "apiCalls";
 import { sleep } from "apiCalls";
 import { isValidDatePoste } from "apiCalls";
+
 const tailleOptions = ["T2", "T3", "T4", "T5", "T6"];
 const posteOptions = ["NUIT", "MATIN", "SOIR"];
 const ligneOptions = ["FAM2"];
@@ -64,18 +65,18 @@ const PosteSelection = () => {
   const handleEnregistrerClick = async () => {
     // Handle saving and sending data here
 
-    const parseResult = await parseTables(
-      selectedDate,
-      selectedPoste,
-      selectedTaille,
-      selectedLigne
-    );
+    // const parseResult = await parseTables(
+    //   selectedDate,
+    //   selectedPoste,
+    //   selectedTaille,
+    //   selectedLigne
+    // );
+    await loadTables({selectedDate,selectedPoste})
     isValidDatePoste({ selectedDate, selectedPoste }).then((val) => {
       console.log(val);
       setGoodToSend(val);
     });
-    if (parseResult) {
-    }
+  
     setOpened(true);
   };
 

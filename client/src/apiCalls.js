@@ -297,21 +297,61 @@ const sendSchema = async (url, body) => {
 };
 
 export const loadTables = async ({ date, poste }) => {
+  let data;
   try {
-    axios.get("/api/form/getform", { date, poste });
+    res = await axios.post("/api/form/getform", JSON.stringify({
+      date: "2023-08-19",
+      poste: "SOIR",
+    }));
+    data = data.data
+    console.log(data);
   } catch (err) {
     console.log("problem", err);
   }
+  return;
+  const _table3 = data._table3;
+
+  const table30 = {
+    heures: _table3.heures.slice(0, _table3.heures.length / 4),
+    values: _table3.values.slice(0, _table3.values.length / 4),
+  };
+
+  const table31 = {
+    heures: _table3.heures.slice(
+      _table3.heures.length / 4,
+      _table3.heures.length / 2
+    ),
+    values: _table3.values.slice(
+      _table3.values.length / 4,
+      _table3.values.length / 2
+    ),
+  };
+
+  const table32 = {
+    heures: _table3.heures.slice(
+      _table3.heures.length / 2,
+      (3 * _table3.heures.length) / 4
+    ),
+    values: _table3.values.slice(
+      _table3.values.length / 2,
+      (3 * _table3.values.length) / 4
+    ),
+  };
+
+  const table33 = {
+    heures: _table3.heures.slice((3 * _table3.heures.length) / 4),
+    values: _table3.values.slice((3 * _table3.values.length) / 4),
+  };
 
   // //page 1
   // localStorage.setItem("table1", JSON.stringify(_table1));
   // localStorage.setItem("table2", JSON.stringify(_table2));
 
   // // page 2
-  // localStorage.setItem("table3-0", JSON.stringify(_table3_0));
-  // localStorage.setItem("table3-1", JSON.stringify(_table3_1));
-  // localStorage.setItem("table3-2", JSON.stringify(_table3_2));
-  // localStorage.setItem("table3-3", JSON.stringify(_table3_3));
+  localStorage.setItem("table3-0", JSON.stringify(table30));
+  localStorage.setItem("table3-1", JSON.stringify(table31));
+  localStorage.setItem("table3-2", JSON.stringify(table32));
+  localStorage.setItem("table3-3", JSON.stringify(table33));
 
   // localStorage.setItem("table4", JSON.stringify(_table4));
   // localStorage.setItem("table5", JSON.stringify(_table5));
