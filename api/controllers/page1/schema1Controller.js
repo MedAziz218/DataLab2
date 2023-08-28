@@ -21,14 +21,11 @@ const addTable1 = async (req, res) => {
   try {
     // Check if a document with the same (date, poste) combination already exists
     const existingData = await Schema1Model.findOne({ date, poste });
-
     if (existingData) {
-      return res
-        .status(409 )
-        .json({
-          error: "Data with the same (date, poste) combination already exists.",
-        });
-    }
+      return res.status(409).json({
+        error: "Data with the same (date, poste) combination already exists.",
+      });
+    } //--------------------------------------------------------
 
     const newData = new Schema1Model({
       date,
