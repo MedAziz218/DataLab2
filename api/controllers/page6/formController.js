@@ -16,8 +16,9 @@ const getForm = async (req, res) => {
 // POST request to create a new Form data
 const addForm = async (req, res) => {
   const user_id = req.user._id;
-  const { date, poste, taille, ligne } = req.body;
-  console.log(req.user);
+  const { date, poste, taille, ligne ,observation,notes } = req.body;
+
+
   try {
     const email = req.user.email;
     const username = req.user.username;
@@ -38,6 +39,8 @@ const addForm = async (req, res) => {
       email,
       username,
       user_id,
+      observation,
+      notes,
     });
     const savedData = await newData.save();
     res.status(201).json(savedData);

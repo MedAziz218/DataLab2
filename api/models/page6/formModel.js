@@ -25,6 +25,8 @@ const formSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  observation: { type: String, default: "" },
+  notes: { type: String, default: "" },
   user_id: {
     type: String,
     required: true,
