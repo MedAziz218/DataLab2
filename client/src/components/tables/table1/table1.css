@@ -15,8 +15,8 @@
 /* ---------------------------------------------- */
 .table1 th {
   width: 100px;
-  background-color: var(--th-color);
-  color: #fff !important;
+  background-color: #F5F5F5;;
+  color: #1A1A1A !important;
   max-width: 50px;
   border-right: 5px solid #6c757d!important;
 

@@ -18,8 +18,8 @@
 /* ---------------------------------------------- */
 .table2 tbody th {
  
-  background-color: var(--th-color);
-  color: #fff !important;
+  background-color: #F5F5F5;;
+  color: #1A1A1A !important;
   
   border-right: 5px solid #6c757d!important;
  
