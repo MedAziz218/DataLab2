@@ -64,8 +64,8 @@ const PosteSelection = () => {
       selectedTaille,
       selectedLigne
     );
-    if (parseResult.error){
-      
+    if (parseResult){
+
     }
     setOpened(true);
   };

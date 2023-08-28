@@ -129,7 +129,7 @@ export const checkIsAdmin = async () => {
 // ----------------------------------------------------------------------
 // Validation api
 
-export const  parseTables = async (
+export const parseTables = async (
   selectedDate,
   selectedPoste,
   selectedTaille,
@@ -185,15 +185,10 @@ export const  parseTables = async (
       ...table33.values,
     ],
   };
-  console.log(">>> Formulaire");
-  console.log(
-    ">>>",
-    selectedDate,
-    selectedPoste,
-    selectedTaille,
-    selectedLigne
-  );
 
+  // sendinggggggg ---------------------
+
+  // schema1 send >>>>>>>
   const schema1 = {
     // date: String,
     date: selectedDate,
@@ -201,18 +196,43 @@ export const  parseTables = async (
     heures: table1.heures,
     values: table1.values,
   };
-  const x = sendPage1Schema1(schema1);
+  const res1 = await sendPage1Schema1(schema1);
 
   console.log(">>> schema1");
   console.log(JSON.stringify(schema1));
-  console.log(x);
+  console.log(res1);
+
+  // form send >>>>>>>
+
+  const form = {
+    date: selectedDate,
+    poste: selectedPoste,
+    taille: selectedTaille,
+    ligne: selectedLigne,
+  };
+  console.log(">>> Formulaire");
+  console.log(JSON.stringify(form));
+  const res5 = await sendPage5Form(form);
+  console.log(res5);
+
+  
 };
 
 const page1schema1URL = "/api/page1/schema1";
 const sendPage1Schema1 = async (body) => {
   try {
-    
-    return await axios.post(page1schema1URL, body);;
+    await axios.post(page1schema1URL, body);
+    return true;
+  } catch (err) {
+    return false;
+  }
+};
+
+const page5FormURL = "/api/page5/form";
+const sendPage5Form = async (body) => {
+  try {
+    await axios.post(page5FormURL, body);
+    return true;
   } catch (err) {
     return false;
   }
