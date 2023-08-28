@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Select, Button, Popover, Modal, Title, Alert } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
 import { parseTables } from "apiCalls";
+import { sleep } from "apiCalls";
 const tailleOptions = ["T2", "T3", "T4", "T5", "T6"];
 const posteOptions = ["NUIT", "MATIN", "SOIR"];
 const ligneOptions = ["FAM2"];
@@ -35,22 +36,37 @@ const PosteSelection = () => {
     initialState ? initialState.selectedLigne : ligneOptions[0]
   );
   const [goodToSend, setGoodToSend] = useState(false);
-  const saveState = ()=>{
-
-    localStorage.setItem(tableName,JSON.stringify({selectedPoste,selectedTaille,selectedDate,selectedLigne}))
-  }
-  useEffect(()=>{
-    saveState()
-  },[selectedPoste,selectedTaille,selectedDate,selectedLigne])
+  const saveState = () => {
+    localStorage.setItem(
+      tableName,
+      JSON.stringify({
+        selectedPoste,
+        selectedTaille,
+        selectedDate,
+        selectedLigne,
+      })
+    );
+  };
+  useEffect(() => {
+    saveState();
+  }, [selectedPoste, selectedTaille, selectedDate, selectedLigne]);
   useEffect(() => {
     return () => {
-      saveState()
+      saveState();
     };
   });
-  const handleEnregistrerClick = () => {
+  const handleEnregistrerClick = async () => {
     // Handle saving and sending data here
-    
-    parseTables(selectedDate,selectedPoste,selectedTaille,selectedLigne)
+
+    const parseResult = await parseTables(
+      selectedDate,
+      selectedPoste,
+      selectedTaille,
+      selectedLigne
+    );
+    if (parseResult.error){
+      
+    }
     setOpened(true);
   };
 
