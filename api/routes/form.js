@@ -32,7 +32,9 @@ router.post("/isvalid", requireAuth, checkValidDatePoste);
 
 const getform = async (req, res) => {
   try {
-    const { date, poste } = req.body;
+      
+      const { date, poste } = req.body;
+      console.log(date, poste)
     if (!date || !poste) {
       return res.status(400).json({
         error: "date and poste required",
@@ -44,27 +46,25 @@ const getform = async (req, res) => {
         error: "Data with the same (date, poste) do not exists.",
       });
     } //--------------------------------------------------------
-    
 
     const form = {
-
-        _table1: Schema1Model.find({date,poste}),
-        _table2:  Schema2Model.find({date,poste}),
-        _table3:  Schema3Model.find({date,poste}),
-        _table4:  Schema4Model.find({date,poste}),
-        _table5:  Schema6Model.find({date,poste}),
-        _form : existingData,
-
-    }
-    console.log(form)
-    res.status(200).json(form)
+     
+      _table1: await Schema1Model.find({ date, poste }).exec(),
+      _table2: await Schema2Model.find({ date, poste }).exec(),
+      _table3: await Schema3Model.find({ date, poste }).exec(),
+      _table4: await Schema4Model.find({ date, poste }).exec(),
+      _table5: await Schema6Model.find({ date, poste }).exec(),
+      _form: existingData,
+    };
+  
+    res.status(200).json(form);
   } catch (err) {
-    console.log(err)
+    console.log(err);
     return res.status(404).json({
       error: err,
     });
   }
 };
 
-router.get("/getform", requireAuth, getform);
+router.post("/getform", requireAuth, getform);
 module.exports = router;
