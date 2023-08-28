@@ -1,11 +1,10 @@
 import { instance as axios } from "./axiosInstance";
-const baseURL = "";
-const UsersURL = `${baseURL}/api/user`;
-const loginURL = `${baseURL}/api/user/login`;
-const createUserURL = `${baseURL}/api/user/signup`;
-const checkIsUserURL = `${baseURL}/api/user/isUser`;
-const checkIsAdminURL = `${baseURL}/api/user/isAdmin`;
 
+const UsersURL = '/api/user';
+const loginURL = '/api/user/login';
+const createUserURL = '/api/user/signup';
+const checkIsUserURL = '/api/user/isUser';
+const checkIsAdminURL = '/api/user/isAdmin';
 //process.env.REACT_APP_BACK_ADRESS+"/auth/login"
 
 function sleep(ms) {
@@ -130,7 +129,12 @@ export const checkIsAdmin = async () => {
 // ----------------------------------------------------------------------
 // Validation api
 const table3Parser = () => {};
-export const parseTables = (selectedDate,selectedPoste,selectedTaille,selectedLigne) => {
+export const parseTables = (
+  selectedDate,
+  selectedPoste,
+  selectedTaille,
+  selectedLigne
+) => {
   //page 1
   const table1 = JSON.parse(localStorage.getItem("table1")) || null;
   const table2 = JSON.parse(localStorage.getItem("table2")) || null;
@@ -159,10 +163,11 @@ export const parseTables = (selectedDate,selectedPoste,selectedTaille,selectedLi
     table5;
 
   if (!valid) {
-    console.log("please open every page at least once")
+    console.log("please open every page at least once");
     return false;
   }
-  
+
+  //TODO: Vrify data and poste availabel ( check backend )
 
   // table3Parser
 
@@ -180,15 +185,28 @@ export const parseTables = (selectedDate,selectedPoste,selectedTaille,selectedLi
       ...table33.values,
     ],
   };
-  console.log(">>> Formulaire")
-  console.log(">>>",selectedDate,selectedPoste,selectedTaille,selectedLigne)
+  console.log(">>> Formulaire");
+  console.log(
+    ">>>",
+    selectedDate,
+    selectedPoste,
+    selectedTaille,
+    selectedLigne
+  );
 
   const schema1 = {
     // date: String,
-    date: selectedDate ,
+    date: selectedDate,
     poste: selectedPoste,
     heures: table1.heures,
     values: table1.values,
-    
-  }
+  };
+  console.log(">>> schema1")
+  console.log(JSON.stringify(schema1))
 };
+
+
+const page1schema1URL = '/api/page1/schema1'
+const sendPage1Schema1 = async (body) => {
+  axios.post(sendPage1Schema1,body )
+}
