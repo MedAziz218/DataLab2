@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Select, Button, Popover, Modal, Title, Alert } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
 import { parseTables } from "apiCalls";
+import { sleep } from "apiCalls";
+import { isValidDatePoste } from "apiCalls";
 const tailleOptions = ["T2", "T3", "T4", "T5", "T6"];
 const posteOptions = ["NUIT", "MATIN", "SOIR"];
 const ligneOptions = ["FAM2"];
@@ -35,22 +37,45 @@ const PosteSelection = () => {
     initialState ? initialState.selectedLigne : ligneOptions[0]
   );
   const [goodToSend, setGoodToSend] = useState(false);
-  const saveState = ()=>{
+  const saveState = () => {
+    localStorage.setItem(
+      tableName,
+      JSON.stringify({
+        selectedPoste,
+        selectedTaille,
+        selectedDate,
+        selectedLigne,
+      })
+    );
+  };
 
-    localStorage.setItem(tableName,JSON.stringify({selectedPoste,selectedTaille,selectedDate,selectedLigne}))
-  }
-  useEffect(()=>{
-    saveState()
-  },[selectedPoste,selectedTaille,selectedDate,selectedLigne])
+  useEffect(() => {
+    saveState();
+    isValidDatePoste({ selectedDate, selectedPoste }).then((val) => {
+      console.log(val);
+      setGoodToSend(val);
+    });
+  }, [selectedPoste, selectedTaille, selectedDate, selectedLigne]);
   useEffect(() => {
     return () => {
-      saveState()
+      saveState();
     };
   });
-  const handleEnregistrerClick = () => {
+  const handleEnregistrerClick = async () => {
     // Handle saving and sending data here
-    
-    parseTables(selectedDate,selectedPoste,selectedTaille,selectedLigne)
+
+    const parseResult = await parseTables(
+      selectedDate,
+      selectedPoste,
+      selectedTaille,
+      selectedLigne
+    );
+    isValidDatePoste({ selectedDate, selectedPoste }).then((val) => {
+      console.log(val);
+      setGoodToSend(val);
+    });
+    if (parseResult) {
+    }
     setOpened(true);
   };
 
@@ -60,7 +85,7 @@ const PosteSelection = () => {
         <Popover.Target>
           <div style={{ display: "flex", flexDirection: "column" }}>
             <p> Date</p>
-            <Button>{String(selectedDate)}</Button>
+            <Button >{String(selectedDate)}</Button>
           </div>
         </Popover.Target>
         <Popover.Dropdown>
@@ -94,7 +119,7 @@ const PosteSelection = () => {
         value={ligneOptions[0]}
         disabled
       />
-      <Button onClick={handleEnregistrerClick} style={{ marginTop: "1rem" }}>
+      <Button disabled={!goodToSend} onClick={handleEnregistrerClick} style={{ marginTop: "1rem" }}>
         Enregistrer et Envoyer
       </Button>
       <Modal opened={opened} onClose={() => setOpened(false)}>

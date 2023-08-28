@@ -1,14 +1,13 @@
 import { instance as axios } from "./axiosInstance";
-const baseURL = "";
-const UsersURL = `${baseURL}/api/user`;
-const loginURL = `${baseURL}/api/user/login`;
-const createUserURL = `${baseURL}/api/user/signup`;
-const checkIsUserURL = `${baseURL}/api/user/isUser`;
-const checkIsAdminURL = `${baseURL}/api/user/isAdmin`;
 
+const UsersURL = "/api/user";
+const loginURL = "/api/user/login";
+const createUserURL = "/api/user/signup";
+const checkIsUserURL = "/api/user/isUser";
+const checkIsAdminURL = "/api/user/isAdmin";
 //process.env.REACT_APP_BACK_ADRESS+"/auth/login"
 
-function sleep(ms) {
+export function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 export const loginCall = async (userCredential, dispatch) => {
@@ -127,10 +126,26 @@ export const checkIsAdmin = async () => {
   }
 };
 
+export const isValidDatePoste = async ({ selectedDate, selectedPoste }) => {
+  try {
+    await axios.post("/api/form/isvalid", {
+      date: selectedDate,
+      poste: selectedPoste,
+    });
+    return true;
+  } catch (err) {
+    return false;
+  }
+};
 // ----------------------------------------------------------------------
 // Validation api
-const table3Parser = () => {};
-export const parseTables = (selectedDate,selectedPoste,selectedTaille,selectedLigne) => {
+
+export const parseTables = async (
+  selectedDate,
+  selectedPoste,
+  selectedTaille,
+  selectedLigne
+) => {
   //page 1
   const table1 = JSON.parse(localStorage.getItem("table1")) || null;
   const table2 = JSON.parse(localStorage.getItem("table2")) || null;
@@ -145,7 +160,7 @@ export const parseTables = (selectedDate,selectedPoste,selectedTaille,selectedLi
   const table4 = JSON.parse(localStorage.getItem("table4")) || null;
   const table5 = JSON.parse(localStorage.getItem("table5")) || null;
   const observation = JSON.parse(localStorage.getItem("observation")) || null;
-  const notes = JSON.parse(localStorage.getItem("notes")) || null;
+  const notes = JSON.parse(localStorage.getItem("Notes")) || null;
 
   const valid =
     table1 &&
@@ -159,10 +174,11 @@ export const parseTables = (selectedDate,selectedPoste,selectedTaille,selectedLi
     table5;
 
   if (!valid) {
-    console.log("please open every page at least once")
+    console.log("please open every page at least once");
     return false;
   }
-  
+
+  //TODO: Vrify data and poste availabel ( check backend )
 
   // table3Parser
 
@@ -180,15 +196,125 @@ export const parseTables = (selectedDate,selectedPoste,selectedTaille,selectedLi
       ...table33.values,
     ],
   };
-  console.log(">>> Formulaire")
-  console.log(">>>",selectedDate,selectedPoste,selectedTaille,selectedLigne)
 
+  // sendinggggggg ---------------------
+
+  // schema1 send >>>>>>>
   const schema1 = {
-    // date: String,
-    date: selectedDate ,
+    date: selectedDate,
     poste: selectedPoste,
     heures: table1.heures,
     values: table1.values,
-    
+  };
+
+  console.log(">>> schema1");
+  console.log(JSON.stringify(schema1));
+  const res11 = await sendSchema(page1schema1URL, schema1);
+  console.log(res11);
+
+  // schema1 send >>>>>>>
+  const schema2 = {
+    date: selectedDate,
+    poste: selectedPoste,
+    heures: table2.heures,
+    values: table2.values,
+  };
+
+  console.log(">>> schema2");
+  console.log(JSON.stringify(schema2));
+  const res12 = await sendSchema(page1schema2URL, schema2);
+  console.log(res12);
+
+  // schema3 send >>>>>>>
+  const schema3 = {
+    date: selectedDate,
+    poste: selectedPoste,
+    heures: table3.heures,
+    values: table3.values,
+  };
+  console.log(">>> schema3");
+  console.log(JSON.stringify(schema3));
+  const res3 = await sendSchema(page2schema3URL, schema3);
+  console.log(res3);
+
+  // schema4 send >>>>>>>
+  const schema4 = {
+    date: selectedDate,
+    poste: selectedPoste,
+    heures: table4.heures,
+    values: table4.values,
+  };
+  console.log(">>> schema4");
+  console.log(JSON.stringify(schema4));
+  const res4 = await sendSchema(page3schema4URL, schema4);
+  console.log(res4);
+
+  // schema6 send >>>>>>>
+  const schema6 = {
+    date: selectedDate,
+    poste: selectedPoste,
+    heures: table5.heures,
+    values: table5.values,
+  };
+  console.log(">>> schema6");
+  console.log(JSON.stringify(schema6));
+  const res6 = await sendSchema(page5schema6URL, schema6);
+  console.log(res6);
+  // form send >>>>>>>
+  const form = {
+    date: selectedDate,
+    poste: selectedPoste,
+    taille: selectedTaille,
+    ligne: selectedLigne,
+    observation: observation,
+    notes: notes,
+  };
+  console.log(">>> Formulaire");
+  console.log(JSON.stringify(form));
+  const res5 = await sendSchema(page5FormURL, form);
+  console.log(res5);
+
+  return true;
+};
+
+const page1schema1URL = "/api/page1/schema1";
+const page1schema2URL = "/api/page1/schema2";
+
+const page2schema3URL = "/api/page2/schema3";
+const page3schema4URL = "/api/page3/schema4";
+
+// wrong name ( should be page4schema5 )
+const page5schema6URL = "/api/page5/schema6";
+const page5FormURL = "/api/page6/form";
+
+const sendSchema = async (url, body) => {
+  try {
+    await axios.post(url, body);
+    return true;
+  } catch (err) {
+    return false;
   }
+};
+
+export const loadTables = async ({ date, poste }) => {
+  try {
+    axios.get("/api/form/getform", { date, poste });
+  } catch (err) {
+    console.log("problem", err);
+  }
+
+  // //page 1
+  // localStorage.setItem("table1", JSON.stringify(_table1));
+  // localStorage.setItem("table2", JSON.stringify(_table2));
+
+  // // page 2
+  // localStorage.setItem("table3-0", JSON.stringify(_table3_0));
+  // localStorage.setItem("table3-1", JSON.stringify(_table3_1));
+  // localStorage.setItem("table3-2", JSON.stringify(_table3_2));
+  // localStorage.setItem("table3-3", JSON.stringify(_table3_3));
+
+  // localStorage.setItem("table4", JSON.stringify(_table4));
+  // localStorage.setItem("table5", JSON.stringify(_table5));
+  // localStorage.setItem("observation", JSON.stringify(_observation));
+  // localStorage.setItem("Notes", JSON.stringify(_notes));
 };
