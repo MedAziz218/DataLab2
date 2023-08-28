@@ -16,7 +16,7 @@ import { AuthContext } from "context/AuthContext";
 
 const useStyles = createStyles((theme) => ({
   navbar: {
-    backgroundColor: theme.colors.grape[7],
+    backgroundColor: "#333333",
   },
 
   version: {
