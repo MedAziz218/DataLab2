@@ -28,6 +28,7 @@ const addTable6 = async (req, res) => {
       username,
       user_id,
     });
+   
     const savedData = await newData.save();
     res.status(201).json(savedData);
   } catch (error) {
