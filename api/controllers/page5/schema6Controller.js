@@ -23,7 +23,7 @@ const addTable6 = async (req, res) => {
     const existingData = await Schema6Model.findOne({ date, poste });
     if (existingData) {
       return res.status(409).json({
-        error: "Data with the same (date, poste) combination already exists.",
+        error: "Data with the s1ame (date, poste) combination already exists.",
       });
     } 
     const newData = new Schema6Model({

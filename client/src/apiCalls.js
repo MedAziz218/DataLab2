@@ -212,7 +212,7 @@ export const parseTables = async (
   const res11 = await sendSchema(page1schema1URL, schema1);
   console.log(res11);
 
-  // schema1 send >>>>>>>
+  // schema2 send >>>>>>>
   const schema2 = {
     date: selectedDate,
     poste: selectedPoste,
