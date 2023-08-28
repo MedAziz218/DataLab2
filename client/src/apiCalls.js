@@ -198,7 +198,7 @@ export const parseTables = async (
 
   console.log(">>> schema1");
   console.log(JSON.stringify(schema1));
-  const res11 = await sendPage1Schema1(schema1);
+  const res11 = await sendSchema(page1schema1URL, schema1);
   console.log(res11);
 
   // schema1 send >>>>>>>
@@ -211,7 +211,7 @@ export const parseTables = async (
 
   console.log(">>> schema2");
   console.log(JSON.stringify(schema2));
-  const res12 = await sendPage1Schema2(schema2);
+  const res12 = await sendSchema(page1schema2URL, schema2);
   console.log(res12);
 
   // schema3 send >>>>>>>
@@ -223,8 +223,22 @@ export const parseTables = async (
   };
   console.log(">>> schema3");
   console.log(JSON.stringify(schema3));
-  // const res3 = await sendPage2Schema3(schema3);
-  // console.log(res3);
+  const res3 = await sendSchema(page2schema3URL, schema3);
+  console.log(res3);
+
+  // schema3 send >>>>>>>
+  const schema4 = {
+    date: selectedDate,
+    poste: selectedPoste,
+    heures: table4.heures,
+    values: table4.values,
+    observation:observation || "",
+  };
+  console.log(">>> schema4");
+  console.log(JSON.stringify(schema4));
+  const res4 = await sendSchema(page3schema4URL, schema4);
+  console.log(res4);
+
   // form send >>>>>>>
   const form = {
     date: selectedDate,
@@ -234,33 +248,21 @@ export const parseTables = async (
   };
   console.log(">>> Formulaire");
   console.log(JSON.stringify(form));
-  const res5 = await sendPage5Form(form);
+  const res5 = await sendSchema(page5FormURL, form);
   console.log(res5);
 };
 
 const page1schema1URL = "/api/page1/schema1";
-const sendPage1Schema1 = async (body) => {
-  try {
-    await axios.post(page1schema1URL, body);
-    return true;
-  } catch (err) {
-    return false;
-  }
-};
-
 const page1schema2URL = "/api/page1/schema2";
-const sendPage1Schema2 = async (body) => {
-  try {
-    await axios.post(page1schema2URL, body);
-    return true;
-  } catch (err) {
-    return false;
-  }
-};
+
+const page2schema3URL = "/api/page2/schema3";
+const page3schema4URL =  "/api/page3/schema4";
+
 const page5FormURL = "/api/page5/form";
-const sendPage5Form = async (body) => {
+
+const sendSchema = async (url, body) => {
   try {
-    await axios.post(page5FormURL, body);
+    await axios.post(url, body);
     return true;
   } catch (err) {
     return false;

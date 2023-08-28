@@ -15,12 +15,12 @@ const schema4Schema = new mongoose.Schema(
       required: true,
     },
     values: {
-      type: [[Boolean]],
+      type: [[String]],
       required: true,
     },
     observation: {
       type: String,
-      required: true,
+
     },
     user_id: {
       type: String,
