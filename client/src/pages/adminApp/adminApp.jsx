@@ -15,8 +15,14 @@ import { Transition } from "@mantine/core";
 import ConsultationPage from "./adminAppPages/consultationPage/consultationPage";
 import UtilisateurPage from "./adminAppPages/utilisateurPage/utilisateurPage";
 import GraphPage from "./adminAppPages/graphPage/graphPage";
+import { MainApp } from "pages/mainApp/mainApp";
 
-
+import ControlePage from "pages/mainApp/mainAppPages/controlePage/controlePage";
+import CisaillementPage from "pages/mainApp/mainAppPages/cisaillementPage/cisaillementPage";
+import MpPage from "pages/mainApp/mainAppPages/mpPage/mpPage";
+import EquipementsPage from "pages/mainApp/mainAppPages/equipementsPage/equipementsPage";
+import NotesPage from "pages/mainApp/mainAppPages/notesPage/notesPage";
+import ValidationPage from "pages/mainApp/mainAppPages/validationPage/validationPage";
 const data = [
   {
     link: "/utilisateur",
@@ -70,9 +76,17 @@ export function AdminAppRoutes() {
 
       <Route exact path="/login" element={<Navigate to="/" />} />
 
-      <Route path="/errors/401" element={<Navigate to="/errors/401" />} />
-      
+      {/* <Route path="/errors/401" element={<Navigate to="/errors/401" />} /> */}
+
       <Route path="*" element={<Navigate to="/errors/notFound" />} />
+      <Route path="/viewData" element={<MainApp />}>
+        <Route path="/viewData/controle" element={<ControlePage />} />
+        <Route path="cisaillement" element={<CisaillementPage />} />
+        <Route path="mp" element={<MpPage />} />
+        <Route path="equipements" element={<EquipementsPage />} />
+        <Route path="notes" element={<NotesPage />} />
+        <Route path="validation" element={<ValidationPage />} />
+      </Route>
     </Routes>
   );
 }

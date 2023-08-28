@@ -193,86 +193,84 @@ export const parseTables = async (
   };
 
   // sendinggggggg ---------------------
-  try{
+  try {
+    // schema1 send >>>>>>>
+    const schema1 = {
+      date: selectedDate,
+      poste: selectedPoste,
+      heures: table1.heures,
+      values: table1.values,
+    };
 
- 
-  // schema1 send >>>>>>>
-  const schema1 = {
-    date: selectedDate,
-    poste: selectedPoste,
-    heures: table1.heures,
-    values: table1.values,
-  };
+    console.log(">>> schema1");
+    console.log(JSON.stringify(schema1));
+    const res11 = await sendSchema(page1schema1URL, schema1);
+    console.log(res11);
 
-  console.log(">>> schema1");
-  console.log(JSON.stringify(schema1));
-  const res11 = await sendSchema(page1schema1URL, schema1);
-  console.log(res11);
+    // schema1 send >>>>>>>
+    const schema2 = {
+      date: selectedDate,
+      poste: selectedPoste,
+      heures: table2.heures,
+      values: table2.values,
+    };
 
-  // schema1 send >>>>>>>
-  const schema2 = {
-    date: selectedDate,
-    poste: selectedPoste,
-    heures: table2.heures,
-    values: table2.values,
-  };
+    console.log(">>> schema2");
+    console.log(JSON.stringify(schema2));
+    const res12 = await sendSchema(page1schema2URL, schema2);
+    console.log(res12);
 
-  console.log(">>> schema2");
-  console.log(JSON.stringify(schema2));
-  const res12 = await sendSchema(page1schema2URL, schema2);
-  console.log(res12);
+    // schema3 send >>>>>>>
+    const schema3 = {
+      date: selectedDate,
+      poste: selectedPoste,
+      heures: table3.heures,
+      values: table3.values,
+    };
+    console.log(">>> schema3");
+    console.log(JSON.stringify(schema3));
+    const res3 = await sendSchema(page2schema3URL, schema3);
+    console.log(res3);
 
-  // schema3 send >>>>>>>
-  const schema3 = {
-    date: selectedDate,
-    poste: selectedPoste,
-    heures: table3.heures,
-    values: table3.values,
-  };
-  console.log(">>> schema3");
-  console.log(JSON.stringify(schema3));
-  const res3 = await sendSchema(page2schema3URL, schema3);
-  console.log(res3);
+    // schema4 send >>>>>>>
+    const schema4 = {
+      date: selectedDate,
+      poste: selectedPoste,
+      heures: table4.heures,
+      values: table4.values,
+    };
+    console.log(">>> schema4");
+    console.log(JSON.stringify(schema4));
+    const res4 = await sendSchema(page3schema4URL, schema4);
+    console.log(res4);
 
-  // schema4 send >>>>>>>
-  const schema4 = {
-    date: selectedDate,
-    poste: selectedPoste,
-    heures: table4.heures,
-    values: table4.values,
-  };
-  console.log(">>> schema4");
-  console.log(JSON.stringify(schema4));
-  const res4 = await sendSchema(page3schema4URL, schema4);
-  console.log(res4);
-
-  // schema6 send >>>>>>>
-  const schema6 = {
-    date: selectedDate,
-    poste: selectedPoste,
-    heures: table5.heures,
-    values: table5.values,
-  };
-  console.log(">>> schema6");
-  console.log(JSON.stringify(schema6));
-  const res6 = await sendSchema(page5schema6URL, schema6);
-  console.log(res6);
-  // form send >>>>>>>
-  const form = {
-    date: selectedDate,
-    poste: selectedPoste,
-    taille: selectedTaille,
-    ligne: selectedLigne,
-    observation: observation,
-    notes: notes,
-  };
-  console.log(">>> Formulaire");
-  console.log(JSON.stringify(form));
-  const res5 = await sendSchema(page5FormURL, form);
-  console.log(res5);
-} catch (err){
-  return ""
-}
+    // schema6 send >>>>>>>
+    const schema6 = {
+      date: selectedDate,
+      poste: selectedPoste,
+      heures: table5.heures,
+      values: table5.values,
+    };
+    console.log(">>> schema6");
+    console.log(JSON.stringify(schema6));
+    const res6 = await sendSchema(page5schema6URL, schema6);
+    console.log(res6);
+    // form send >>>>>>>
+    const form = {
+      date: selectedDate,
+      poste: selectedPoste,
+      taille: selectedTaille,
+      ligne: selectedLigne,
+      observation: observation,
+      notes: notes,
+    };
+    console.log(">>> Formulaire");
+    console.log(JSON.stringify(form));
+    const res5 = await sendSchema(page5FormURL, form);
+    console.log(res5);
+  } catch (err) {
+    return "Une erreur s'est produite";
+  }
   return "";
 };
 
@@ -285,7 +283,14 @@ const page3schema4URL = "/api/page3/schema4";
 // wrong name ( should be page4schema5 )
 const page5schema6URL = "/api/page5/schema6";
 const page5FormURL = "/api/page6/form";
-
+export const getAllForms = async () => {
+  try {
+    const res =  await axios.get("/api/page6/form");
+    return res.data
+  } catch (err) {
+    return false;
+  }
+};
 const sendSchema = async (url, body) => {
   try {
     await axios.post(url, body);

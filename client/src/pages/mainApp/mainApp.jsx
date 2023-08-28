@@ -40,7 +40,7 @@ const data = [
   { link: "/validation", label: "Validation", icon: Icon2fa },
   // { link: "", label: "Other Settings", icon: IconSettings },
 ];
-function MainApp() {
+export function MainApp() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
   return (
