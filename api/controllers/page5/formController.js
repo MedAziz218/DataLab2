@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const Schema6Model = require('../../models/page5/tableModel'); // Corrected model import
+const Schema6Model = require('../../models/page5/formModel'); // Corrected model import
 
 // GET request to retrieve all schema6 data
-const getTable6 = async (req, res) => {
+const getForm = async (req, res) => {
   const user_id = req.user._id;
   try {
     const data = await Schema6Model.find({ user_id });
@@ -14,7 +14,7 @@ const getTable6 = async (req, res) => {
 };
 
 // POST request to create a new schema6 data
-const addTable6 = async (req, res) => {
+const addForm = async (req, res) => {
   const user_id = req.user._id;
   const { date, poste, taille, ligne, email, username } = req.body;
 
@@ -35,4 +35,4 @@ const addTable6 = async (req, res) => {
   }
 };
 
-module.exports = { getTable6, addTable6 };
+module.exports = { getForm, addForm };

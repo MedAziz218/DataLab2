@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const schema6Schema = new mongoose.Schema({
+const formSchema = new mongoose.Schema({
     date: {
         type: String,
         required: true
@@ -22,6 +22,6 @@ const schema6Schema = new mongoose.Schema({
     }
 });
 
-const schema6Model = mongoose.model('Schema6', schema6Schema); // Use mongoose.model() here
+const formModel = mongoose.model('form', formSchema); // Use mongoose.model() here
 
-module.exports = schema6Model;
+module.exports = formModel;

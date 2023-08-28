@@ -1,13 +1,13 @@
 import { instance as axios } from "./axiosInstance";
 
-const UsersURL = '/api/user';
-const loginURL = '/api/user/login';
-const createUserURL = '/api/user/signup';
-const checkIsUserURL = '/api/user/isUser';
-const checkIsAdminURL = '/api/user/isAdmin';
+const UsersURL = "/api/user";
+const loginURL = "/api/user/login";
+const createUserURL = "/api/user/signup";
+const checkIsUserURL = "/api/user/isUser";
+const checkIsAdminURL = "/api/user/isAdmin";
 //process.env.REACT_APP_BACK_ADRESS+"/auth/login"
 
-function sleep(ms) {
+export function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 export const loginCall = async (userCredential, dispatch) => {
@@ -128,8 +128,8 @@ export const checkIsAdmin = async () => {
 
 // ----------------------------------------------------------------------
 // Validation api
-const table3Parser = () => {};
-export const parseTables = (
+
+export const  parseTables = async (
   selectedDate,
   selectedPoste,
   selectedTaille,
@@ -201,12 +201,19 @@ export const parseTables = (
     heures: table1.heures,
     values: table1.values,
   };
-  console.log(">>> schema1")
-  console.log(JSON.stringify(schema1))
+  const x = sendPage1Schema1(schema1);
+
+  console.log(">>> schema1");
+  console.log(JSON.stringify(schema1));
+  console.log(x);
 };
 
-
-const page1schema1URL = '/api/page1/schema1'
+const page1schema1URL = "/api/page1/schema1";
 const sendPage1Schema1 = async (body) => {
-  axios.post(sendPage1Schema1,body )
-}
+  try {
+    
+    return await axios.post(page1schema1URL, body);;
+  } catch (err) {
+    return false;
+  }
+};
