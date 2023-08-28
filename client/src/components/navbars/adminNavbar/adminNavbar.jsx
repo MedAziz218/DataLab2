@@ -20,7 +20,7 @@ const useStyles = createStyles((theme) => ({
   },
 
   version: {
-    backgroundColor: theme.fn.lighten(theme.colors.grape[7], 0.1),
+    backgroundColor: theme.fn.lighten("white", 0.1),
     color: theme.white,
     fontWeight: 700,
   },
@@ -29,7 +29,7 @@ const useStyles = createStyles((theme) => ({
     paddingBottom: theme.spacing.md,
     marginBottom: `calc(${theme.spacing.md} * 1.5)`,
     borderBottom: `${rem(1)} solid ${theme.fn.lighten(
-      theme.colors.grape[7],
+      "white",
       0.1
     )}`,
   },
@@ -38,7 +38,7 @@ const useStyles = createStyles((theme) => ({
     paddingTop: theme.spacing.md,
     marginTop: theme.spacing.md,
     borderTop: `${rem(1)} solid ${theme.fn.lighten(
-      theme.colors.grape[7],
+      "white",
       0.1
     )}`,
   },
@@ -55,7 +55,7 @@ const useStyles = createStyles((theme) => ({
     fontWeight: 500,
 
     "&:hover": {
-      backgroundColor: theme.fn.lighten(theme.colors.grape[7], 0.1),
+      backgroundColor: theme.fn.lighten("white", 0.1),
     },
   },
 
@@ -68,7 +68,7 @@ const useStyles = createStyles((theme) => ({
 
   linkActive: {
     "&, &:hover": {
-      backgroundColor: theme.fn.lighten(theme.colors.grape[7], 0.15),
+      backgroundColor: "black",
       [`& .${getStylesRef("icon")}`]: {
         opacity: 0.9,
       },
