@@ -175,7 +175,7 @@ export const parseTables = async (
 
   if (!valid) {
     console.log("please open every page at least once");
-    return false;
+    return "Veuillez ouvrir chaque page au moins une fois, s'il vous plaît.";
   }
 
   //TODO: Vrify data and poste availabel ( check backend )
@@ -183,12 +183,7 @@ export const parseTables = async (
   // table3Parser
 
   table3 = {
-    heures: [
-      ...table30.heures,
-      ...table31.heures,
-      ...table32.heures,
-      ...table33.heures,
-    ],
+    heures: [table30.heures, table31.heures, table32.heures, table33.heures],
     values: [
       ...table30.values,
       ...table31.values,
@@ -198,7 +193,9 @@ export const parseTables = async (
   };
 
   // sendinggggggg ---------------------
+  try{
 
+ 
   // schema1 send >>>>>>>
   const schema1 = {
     date: selectedDate,
@@ -273,8 +270,10 @@ export const parseTables = async (
   console.log(JSON.stringify(form));
   const res5 = await sendSchema(page5FormURL, form);
   console.log(res5);
-
-  return true;
+} catch (err){
+  return ""
+}
+  return "";
 };
 
 const page1schema1URL = "/api/page1/schema1";
@@ -297,30 +296,34 @@ const sendSchema = async (url, body) => {
 };
 
 export const loadTables = async ({ date, poste }) => {
-  let data;
+  let data = "hola";
   try {
-    res = await axios.post("/api/form/getform", JSON.stringify({
-      date: "2023-08-19",
-      poste: "SOIR",
-    }));
-    data = data.data
-    console.log(data);
+    data = await axios.post(
+      "/api/form/getform",
+      JSON.stringify({
+        date: "2023-04-04",
+        poste: "NUIT",
+      })
+    );
+    data = data.data;
   } catch (err) {
     console.log("problem", err);
   }
-  return;
-  const _table3 = data._table3;
+  console.log(data);
+  const _form = data._form;
+  const _table3 = data._table3[0];
+  const _table1 = data._table1[0];
+  const _table2 = data._table2[0];
+  const _table4 = data._table4[0];
+  const _table5 = data._table5[0];
 
   const table30 = {
-    heures: _table3.heures.slice(0, _table3.heures.length / 4),
+    heures: _table3.heures[0],
     values: _table3.values.slice(0, _table3.values.length / 4),
   };
 
   const table31 = {
-    heures: _table3.heures.slice(
-      _table3.heures.length / 4,
-      _table3.heures.length / 2
-    ),
+    heures: _table3.heures[1],
     values: _table3.values.slice(
       _table3.values.length / 4,
       _table3.values.length / 2
@@ -328,10 +331,7 @@ export const loadTables = async ({ date, poste }) => {
   };
 
   const table32 = {
-    heures: _table3.heures.slice(
-      _table3.heures.length / 2,
-      (3 * _table3.heures.length) / 4
-    ),
+    heures: _table3.heures[2],
     values: _table3.values.slice(
       _table3.values.length / 2,
       (3 * _table3.values.length) / 4
@@ -339,13 +339,20 @@ export const loadTables = async ({ date, poste }) => {
   };
 
   const table33 = {
-    heures: _table3.heures.slice((3 * _table3.heures.length) / 4),
+    heures: _table3.heures[3],
     values: _table3.values.slice((3 * _table3.values.length) / 4),
   };
 
   // //page 1
-  // localStorage.setItem("table1", JSON.stringify(_table1));
-  // localStorage.setItem("table2", JSON.stringify(_table2));
+
+  localStorage.setItem(
+    "table1",
+    JSON.stringify({ values: _table1.values, heures: _table1.heures })
+  );
+  localStorage.setItem(
+    "table2",
+    JSON.stringify({ values: _table2.values, heures: _table2.heures })
+  );
 
   // // page 2
   localStorage.setItem("table3-0", JSON.stringify(table30));
@@ -353,8 +360,25 @@ export const loadTables = async ({ date, poste }) => {
   localStorage.setItem("table3-2", JSON.stringify(table32));
   localStorage.setItem("table3-3", JSON.stringify(table33));
 
-  // localStorage.setItem("table4", JSON.stringify(_table4));
-  // localStorage.setItem("table5", JSON.stringify(_table5));
-  // localStorage.setItem("observation", JSON.stringify(_observation));
-  // localStorage.setItem("Notes", JSON.stringify(_notes));
+  localStorage.setItem(
+    "table4",
+    JSON.stringify({ values: _table4.values, heures: _table4.heures })
+  );
+  localStorage.setItem(
+    "table5",
+    JSON.stringify({ values: _table5.values, heures: _table5.heures })
+  );
+  // PosteSelection
+  localStorage.setItem(
+    "PosteSelection",
+    JSON.stringify({
+      selectedPoste: _form.poste,
+      selectedTaille: _form.taille,
+      selectedDate: _form.date,
+      selectedLigne: _form.ligne,
+    })
+  );
+
+  localStorage.setItem("observation", JSON.stringify(_form.observation));
+  localStorage.setItem("Notes", JSON.stringify(_form.notes));
 };
