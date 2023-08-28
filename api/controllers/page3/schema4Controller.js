@@ -18,7 +18,7 @@ const addTable4 = async (req, res) => {
   const user_id = req.user._id;
 
   const { date, poste, heures, values } = req.body;
-  let observation = req.body.observation || "";
+
   try {
     const existingData = await Schema1Model.findOne({ date, poste });
     if (existingData) {
@@ -31,7 +31,7 @@ const addTable4 = async (req, res) => {
       poste,
       heures,
       values,
-      observation,
+
       user_id,
     });
 

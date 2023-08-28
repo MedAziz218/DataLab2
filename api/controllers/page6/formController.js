@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const FormModel = require("../../models/page5/formModel"); // Corrected model import
+const FormModel = require("../../models/page6/formModel"); // Corrected model import
 const User = require("../../models/userModel");
 // GET request to retrieve all Form data
 const getForm = async (req, res) => {

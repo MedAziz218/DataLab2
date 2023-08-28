@@ -18,10 +18,7 @@ const schema4Schema = new mongoose.Schema(
       type: [[String]],
       required: true,
     },
-    observation: {
-      type: String,
-
-    },
+  
     user_id: {
       type: String,
       required: true,

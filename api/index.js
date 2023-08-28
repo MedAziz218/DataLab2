@@ -17,7 +17,9 @@ const page1Routes = require("./routes/page1");
 const page2Routes = require("./routes/page2");
 const page3Routes = require("./routes/page3");
 const page4Routes = require("./routes/page4");
-const page5Routes = require("./routes/page5")
+const page5Routes = require("./routes/page5");
+
+const page6Routes = require("./routes/page6")
 // middleware
 app.use(express.json());
 app.use(morgan("dev"));
@@ -30,7 +32,7 @@ app.use("/api/page1", page1Routes);
 app.use("/api/page2", page2Routes);
 app.use("/api/page3", page3Routes);
 app.use("/api/page4", page4Routes);
-app.use("/api/page5", page5Routes);
+app.use("/api/page6", page6Routes);
 
 //connection to db
 
