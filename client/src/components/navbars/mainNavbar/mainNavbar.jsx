@@ -1,5 +1,12 @@
 import { useContext, useState } from "react";
-import { IconLogout } from "@tabler/icons-react";
+import {
+  IconLogout,
+  IconCalendar,
+  IconUser,
+  IconClock as Iconpost,
+  IconTextSize as IconTaille,
+  IconArrowBack
+} from "@tabler/icons-react";
 import {
   createStyles,
   Navbar,
@@ -7,23 +14,22 @@ import {
   Code,
   getStylesRef,
   rem,
+  Title,
 } from "@mantine/core";
 
 import logo from "../logo.svg";
-import {  NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { UserButton } from "components/userbutton/userbutton";
 import { logoutCall } from "apiCalls";
 import { AuthContext } from "context/AuthContext";
-import "./mainNavbar.css"
-
+import "./mainNavbar.css";
 const useStyles = createStyles((theme) => ({
   navbar: {
-    
-    backgroundColor: "#333333"
-    },
+    backgroundColor: "#333333",
+  },
 
   version: {
-    backgroundColor: "black",
+    backgroundColor: theme.fn.lighten("white", 0.1),
     color: theme.white,
     fontWeight: 700,
   },
@@ -32,8 +38,7 @@ const useStyles = createStyles((theme) => ({
     paddingBottom: theme.spacing.md,
     marginBottom: `calc(${theme.spacing.md} * 1.5)`,
     borderBottom: `${rem(1)} solid ${theme.fn.lighten(
-      theme.fn.variant({ variant: "filled", color: "white" })
-        .background,
+      "white",
       0.1
     )}`,
   },
@@ -42,8 +47,7 @@ const useStyles = createStyles((theme) => ({
     paddingTop: theme.spacing.md,
     marginTop: theme.spacing.md,
     borderTop: `${rem(1)} solid ${theme.fn.lighten(
-      theme.fn.variant({ variant: "filled", color: "white" })
-        .background,
+      "white",
       0.1
     )}`,
   },
@@ -60,7 +64,7 @@ const useStyles = createStyles((theme) => ({
     fontWeight: 500,
 
     "&:hover": {
-      backgroundColor: "dark"
+      backgroundColor: theme.fn.lighten("white", 0.1),
     },
   },
 
@@ -81,37 +85,37 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-
-
-export function MainNavbar({data,style}) {
-  const {user} = useContext(AuthContext)
+export function MainNavbar({ data, style }) {
+  const { user } = useContext(AuthContext);
   const { classes, cx } = useStyles();
   const [active, setActive] = useState("Billing");
-
-  const links = data.map((item) => (
-    <NavLink to={item.link}
-      
-      className={({ isActive, isPending }) =>
-      classes.link+" " + (isActive ? classes.linkActive : "")
-    }
-      key={item.label}
-      onClick={(event) => {
-        // event.preventDefault();
-        setActive(item.label);
-      }}
-    >
-      
-      <item.icon className={classes.linkIcon} stroke={1.5} />
-      <span>{item.label}</span>
-    </NavLink>
-  ));
+  const posteSelection = user.isAdmin
+    ? JSON.parse(localStorage.getItem("PosteSelection"))
+    : null;
+  const links = data.map(
+    (item) =>
+      !(user.isAdmin && item.link == "/validation") && (
+        <NavLink
+          to={(user.isAdmin ? "/viewData" : "") + item.link}
+          className={({ isActive, isPending }) =>
+            classes.link + " " + (isActive ? classes.linkActive : "")
+          }
+          key={item.label}
+          onClick={(event) => {
+            // event.preventDefault();
+            setActive(item.label);
+          }}
+        >
+          <item.icon className={classes.linkIcon} stroke={1.5} />
+          <span>{item.label}</span>
+        </NavLink>
+      )
+  );
 
   return (
- 
-
     <Navbar
-    id="mainNavbar"
-    style={style}
+      id="mainNavbar"
+      style={style}
       height={"100vh"}
       width={{ sm: 300 }}
       p="md"
@@ -126,11 +130,66 @@ export function MainNavbar({data,style}) {
         {links}
       </Navbar.Section>
 
+      {posteSelection && (
+        <Navbar.Section className={classes.footer}>
+          <NavLink
+            className={({ isActive, isPending }) =>
+              classes.link + " " +  classes.linkActive
+            }
+            to="/consultation"
+            onClick={(event) => {}}
+          >
+            <IconArrowBack className={classes.linkIcon} stroke={1.5} />
+            <span>{"Retourner "}</span>
+          </NavLink>
+          <NavLink
+            className={({ isActive, isPending }) =>
+              classes.link + " " 
+            }
+            to="#"
+            onClick={(event) => {}}
+          >
+            <IconUser className={classes.linkIcon} stroke={1.5} />
+            <span>{"Remplis par: " + posteSelection.username}</span>
+          </NavLink>
+          <NavLink
+            className={({ isActive, isPending }) =>
+              classes.link + " " 
+            }
+            to="#"
+            onClick={(event) => {}}
+          >
+            <IconCalendar className={classes.linkIcon} stroke={1.5} />
+            <span>{"Date: " + posteSelection.selectedDate}</span>
+          </NavLink>
+          <NavLink
+            className={({ isActive, isPending }) =>
+              classes.link + " " 
+            }
+            to="#"
+            onClick={(event) => {}}
+          >
+            <Iconpost className={classes.linkIcon} stroke={1.5} />
+            <span>{"Poste: " + posteSelection.selectedPoste}</span>
+          </NavLink>
+          <NavLink
+            className={({ isActive, isPending }) =>
+              classes.link + " " 
+            }
+            to="#"
+            onClick={(event) => {}}
+          >
+            <IconTaille className={classes.linkIcon} stroke={1.5} />
+            <span>{"Taille: " + posteSelection.selectedTaille}</span>
+          </NavLink>
+        </Navbar.Section>
+      )}
       <Navbar.Section className={classes.footer}>
-        <UserButton className={classes.link}
+        <UserButton
+          className={classes.link}
           // image="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=255&q=80"
           name={user.username}
-        email="utilisateur"
+          email="utilisateur"
         />
         {/* <a
           href="#"
@@ -144,13 +203,16 @@ export function MainNavbar({data,style}) {
         <a
           href="#"
           className={classes.link}
-          onClick={(event) => {event.preventDefault();logoutCall();window.location = "/"}}
+          onClick={(event) => {
+            event.preventDefault();
+            logoutCall();
+            window.location = "/";
+          }}
         >
           <IconLogout className={classes.linkIcon} stroke={1.5} />
           <span>Logout</span>
         </a>
       </Navbar.Section>
     </Navbar>
-
   );
 }

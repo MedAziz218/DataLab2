@@ -5,11 +5,12 @@ import { AiFillRightSquare } from "react-icons/ai"; // Import AiFillRightSquare 
 
 import { getAllForms } from "apiCalls";
 import { loadTables } from "apiCalls";
+import { useNavigate } from "react-router-dom";
 
 const SearchAndDataTable = ({ data }) => {
   const [filteredData, setFilteredData] = useState(data);
   const [fullData, setFullData] = useState([]);
-
+const navigate = useNavigate()
   const handleSearch = (dateA, dateB) => {
     const filtered = fullData.filter((item) => {
       const currentDate = new Date(item.date);
@@ -33,7 +34,10 @@ const SearchAndDataTable = ({ data }) => {
   }, []);
 
   const handleVisClick = async (date, poste) => {
-    await loadTables({ date, poste });
+
+   await loadTables(date,poste)
+   navigate("/viewData/controle")
+
   };
 
   return (

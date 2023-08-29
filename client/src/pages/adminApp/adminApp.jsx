@@ -85,7 +85,6 @@ export function AdminAppRoutes() {
         <Route path="mp" element={<MpPage />} />
         <Route path="equipements" element={<EquipementsPage />} />
         <Route path="notes" element={<NotesPage />} />
-        <Route path="validation" element={<ValidationPage />} />
       </Route>
     </Routes>
   );

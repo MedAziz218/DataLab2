@@ -285,8 +285,8 @@ const page5schema6URL = "/api/page5/schema6";
 const page5FormURL = "/api/page6/form";
 export const getAllForms = async () => {
   try {
-    const res =  await axios.get("/api/page6/form");
-    return res.data
+    const res = await axios.get("/api/page6/form");
+    return res.data;
   } catch (err) {
     return false;
   }
@@ -300,16 +300,24 @@ const sendSchema = async (url, body) => {
   }
 };
 
-export const loadTables = async ({ date, poste }) => {
-  let data = "hola";
+export const loadTables = async ( date, poste ) => {
+  let data = "";
+  localStorage.removeItem("table1");
+  localStorage.removeItem("table2");
+  localStorage.removeItem("table3-0");
+  localStorage.removeItem("table3-1");
+  localStorage.removeItem("table3-2");
+  localStorage.removeItem("table3-3");
+  localStorage.removeItem("table4");
+  localStorage.removeItem("table5");
+  localStorage.removeItem("PosteSelection");
+  localStorage.removeItem("observation");
+  localStorage.removeItem("Notes");
   try {
-    data = await axios.post(
-      "/api/form/getform",
-      JSON.stringify({
-        date: "2023-04-04",
-        poste: "NUIT",
-      })
-    );
+    data = await axios.post("/api/form/getform", {
+      date: date,
+      poste: poste,
+    });
     data = data.data;
   } catch (err) {
     console.log("problem", err);
@@ -377,6 +385,8 @@ export const loadTables = async ({ date, poste }) => {
   localStorage.setItem(
     "PosteSelection",
     JSON.stringify({
+      username:_form.username,
+      email: _form.email,
       selectedPoste: _form.poste,
       selectedTaille: _form.taille,
       selectedDate: _form.date,

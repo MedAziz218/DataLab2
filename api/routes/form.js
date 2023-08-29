@@ -12,6 +12,7 @@ const router = express.Router();
 const checkValidDatePoste = async (req, res) => {
   try {
     const { date, poste } = req.body;
+    console.log(date,poste)
     if (!date || !poste) {
       return res.status(400).json({
         error: "date and poste required",

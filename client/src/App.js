@@ -95,7 +95,7 @@ function App() {
     <MantineProvider
       withGlobalStyles
       withNormalizeCSS
-      theme={user ? customTheme : null}
+     
     >
       <div className="App">
         <Router>
