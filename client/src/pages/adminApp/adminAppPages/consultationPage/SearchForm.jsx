@@ -7,7 +7,7 @@ const SearchForm = ({ onSearch }) => {
   const oneWeekAgo = new Date();
   oneWeekAgo.setDate(currentDate.getDate() - 7);
 
-  const [date, setDate] = useState([currentDate, oneWeekAgo]);
+  const [date, setDate] = useState([null, null]);
   const [option, setOption] = useState("");
 
   const handleSubmit = (e) => {
@@ -55,6 +55,10 @@ const SearchForm = ({ onSearch }) => {
               </td> */}
               <td>
                 <button type="submit">Chercher</button>
+               </td>
+               <td>
+                <button type="submit" onClick={(e)=>{setDate([null,null])}}>Afficher Tout</button>
+
               </td>
             </tr>
           </tbody>
