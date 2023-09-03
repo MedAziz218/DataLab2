@@ -42,7 +42,7 @@ app.use("/api/form", formValidityRoutes);
 //connection to db
 
 const dbConnectionPromise = new Promise((resolve, reject) => {
-  console.log("Trying to Connect to DxxataBase");
+  console.log("Trying to Connect to DataBase");
 
   const connectWithRetry = () => {
     return mongoose.connect(process.env.MONGO_URI, {
