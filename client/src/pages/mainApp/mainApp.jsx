@@ -71,6 +71,8 @@ export function MainAppRoutes() {
   return (
     <Routes>
       <Route path="" element={<MainApp />}>
+      <Route exact path="" element={<Navigate to="controle" />} />
+
         <Route exact path="controle" element={<ControlePage />} />
         <Route exact path="/cisaillement" element={<CisaillementPage />} />
         <Route exact path="mp" element={<MpPage />} />

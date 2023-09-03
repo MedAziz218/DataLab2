@@ -69,6 +69,8 @@ export function AdminAppRoutes() {
   return (
     <Routes>
       <Route path="" element={<AdminApp />}>
+      <Route exact path="/" element={<Navigate to="utilisateur" />} />
+
         <Route exact path="/utilisateur" element={<UtilisateurPage />} />
         <Route exact path="/consultation" element={<ConsultationPage />} />
         <Route exact path="/graph" element={<GraphPage />} />

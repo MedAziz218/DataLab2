@@ -31,7 +31,9 @@ const formSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-});
+},
+{ timestamps: true },
+);
 
 const formModel = mongoose.model("form", formSchema); // Use mongoose.model() here
 

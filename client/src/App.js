@@ -1,6 +1,8 @@
 import { useContext } from "react";
 import {
-  BrowserRouter as Router,
+  // BrowserRouter as Router,//HashRouter
+  HashRouter as Router,//HashRouter
+
   Route,
   Routes,
   Navigate,
