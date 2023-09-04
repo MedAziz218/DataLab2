@@ -14,6 +14,8 @@ const helmet = require("helmet");
 // const workoutRoutes = require("./routes/workouts");
 const userRoutes = require("./routes/user");
 const formValidityRoutes = require("./routes/form");
+const graphRoutes = require("./routes/graph");
+
 
 const page1Routes = require("./routes/page1");
 const page2Routes = require("./routes/page2");
@@ -38,6 +40,8 @@ app.use("/api/page5", page5Routes);
 
 app.use("/api/page6", page6Routes);
 app.use("/api/form", formValidityRoutes);
+app.use("/api/graph", graphRoutes);
+
 
 //connection to db
 

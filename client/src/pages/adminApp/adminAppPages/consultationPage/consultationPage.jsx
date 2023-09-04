@@ -1,22 +1,14 @@
-import React, { useEffect, useState } from "react";
+import  { useState } from "react";
 import { Paper, Title } from "@mantine/core";
-import SearchAndDataTable from "./SearchAndDataTable";
-
-const dataa = [
-  { date: "2023-08-27", poste: "Matin", nomPrenom: "John Doe" },
-  { date: "2023-08-28", poste: "Nuit", nomPrenom: "Jane Smith" },
-  // Add more data entries
-];
-
-
+import ConsultationTable from "components/consultationTable";
 export default function ConsultationPage() {
-  const [data,setData] = useState(dataa)
+
   
   return (
     <div>
       <Paper shadow="sm" radius="md" p="sm" withBorder my={20}>
-        <Title>ConsultationPage</Title>
-        <SearchAndDataTable data={data} />
+        <Title>Tableau de fiches</Title>
+         <ConsultationTable/>
       </Paper>
     </div>
   );
