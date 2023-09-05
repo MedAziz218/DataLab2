@@ -1,11 +1,12 @@
 import {
-  IconBellRinging,
+  IconUsers,
   IconFingerprint,
   // IconKey,
   // IconSettings,
   // Icon2fa,
   // IconDatabaseImport,
-  IconReceipt2,
+  IconFileSearch,
+  IconGraph
   // IconSwitchHorizontal,
 } from "@tabler/icons-react";
 import { Route, Routes, Navigate, Outlet } from "react-router-dom";
@@ -27,10 +28,10 @@ const data = [
   {
     link: "/utilisateur",
     label: "Controle des utilisateurs",
-    icon: IconBellRinging,
+    icon: IconUsers,
   },
-  { link: "/consultation", label: "Consulter une fiche", icon: IconReceipt2 },
-  { link: "/graph", label: "Graphes", icon: IconFingerprint },
+  { link: "/consultation", label: "Consulter une fiche", icon: IconFileSearch },
+  { link: "/graph", label: "Courbes", icon: IconGraph },
   // { link: '', label: 'SSH Keys', icon: IconKey },
   // { link: '', label: 'Databases', icon: IconDatabaseImport },
   // { link: '', label: 'Authentication', icon: Icon2fa },

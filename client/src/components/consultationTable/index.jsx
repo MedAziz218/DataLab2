@@ -2,109 +2,38 @@ import { useMemo, useState, useEffect } from "react";
 import { MantineReactTable, useMantineReactTable } from "mantine-react-table";
 import { getAllForms } from "apiCalls";
 import { loadTables } from "apiCalls";
-import { Flex, Button, Tooltip, ActionIcon } from "@mantine/core";
-import {
-  IconUserCircle,
-  IconSend,
-  IconSquareChevronsRightFilled,
-  IconSquareChevronRightFilled,
-} from "@tabler/icons-react";
-import {
-  IconEdit,
-  IconTrash,
-  IconUserCheck,
-  IconSquareArrowRightFilled,
-} from "@tabler/icons-react";
-import { AiFillRightSquare } from "react-icons/ai";
+import { Flex, Button, Tooltip, ActionIcon, Text } from "@mantine/core";
+import { IconSquareChevronRightFilled } from "@tabler/icons-react";
+import { IconTrash } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
-//nested data is ok, see accessorKeys in ColumnDef below
-const data = [
-  {
-    name: {
-      firstName: "Zachary",
-      lastName: "Davis",
-    },
-    address: "261 Battle Ford",
-    city: "Columbus",
-    state: "Ohio",
-  },
-  {
-    name: {
-      firstName: "Robert",
-      lastName: "Smith",
-    },
-    address: "566 Brakus Inlet",
-    city: "Westerville",
-    state: "West Virginia",
-  },
-  {
-    name: {
-      firstName: "Kevin",
-      lastName: "Yan",
-    },
-    address: "7777 Kuhic Knoll",
-    city: "South Linda",
-    state: "West Virginia",
-  },
-  {
-    name: {
-      firstName: "John",
-      lastName: "Upton",
-    },
-    address: "722 Emie Stream",
-    city: "Huntington",
-    state: "Washington",
-  },
-  {
-    name: {
-      firstName: "Nathan",
-      lastName: "Harris",
-    },
-    address: "1 Kuhic Knoll",
-    city: "Ohiowa",
-    state: "Nebraska",
-  },
-];
-// createdAt
-// :
-// "2023-08-29T06:44:54.070Z"
-// date
-// :
-// "2023-08-29"
-// email
-// :
-// "700"
-// ligne
-// :
-// "FAM2"
-// notes
-// :
-// "notes"
-// observation
-// :
-// "observation"
-// poste
-// :
-// "MATIN"
-// taille
-// :
-// "T2"
-// updatedAt
-// :
-// "2023-08-29T06:44:54.070Z"
-// user_id
-// :
-// "64ec7ae04da520d15d22259b"
-// username
-// :
-// "Ahmed Bouaziz"
-// __v
-// :
-// 0
-// _id
-// :
-// "64ed93e640426f60dbdd099b"
+import { ModalsProvider, modals } from "@mantine/modals";
+import { formatDateToYearMonthDay } from "utils";
+import { deleteForm } from "apiCalls";
 const ConsultationTable = () => {
+  const openDeleteConfirmModal = (row) =>
+    modals.openConfirmModal({
+      title: (
+        <Text color="red">
+          <strong>
+            {"Êtes-vous sûr de vouloir supprimer ce formulaire ?"}
+          </strong>
+        </Text>
+      ),
+      children: (
+        <Text>
+          Êtes-vous sûr de vouloir supprimer{" "}
+          <strong>
+            <em>
+              {row.original.date} {row.original.poste}{" "}
+            </em>
+          </strong>{" "}
+          ? Cette action ne peut pas être annulée.
+        </Text>
+      ),
+      labels: { confirm: "Supprimer", cancel: "Annuler" },
+      confirmProps: { color: "red" },
+      onConfirm: () => { deleteForm(row.original.date,row.original.poste).then(()=>refreshTable()) },
+    });
   //should be memoized or stable
   const navigate = useNavigate();
   const columns = useMemo(
@@ -121,7 +50,7 @@ const ConsultationTable = () => {
         filterVariant: "date-range",
         sortingFn: "datetime",
         enableColumnFilterModes: false, //keep this as only date-range filter with between inclusive filterFn
-        Cell: ({ cell }) => cell.getValue()?.toLocaleDateString(), //render Date as a string
+        Cell: ({ cell }) => formatDateToYearMonthDay(cell.getValue()), //render Date as a string
         Header: ({ column }) => <em>{column.columnDef.header}</em>, //custom header markup
       },
 
@@ -146,13 +75,15 @@ const ConsultationTable = () => {
     navigate("/viewData/controle");
   };
   const [data, setFullData] = useState([]);
-  useEffect(() => {
+  useEffect(() => {refreshTable()}, []);
+
+  const refreshTable = () => {
     getAllForms().then((val) => {
-      console.log("valueeee", val);
+      // console.log("valueeee", val);
       // val.sort((a, b) => new Date(b.date) - new Date(a.date));
       setFullData(val);
     });
-  }, []);
+  };
   const table = useMantineReactTable({
     columns,
     data, //must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
@@ -164,23 +95,23 @@ const ConsultationTable = () => {
 
     initialState: { showColumnFilters: true, showGlobalFilter: true },
     positionActionsColumn: "first",
-    renderTopToolbarCustomActions: ({ table }) => (
-      <Button
-        color="green"
-        onClick={() => {
-          for (let i = 0; i < data.length; i++)
-            try {
-              {
-                console.log(table.getRow(i).original);
-              }
-            } catch {
-              console.log("done");
-            }
-        }}
-      >
-        Generer les courbes a partir de ces fiches
-      </Button>
-    ),
+    // renderTopToolbarCustomActions: ({ table }) => (
+    //   <Button
+    //     color="green"
+    //     onClick={() => {
+    //       for (let i = 0; i < data.length; i++)
+    //         try {
+    //           {
+    //             console.log(table.getRow(i).original);
+    //           }
+    //         } catch {
+    //           console.log("done");
+    //         }
+    //     }}
+    //   >
+    //     Generer les courbes a partir de ces fiches
+    //   </Button>
+    // ),
     renderRowActions: ({ row, table }) => (
       <Flex gap="md">
         <Tooltip label="Voir">
@@ -191,6 +122,11 @@ const ConsultationTable = () => {
             }}
           >
             <IconSquareChevronRightFilled />
+          </ActionIcon>
+        </Tooltip>
+        <Tooltip label="supprimer">
+          <ActionIcon color="red" onClick={() => openDeleteConfirmModal(row)}>
+            <IconTrash />
           </ActionIcon>
         </Tooltip>
       </Flex>
@@ -204,7 +140,11 @@ const ConsultationTable = () => {
     },
   });
 
-  return <MantineReactTable table={table} />;
+  return (
+    <ModalsProvider>
+      <MantineReactTable table={table} />;
+    </ModalsProvider>
+  );
 };
 
 export default ConsultationTable;

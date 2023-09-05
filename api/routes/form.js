@@ -67,5 +67,41 @@ const getform = async (req, res) => {
   }
 };
 
+
+
+const deleteForm = async (req, res) => {
+  try {
+    const { date, poste } = req.body;
+    
+    if (!date || !poste) {
+      return res.status(400).json({
+        error: "date and poste required",
+      });
+    }
+
+    // Find and delete the form
+    const dForm = await FormModel.deleteOne({ date, poste });
+    if (!dForm){
+      res.status(401).json({ message: "Data with the same (date, poste) do not exists." });
+
+    }
+    await Schema1Model.findOneAndDelete({ date, poste })
+    await Schema2Model.findOneAndDelete({ date, poste })
+    await Schema3Model.findOneAndDelete({ date, poste })
+    await Schema4Model.findOneAndDelete({ date, poste })
+    await Schema6Model.findOneAndDelete({ date, poste })
+    // You can also delete related data from other schemas if needed
+
+    res.status(200).json({ success: "Form deleted successfully" ,dForm});
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      error: "Internal Server Error",
+    });
+  }
+};
+
+
+router.post("/deleteform", requireAdminAuth, deleteForm); 
 router.post("/getform", requireAuth, getform);
 module.exports = router;

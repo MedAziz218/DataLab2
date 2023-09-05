@@ -5,7 +5,8 @@ import {
   IconUser,
   IconClock as Iconpost,
   IconTextSize as IconTaille,
-  IconArrowBack
+  IconArrowBack,
+  IconSettings
 } from "@tabler/icons-react";
 import {
   createStyles,
@@ -15,8 +16,10 @@ import {
   getStylesRef,
   rem,
   Title,
+  Box,
 } from "@mantine/core";
 
+import ChangePasswordModal from "components/changepasswordModal";
 import logo from "../logo.svg";
 import { NavLink } from "react-router-dom";
 import { UserButton } from "components/userbutton/userbutton";
@@ -121,6 +124,7 @@ export function MainNavbar({ data, style }) {
       p="md"
       className={classes.navbar}
     >
+      <ChangePasswordModal/>
       <Navbar.Section grow>
         <Group className={classes.header} position="apart">
           <img src={logo} className="logo" alt="logo" />
@@ -185,12 +189,27 @@ export function MainNavbar({ data, style }) {
         </Navbar.Section>
       )}
       <Navbar.Section className={classes.footer}>
+        <Box sx={{display:"flex", alignItems:"center"}}>
+
         <UserButton
           className={classes.link}
           // image="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=255&q=80"
           name={user.username}
           email="utilisateur"
         />
+       {!user.isAdmin && <a
+        style={{marginRight:"auto"}}
+          href="#"
+          className={classes.link}
+          onClick={(event) => {
+            event.preventDefault();
+            
+            
+          }}
+          >
+        <IconSettings style={{marginRight:"auto",marginLeft:"auto"}} className={classes.linkIcon} stroke={1.5}/>
+        </a>  }      
+        </Box>
         {/* <a
           href="#"
           className={classes.link}
@@ -209,6 +228,7 @@ export function MainNavbar({ data, style }) {
             window.location = "/";
           }}
         >
+          
           <IconLogout className={classes.linkIcon} stroke={1.5} />
           <span>Logout</span>
         </a>

@@ -5,6 +5,9 @@ const loginURL = "/api/user/login";
 const createUserURL = "/api/user/signup";
 const checkIsUserURL = "/api/user/isUser";
 const checkIsAdminURL = "/api/user/isAdmin";
+const graphURL = "/api/graph/";
+const DeleteFormURL = "/api/form/deleteform"
+
 //process.env.REACT_APP_BACK_ADRESS+"/auth/login"
 
 export function sleep(ms) {
@@ -396,4 +399,42 @@ export const loadTables = async ( date, poste ) => {
 
   localStorage.setItem("observation", JSON.stringify(_form.observation));
   localStorage.setItem("Notes", JSON.stringify(_form.notes));
+};
+
+
+
+export const getGraphData = async (type,params) => {
+
+  try {
+   
+    params.postes = ["MATIN", "SOIR", "NUIT"]
+    const res = await axios.post(graphURL+type, params);
+    
+    // console.log("got DATA", res.data);
+    return res.data;
+
+  } catch (err) {
+    let error_message = err.response ? err.response.data : err.message;
+    console.log("error", err);
+
+    if (error_message.error) error_message = error_message.error;
+    else error_message = "Probleme de Connection";
+
+    return [];
+  }
+};
+
+export const deleteForm = async (date,poste) => {
+  try {
+    console.log(DeleteFormURL );
+    const res = await axios.post(DeleteFormURL , {date,poste});
+
+    return res.data;
+  } catch (err) {
+    let error_message = err.response ? err.response.data : err.message;
+    if (error_message.error) error_message = error_message.error;
+    else error_message = "Probleme de Connection";
+
+    return error_message;
+  }
 };
