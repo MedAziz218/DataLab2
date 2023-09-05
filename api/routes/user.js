@@ -1,5 +1,5 @@
 const express = require("express");
-const {requireAuth,requireAdminAuth} = require("../middleware/requireAuth");
+const { requireAuth, requireAdminAuth } = require("../middleware/requireAuth");
 
 // controller functions
 const {
@@ -8,6 +8,7 @@ const {
   deleteUser,
   updateUser,
   GetUsers,
+  changeUserPass,
 } = require("../controllers/userController");
 
 const router = express.Router();
@@ -27,9 +28,11 @@ router.post("/login", loginUser);
 
 // signup route
 router.get("/", requireAdminAuth, GetUsers);
-router.post("/signup",requireAdminAuth, signupUser);
+router.post("/signup", requireAdminAuth, signupUser);
 
 router.delete("/:email", requireAdminAuth, deleteUser);
 router.put("/:email", requireAdminAuth, updateUser);
+router.post("/changepass", requireAuth, changeUserPass);
+
 
 module.exports = router;

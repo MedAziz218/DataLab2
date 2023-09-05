@@ -1,49 +1,79 @@
-import React, { useState } from 'react';
-import { Modal, Input, Button } from '@mantine/core';
+import React, { useEffect, useState } from "react";
+import { Modal, Input, Button, Alert } from "@mantine/core";
+import { PasswordInput } from "@mantine/core";
+import { changePass } from "apiCalls";
+const ChangePasswordModal = ({ email, opened, onClose }) => {
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-const ChangePasswordModal = ({ isOpen, onClose, onChangePassword }) => {
-  const [oldPassword, setOldPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [oldpassError, setOldPasError] = useState(null);
+  const [newpassError, setNewPasError] = useState(null);
+  const [confirmpassError, setConfirmPasError] = useState(null);
 
-  const handleChangePassword = () => {
+  const [successMessage, setSuccessMessage] = useState(null);
+  useEffect(()=>{
+    setOldPassword("");setNewPassword("");setConfirmPassword("");setOldPasError("");setConfirmPasError("")
+    setNewPasError("")
+  },[])
+  const onChangePassword = (oldPass, newPass) => {};
+  const handleChangePassword = (e) => {
+    e.preventDefault();
+    setOldPasError(null);
+    setConfirmPasError(null);
     // Validate passwords
     if (newPassword !== confirmPassword) {
       // Handle password mismatch
-      console.error('New password and confirm password do not match');
+      setConfirmPasError("New password and confirm password do not match");
       return;
     }
-
+    changePass(email, oldPassword, newPassword).then((res) => {
+      console.log(res);
+      if (res.error){
+        setOldPasError(res.error)
+      }
+      else if (res.success){
+        setSuccessMessage(res.success)
+      }
+    });
     // Send a request to change the password with oldPassword and newPassword
     onChangePassword(oldPassword, newPassword);
 
     // Close the modal
-    onClose();
+    // onClose();
   };
 
   return (
-    <Modal title="Change Password" isOpen={isOpen} onClose={onClose}>
+    <Modal title="Change Password" opened={opened} onClose={onClose}>
       <div>
-        <Input
+        { successMessage&&<Alert title={successMessage} color="green"></Alert>}
+        <PasswordInput
+          placeholder="Old Password"
           label="Old Password"
-          type="password"
+          withAsterisk
           value={oldPassword}
-          onChange={(event) => setOldPassword(event.target.value)}
+          error={oldpassError}
+          onChange={(event) => setOldPassword(event.currentTarget.value)}
         />
-        <Input
+        <PasswordInput
+          placeholder="New Password"
           label="New Password"
-          type="password"
+          withAsterisk
           value={newPassword}
-          onChange={(event) => setNewPassword(event.target.value)}
+          onChange={(event) => setNewPassword(event.currentTarget.value)}
         />
-        <Input
+        <PasswordInput
+          placeholder="Confirm New Password"
           label="Confirm New Password"
-          type="password"
+          withAsterisk
+          error={confirmpassError}
           value={confirmPassword}
-          onChange={(event) => setConfirmPassword(event.target.value)}
+          onChange={(event) => setConfirmPassword(event.currentTarget.value)}
         />
       </div>
-      <Button onClick={handleChangePassword}>Change Password</Button>
+      <Button mt={10} onClick={handleChangePassword}>
+        Change Password
+      </Button>
     </Modal>
   );
 };

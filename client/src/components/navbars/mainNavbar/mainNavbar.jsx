@@ -26,6 +26,7 @@ import { UserButton } from "components/userbutton/userbutton";
 import { logoutCall } from "apiCalls";
 import { AuthContext } from "context/AuthContext";
 import "./mainNavbar.css";
+import { useDisclosure } from "@mantine/hooks";
 const useStyles = createStyles((theme) => ({
   navbar: {
     backgroundColor: "#333333",
@@ -89,6 +90,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export function MainNavbar({ data, style }) {
+  const [opened, { open, close }] = useDisclosure(false);
   const { user } = useContext(AuthContext);
   const { classes, cx } = useStyles();
   const [active, setActive] = useState("Billing");
@@ -124,7 +126,7 @@ export function MainNavbar({ data, style }) {
       p="md"
       className={classes.navbar}
     >
-      <ChangePasswordModal/>
+      <ChangePasswordModal email={user.email}  opened={opened} onClose={close}/>
       <Navbar.Section grow>
         <Group className={classes.header} position="apart">
           <img src={logo} className="logo" alt="logo" />
@@ -203,7 +205,7 @@ export function MainNavbar({ data, style }) {
           className={classes.link}
           onClick={(event) => {
             event.preventDefault();
-            
+            open()
             
           }}
           >

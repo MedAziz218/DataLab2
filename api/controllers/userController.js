@@ -59,11 +59,11 @@ const deleteUser = async (req, res) => {
   console.log(email);
   try {
     const adminUser = await User.findOne({ email }); // Change to the actual admin email
-    console.log(adminUser," >> admin")
+    console.log(adminUser, " >> admin");
     if (adminUser && adminUser.isAdmin) {
       return res.status(400).json({ error: "Admin user cannot be deleted." });
     }
-    
+
     const deletedUser = await User.findOneAndDelete({ email });
 
     if (!deletedUser) {
@@ -100,4 +100,54 @@ const updateUser = async (req, res) => {
   }
 };
 
-module.exports = { signupUser, loginUser, GetUsers, deleteUser, updateUser };
+const changeUserPass = async (req, res) => {
+  const { email, oldPass, newPass } = req.body; // Assuming userId is passed as a URL parameter
+  const authUser = req.user;
+  if (!email || !oldPass || ! newPass){
+    return res.status(400).json({ error: "Bad Request" });
+
+  }
+  if (!authUser) {
+    return res.status(403).json({ error: "unauthorized" });
+  }
+  console.log("here:",authUser,email)
+  if (String(authUser.email) !== String(email)){
+    return res.status(403).json({ error: "unauthorized" });
+  }
+
+  try {
+    const user = await User.login(email, oldPass);
+  }
+  catch{
+    return res.status(403).json({ error: "Old password you entered is not correct" });
+  }
+
+  let hashedPass
+  if (newPass) {
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPass, salt);
+    hashedPass = hashedPassword;
+  }
+  try {
+    const updatedUser = await User.findOneAndUpdate({ email }, {password:hashedPass}, {
+      new: true,
+    });
+
+    if (!updatedUser) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.status(200).json({success:"Password Changed successfully"});
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = {
+  signupUser,
+  loginUser,
+  GetUsers,
+  deleteUser,
+  updateUser,
+  changeUserPass,
+};
