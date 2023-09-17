@@ -19,7 +19,7 @@ function flattenArray(arr) {
   const flattened = [];
   for (let cell of arr) {
     if (!isNaN(cell) && cell) {
-      flattened.push(parseInt(cell, 10));
+      flattened.push(parseFloat(cell, 10));
     }
   }
   return flattened;
