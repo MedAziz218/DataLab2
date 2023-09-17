@@ -9,7 +9,7 @@ function flattenTable(table) {
   for (let row of table) {
     for (let cell of row) {
       if (!isNaN(cell) && cell) {
-        flattened.push(parseInt(cell, 10));
+        flattened.push(parseFloat(cell, 10));
       }
     }
   }
@@ -81,7 +81,7 @@ const getDataPoids = async (req, res) => {
 
     // Query the database to find documents matching the criteria.
     const data = await Schema2Model.find(makeQuery(startDate, endDate, postes));
-
+    
     let list = [];
     for (let i = 0; i < data.length; i++) {
       const f = flattenTable(data[i].values[0].slice(1));

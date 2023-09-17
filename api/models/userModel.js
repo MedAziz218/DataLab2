@@ -24,7 +24,7 @@ const userSchema = new Schema({
 });
 
 // static signup method
-userSchema.statics.signup = async function (username, email, password) {
+userSchema.statics.signup = async function (username, email, password,isAdmin=false) {
   if (!email || !password) {
     throw Error(
       "Veuillez entrer votre matricule et mot de passe pour vous connecter."
@@ -40,7 +40,7 @@ userSchema.statics.signup = async function (username, email, password) {
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(password, salt);
 
-  const user = await this.create({ username, email, password: hash });
+  const user = await this.create({ username, email, password: hash,isAdmin:isAdmin });
 
   return user;
 };

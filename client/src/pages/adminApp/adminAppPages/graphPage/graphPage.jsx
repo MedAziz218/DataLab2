@@ -18,7 +18,7 @@ export default function GraphPage() {
     // console.log("params: ",params)
     getGraphData(typeValue,params ).then((res) => {
       setData(res);
-      // console.log("ress: ", res);
+      console.log("ress: ", res);
     });
   }, [startDate, endDate, typeValue]);
   return (

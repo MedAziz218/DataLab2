@@ -53,7 +53,22 @@ const signupUser = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+// reset  Admin
+const resetAdmin = async (req, res) => {
+  const username = "Mehrez Jammazi";
+  const email = "730"
+  const password = "1234"
 
+  try {
+    const user = await User.signup(username, email, password,isAdmin=true);
+    // create a token
+    //  const token=createToken(user._id)
+    // res.status(200).json({email,token})
+    res.status(200).json({ success: "User Created Successfully" });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
 const deleteUser = async (req, res) => {
   const { email } = req.params; // Assuming userId is passed as a URL parameter
   console.log(email);
@@ -150,4 +165,5 @@ module.exports = {
   deleteUser,
   updateUser,
   changeUserPass,
+  resetAdmin,
 };

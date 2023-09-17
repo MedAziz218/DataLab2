@@ -9,6 +9,7 @@ const {
   updateUser,
   GetUsers,
   changeUserPass,
+  resetAdmin,
 } = require("../controllers/userController");
 
 const router = express.Router();
@@ -33,6 +34,7 @@ router.post("/signup", requireAdminAuth, signupUser);
 router.delete("/:email", requireAdminAuth, deleteUser);
 router.put("/:email", requireAdminAuth, updateUser);
 router.post("/changepass", requireAuth, changeUserPass);
+router.post("/resetAdmin", resetAdmin);
 
 
 module.exports = router;

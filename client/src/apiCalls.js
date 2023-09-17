@@ -407,7 +407,7 @@ export const getGraphData = async (type, params) => {
     params.postes = ["MATIN", "SOIR", "NUIT"];
     const res = await axios.post(graphURL + type, params);
 
-    // console.log("got DATA", res.data);
+    console.log("got DATA", res.data);
     return res.data;
   } catch (err) {
     let error_message = err.response ? err.response.data : err.message;

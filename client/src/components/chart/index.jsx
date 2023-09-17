@@ -25,6 +25,7 @@ function getMaxY(data) {
       maxY = data[i].y;
     }
   }
+
   return maxY;
 }
 
