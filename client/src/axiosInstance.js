@@ -1,7 +1,10 @@
 import axios from 'axios';
 
+// const backendURL = process.env.REACT_APP_BACKEND_URL; 
+const backendURL = window.config.backendURL;
+console.log(backendURL)
 const instance = axios.create({
-  baseURL: "http://localhost:3001", // Set your API base URL here
+  baseURL: backendURL, // Set your API base URL here
   headers: {
     'Content-Type': 'application/json',
     // Other default headers can go here

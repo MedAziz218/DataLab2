@@ -1,11 +1,11 @@
 import {
-  IconBellRinging,
-  IconFingerprint,
-  IconKey,
+  IconTestPipeOff,
+  IconBoxSeam,
+  IconHammer,
   IconSettings,
-  Icon2fa,
-  IconDatabaseImport,
-  IconReceipt2,
+  IconFileCheck,
+  IconNotes,
+  IconCut,
   IconSwitchHorizontal,
   IconLogout,
 } from "@tabler/icons-react";
@@ -20,24 +20,18 @@ import EquipementsPage from "./mainAppPages/equipementsPage/equipementsPage";
 import NotesPage from "./mainAppPages/notesPage/notesPage";
 import ValidationPage from "./mainAppPages/validationPage/validationPage";
 import "./mainApp.css"
-function Found() {
-  return <div>Found</div>;
-}
-function Found2() {
-  return <div>Found2</div>;
-}
 
 const data = [
   {
     link: "/controle",
     label: "Feuille de controle Laboratoire",
-    icon: IconBellRinging,
+    icon: IconTestPipeOff,
   },
-  { link: "/cisaillement", label: "Test de cisaillement", icon: IconReceipt2 },
-  { link: "/mp", label: "Matiere Premiere", icon: IconFingerprint },
-  { link: "/equipements", label: "Les equipements de controle", icon: IconKey },
-  { link: "/notes", label: "Notes", icon: IconDatabaseImport },
-  { link: "/validation", label: "Validation", icon: Icon2fa },
+  { link: "/cisaillement", label: "Test de cisaillement", icon: IconCut },
+  { link: "/mp", label: "Matiere Premiere", icon: IconBoxSeam },
+  { link: "/equipements", label: "Les equipements de controle", icon: IconHammer },
+  { link: "/notes", label: "Notes", icon: IconNotes },
+  { link: "/validation", label: "Validation", icon: IconFileCheck },
   // { link: "", label: "Other Settings", icon: IconSettings },
 ];
 export function MainApp() {

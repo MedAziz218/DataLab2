@@ -1,11 +1,15 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Button, Popover, TextInput, Title } from "@mantine/core";
 
 function CiblePicker({ value, onChange }) {
   const [opened, setOpened] = useState(false);
   const [inputValue, setInputValue] = useState(value);
   const inputRef = useRef(null); // Ref to hold the input element reference
-
+  useEffect(() => {
+    if (inputValue == "cible") {
+      setInputValue("");
+    }
+  }, []);
   const handleButtonPress = (text) => {
     setInputValue((prevValue) => prevValue + text);
     if (inputRef.current) {
@@ -14,7 +18,11 @@ function CiblePicker({ value, onChange }) {
   };
 
   const handleValidate = () => {
-    onChange(inputValue);
+    if (!inputValue) {
+      onChange("cible");
+    } else {
+      onChange(inputValue);
+    }
     setOpened(false);
   };
 
@@ -40,13 +48,18 @@ function CiblePicker({ value, onChange }) {
       </Popover.Target>
       <Popover.Dropdown>
         <form>
-          <div style={{ display: "flex", alignItems: "center", marginBottom: "8px" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              marginBottom: "8px",
+            }}
+          >
             <TextInput
               ref={inputRef} // Attach the ref to the input element
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               style={{ marginRight: "8px" }}
-
             />
             <Button
               type="submit"
@@ -73,15 +86,15 @@ function CiblePicker({ value, onChange }) {
             >
               ±
             </Button>
-            <Button
-              onClick={() => handleButtonPress("≥")}
-            >
-              ≥
-            </Button>
+            <Button onClick={() => handleButtonPress("≥")}>≥</Button>
           </div>
-          <div style={{ display: "flex", justifyContent: "center", marginTop: "8px" }}>
-            
-          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              marginTop: "8px",
+            }}
+          ></div>
         </form>
       </Popover.Dropdown>
     </Popover>

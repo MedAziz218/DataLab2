@@ -18,10 +18,9 @@ function flattenTable(table) {
 function flattenArray(arr) {
   const flattened = [];
   for (let cell of arr) {
-      if (!isNaN(cell) && cell) {
-        flattened.push(parseInt(cell, 10));
-      }
-
+    if (!isNaN(cell) && cell) {
+      flattened.push(parseInt(cell, 10));
+    }
   }
   return flattened;
 }
@@ -55,6 +54,17 @@ function makeQuery(startDate, endDate, postes) {
   }
   return query;
 }
+function filterOddIndexes(list) {
+  // Create an empty array to store the filtered elements
+  const filteredList = [];
+
+  // Iterate through the input list, starting from the second element (index 1)
+  for (let i = 1; i < list.length; i += 2) {
+    filteredList.push(list[i]);
+  }
+
+  return filteredList;
+}
 const router = express.Router();
 
 const ggg = (req, res) => {
@@ -69,9 +79,8 @@ const getDataPoids = async (req, res) => {
   try {
     const { startDate, endDate, postes } = req.body;
 
-
     // Query the database to find documents matching the criteria.
-    const data = await Schema2Model.find( makeQuery(startDate,endDate,postes));
+    const data = await Schema2Model.find(makeQuery(startDate, endDate, postes));
 
     let list = [];
     for (let i = 0; i < data.length; i++) {
@@ -95,7 +104,7 @@ const getDataSAP = async (req, res) => {
     const { startDate, endDate, postes } = req.body;
 
     // Query the database to find documents matching the criteria.
-    const data = await Schema2Model.find( makeQuery(startDate,endDate,postes));
+    const data = await Schema2Model.find(makeQuery(startDate, endDate, postes));
 
     let list = [];
     for (let i = 0; i < data.length; i++) {
@@ -119,24 +128,23 @@ const getDataOS = async (req, res) => {
     const { startDate, endDate, postes } = req.body;
 
     // Query the database to find documents matching the criteria.
-    const data = await Schema3Model.find( makeQuery(startDate,endDate,postes));
+    const data = await Schema3Model.find(makeQuery(startDate, endDate, postes));
 
     let list = [];
-    let i=0;
-    for ( i = 0; i < data.length; i++) {
-      for (const k of [0,6,12,18]) {
-       
-      const f = flattenArray(data[i].values[k].slice(1,10))
+    let i = 0;
+    for (i = 0; i < data.length; i++) {
+      for (const k of [0, 6, 12, 18]) {
+        let values = filterOddIndexes(data[i].values[k].slice(1, 10));
+        const f = flattenArray(values);
 
-      for (let j = 0; j < f.length; j++) {
-        list.push({ x: `${data[i].date} ${data[i].poste}`, y: f[j] });
-    
+        for (let j = 0; j < f.length; j++) {
+          list.push({ x: `${data[i].date} ${data[i].poste}`, y: f[j] });
+        }
       }
-    }
     }
 
     // list = list.sort(customSort);
-    res.json(  list );
+    res.json(list);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error", err: error });
@@ -148,24 +156,24 @@ const getDataMS = async (req, res) => {
     const { startDate, endDate, postes } = req.body;
 
     // Query the database to find documents matching the criteria.
-    const data = await Schema3Model.find( makeQuery(startDate,endDate,postes));
+    const data = await Schema3Model.find(makeQuery(startDate, endDate, postes));
 
     let list = [];
-    let i=0;
-    for ( i = 0; i < data.length; i++) {
-      for (const k of [1,7,13,17]) {
-       
-      const f = flattenArray(data[i].values[k].slice(1,10))
+    let i = 0;
+    for (i = 0; i < data.length; i++) {
+      for (const k of [1, 7, 13, 17]) {
+        let values = filterOddIndexes(data[i].values[k].slice(1, 10));
 
-      for (let j = 0; j < f.length; j++) {
-        list.push({ x: `${data[i].date} ${data[i].poste}`, y: f[j] });
-    
+        const f = flattenArray(values);
+
+        for (let j = 0; j < f.length; j++) {
+          list.push({ x: `${data[i].date} ${data[i].poste}`, y: f[j] });
+        }
       }
-    }
     }
 
     // list = list.sort(customSort);
-    res.json(  list );
+    res.json(list);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error", err: error });
@@ -176,7 +184,5 @@ router.post("/poids", getDataPoids);
 router.post("/sap", getDataSAP);
 router.post("/os", getDataOS);
 router.post("/ms", getDataMS);
-
-
 
 module.exports = router;

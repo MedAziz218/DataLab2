@@ -6,7 +6,8 @@ import {
   IconClock as Iconpost,
   IconTextSize as IconTaille,
   IconArrowBack,
-  IconSettings
+  IconSettings,
+  IconClockEdit,
 } from "@tabler/icons-react";
 import {
   createStyles,
@@ -19,7 +20,6 @@ import {
   Box,
 } from "@mantine/core";
 
-import ChangePasswordModal from "components/changepasswordModal";
 import logo from "../logo.svg";
 import { NavLink } from "react-router-dom";
 import { UserButton } from "components/userbutton/userbutton";
@@ -27,6 +27,8 @@ import { logoutCall } from "apiCalls";
 import { AuthContext } from "context/AuthContext";
 import "./mainNavbar.css";
 import { useDisclosure } from "@mantine/hooks";
+import ChangePasswordModal from "components/changepasswordModal";
+import { formatDateToYearMonthDayHourMinute } from "utils";
 const useStyles = createStyles((theme) => ({
   navbar: {
     backgroundColor: "#333333",
@@ -187,6 +189,16 @@ export function MainNavbar({ data, style }) {
           >
             <IconTaille className={classes.linkIcon} stroke={1.5} />
             <span>{"Taille: " + posteSelection.selectedTaille}</span>
+          </NavLink>
+          <NavLink
+            className={({ isActive, isPending }) =>
+              classes.link + " " 
+            }
+            to="#"
+            onClick={(event) => {}}
+          >
+            <IconClockEdit className={classes.linkIcon} stroke={1.5} />
+            <span>{"Créé le: " + formatDateToYearMonthDayHourMinute( new Date(posteSelection.createdAt) )}</span>
           </NavLink>
         </Navbar.Section>
       )}

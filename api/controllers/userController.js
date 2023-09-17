@@ -119,7 +119,7 @@ const changeUserPass = async (req, res) => {
     const user = await User.login(email, oldPass);
   }
   catch{
-    return res.status(403).json({ error: "Old password you entered is not correct" });
+    return res.status(403).json({ error: "Mot de passe incorrect" });
   }
 
   let hashedPass

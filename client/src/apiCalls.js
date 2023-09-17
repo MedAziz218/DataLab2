@@ -394,6 +394,7 @@ export const loadTables = async (date, poste) => {
       selectedTaille: _form.taille,
       selectedDate: _form.date,
       selectedLigne: _form.ligne,
+      createdAt:_form.createdAt,
     })
   );
 
