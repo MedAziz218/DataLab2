@@ -1,92 +1,31 @@
-import {
-  Button,
-  Popover,
-  Tabs,
-  TextInput,
-  Title,
-  FocusTrap,
-} from "@mantine/core";
-import { useEffect, useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { Button, Popover, TextInput, Title } from "@mantine/core";
 
-function isValidCible(str) {
-  if (str.split("≤").length - 1 == 2) {
-    let arr = str.split("≤");
-    return "≤";
-  } else if (str.split("±").length - 1 == 1) {
-    let arr = str.split("±");
-
-    return "±";
-  }
-  return false;
-}
-function CiblePicker({
-  value,
-  onChange,
-  defaultMode = "incertitude", // "incertitude" || "intervalle",
-}) {
+function CiblePicker({ value, onChange }) {
   const [opened, setOpened] = useState(false);
-  const [mode, setMode] = useState(defaultMode);
-  const [error, setError] = useState(false);
-  const [incertValues, _setIncertValues] = useState(["", ""]);
-  const [intervValues, _setIntervtValues] = useState(["", "", ""]);
-  const setIncertValues = (index, val) => {
-    _setIncertValues((prev) => {
-      const newVals = [...prev];
-      newVals[index] = val;
-      return newVals;
-    });
-  };
-  const setIntervtValues = (index, val) => {
-    _setIntervtValues((prev) => {
-      const newVals = [...prev];
-      newVals[index] = val;
-      return newVals;
-    });
-  };
+  const [inputValue, setInputValue] = useState(value);
+  const inputRef = useRef(null); // Ref to hold the input element reference
   useEffect(() => {
-    if (String(value).split(lt).length == 3) {
-      setMode("intervalle");
-      _setIntervtValues(String(value).split(lt));
-    }
-    if (String(value).split(plm).length == 2) {
-      setMode("incertitude");
-      _setIncertValues(String(value).split(plm));
-    }
-    if (String(value).split("≥").length){
-
+    if (inputValue == "cible") {
+      setInputValue("");
     }
   }, []);
-  const valid =
-    (incertValues[0] && incertValues[1] && mode == "incertitude") ||
-    (intervValues[0] &&
-      intervValues[1] &&
-      intervValues[2] &&
-      mode == "intervalle") || String(value).includes("≥");
-
-  const onValidate = () => {
-    console.log(mode);
-    if (mode === "incertitude") {
-      let res = incertValues[0] + " " + plm + " " + incertValues[1];
-      console.log(res);
-      onChange(res);
-    }
-    if (mode === "intervalle") {
-      let res =
-        intervValues[0] +
-        " " +
-        lt +
-        " " +
-        intervValues[1] +
-        " " +
-        lt +
-        " " +
-        intervValues[2];
-      console.log(res);
-      onChange(res);
+  const handleButtonPress = (text) => {
+    setInputValue((prevValue) => prevValue + text);
+    if (inputRef.current) {
+      inputRef.current.focus(); // Focus the input element after button press
     }
   };
-  const lt = "≤";
-  const plm = "±";
+
+  const handleValidate = () => {
+    if (!inputValue) {
+      onChange("cible");
+    } else {
+      onChange(inputValue);
+    }
+    setOpened(false);
+  };
+
   return (
     <Popover
       opened={opened}
@@ -99,93 +38,63 @@ function CiblePicker({
     >
       <Popover.Target>
         <Button
-        size="md"
+          size="md"
           variant="outline"
-          color={valid ? "teal" : "red"}
+          color="teal"
           onClick={() => setOpened((o) => !o)}
         >
           {value}
         </Button>
       </Popover.Target>
-      <Popover.Dropdown
-        sx={(theme) => ({
-          border: "1px solid #000",
-          background:
-            theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
-        })}
-      >
+      <Popover.Dropdown>
         <form>
-          <Tabs trapFocus variant="pills" value={mode} onTabChange={setMode}>
-            <Tabs.List>
-              <Tabs.Tab value="incertitude" icon={plm}>
-                incertitude
-              </Tabs.Tab>
-              <Tabs.Tab value="intervalle" icon={lt}>
-                intervalle
-              </Tabs.Tab>
-              <Button
-                type="submit"
-                variant="filled"
-                color="green"
-                disabled={!valid}
-                onClick={(e) => {
-                  e.preventDefault();
-                  onValidate();
-                  setOpened(false);
-                }}
-              >
-                ok
-              </Button>
-            </Tabs.List>
-
-            <Tabs.Panel value="incertitude" pt="xs">
-              <FocusTrap active={true}>
-                <div style={{ display: "flex" }}>
-                  <TextInput
-                    type="number"
-                    value={incertValues[0]}
-                    onChange={(e) => setIncertValues(0, e.target.value)}
-                  />
-                  <Title order={3} px={3}>
-                    {plm}
-                  </Title>
-                  <TextInput
-                    type="number"
-                    value={incertValues[1]}
-                    onChange={(e) => setIncertValues(1, e.target.value)}
-                  />
-                </div>
-              </FocusTrap>
-            </Tabs.Panel>
-
-            <Tabs.Panel value="intervalle" pt="xs">
-              <FocusTrap active={true}>
-                <div style={{ display: "flex" }}>
-                  <TextInput
-                    type="number"
-                    value={intervValues[0]}
-                    onChange={(e) => setIntervtValues(0, e.target.value)}
-                  />
-                  <Title order={3} px={3}>
-                    {plm}
-                  </Title>
-                  <TextInput
-                    type="number"
-                    value={intervValues[1]}
-                    onChange={(e) => setIntervtValues(1, e.target.value)}
-                  />
-                  <Title order={3} px={3}>
-                    {lt}
-                  </Title>
-                  <TextInput
-                    type="number"
-                    value={intervValues[2]}
-                    onChange={(e) => setIntervtValues(2, e.target.value)}
-                  />{" "}
-                </div>
-              </FocusTrap>
-            </Tabs.Panel>
-          </Tabs>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              marginBottom: "8px",
+            }}
+          >
+            <TextInput
+              ref={inputRef} // Attach the ref to the input element
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              style={{ marginRight: "8px" }}
+            />
+            <Button
+              type="submit"
+              variant="filled"
+              color="green"
+              onClick={(e) => {
+                e.preventDefault();
+                handleValidate();
+              }}
+            >
+              ok
+            </Button>
+          </div>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <Button
+              onClick={() => handleButtonPress("≤")}
+              style={{ marginRight: "8px" }}
+            >
+              ≤
+            </Button>
+            <Button
+              onClick={() => handleButtonPress("±")}
+              style={{ marginRight: "8px" }}
+            >
+              ±
+            </Button>
+            <Button onClick={() => handleButtonPress("≥")}>≥</Button>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              marginTop: "8px",
+            }}
+          ></div>
         </form>
       </Popover.Dropdown>
     </Popover>

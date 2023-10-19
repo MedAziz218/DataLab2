@@ -152,9 +152,10 @@ export default function Table2() {
   const handleInputChange = (row, col, z) => {
     return (val) => {
       //   console.log(row, col, z, val.target.value, "<<<<<<<<<<<<<");
-      const newInputValues = [...inputValues];
+     const newInputValues = [...inputValues];
       newInputValues[row][col][z] = val.target.value;
       setInputValues(newInputValues);
+      
     };
   };
   const _handleInputChangeVal = (row, col, z) => {
@@ -311,7 +312,7 @@ export default function Table2() {
                     <td rowSpan={Table2Structure[tbodyIndex].length}>
                       <CiblePicker
                         value={inputValues[tbodyIndex][index][innerIndex]}
-                        onChange={handleInputChange(
+                        onChange={_handleInputChangeVal(
                           tbodyIndex,
                           index,
                           innerIndex
@@ -351,7 +352,7 @@ export default function Table2() {
                     <td rowSpan={Table2Structure[tbodyIndex].length}>
                       <CiblePicker
                         value={inputValues[tbodyIndex][index][innerIndex]}
-                        onChange={handleInputChange(
+                        onChange={_handleInputChangeVal(
                           tbodyIndex,
                           index,
                           innerIndex
@@ -429,7 +430,14 @@ const ExclusiveCheckboxTogglee = ({
 }) => {
   //   const [isChecked1, setIsChecked1] = useState(false);
   //   const [isChecked2, setIsChecked2] = useState(false);
-
+useEffect(()=>{
+  console.log("ccccccc",isChecked1,isChecked2)
+  
+    setIsChecked1(JSON.parse(isChecked1));
+    setIsChecked2(JSON.parse(isChecked2));
+  
+ 
+},[])
   const handleToggle1 = () => {
     setIsChecked1(!isChecked1);
     setIsChecked2(false);
@@ -448,7 +456,7 @@ const ExclusiveCheckboxTogglee = ({
       }}
       onClick={handleToggle1}
       className={classNames[0]}
-      data-checked={isChecked1}
+      data-checked={String(isChecked1)}
     >
       <span style={{ paddingRight: 10 }}>{"Critique"}</span>
 
@@ -466,7 +474,7 @@ const ExclusiveCheckboxTogglee = ({
       }}
       onClick={handleToggle2}
       className={classNames[1]}
-      data-checked={isChecked2}
+      data-checked={String(isChecked2)}
     >
       <span style={{ paddingRight: 10 }}>{"Non Critique"}</span>
       <input

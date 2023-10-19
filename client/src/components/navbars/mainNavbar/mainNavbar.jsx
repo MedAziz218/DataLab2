@@ -5,7 +5,9 @@ import {
   IconUser,
   IconClock as Iconpost,
   IconTextSize as IconTaille,
-  IconArrowBack
+  IconArrowBack,
+  IconSettings,
+  IconClockEdit,
 } from "@tabler/icons-react";
 import {
   createStyles,
@@ -15,6 +17,7 @@ import {
   getStylesRef,
   rem,
   Title,
+  Box,
 } from "@mantine/core";
 
 import logo from "../logo.svg";
@@ -23,6 +26,9 @@ import { UserButton } from "components/userbutton/userbutton";
 import { logoutCall } from "apiCalls";
 import { AuthContext } from "context/AuthContext";
 import "./mainNavbar.css";
+import { useDisclosure } from "@mantine/hooks";
+import ChangePasswordModal from "components/changepasswordModal";
+import { formatDateToYearMonthDayHourMinute } from "utils";
 const useStyles = createStyles((theme) => ({
   navbar: {
     backgroundColor: "#333333",
@@ -86,6 +92,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export function MainNavbar({ data, style }) {
+  const [opened, { open, close }] = useDisclosure(false);
   const { user } = useContext(AuthContext);
   const { classes, cx } = useStyles();
   const [active, setActive] = useState("Billing");
@@ -121,6 +128,7 @@ export function MainNavbar({ data, style }) {
       p="md"
       className={classes.navbar}
     >
+      <ChangePasswordModal email={user.email}  opened={opened} onClose={close}/>
       <Navbar.Section grow>
         <Group className={classes.header} position="apart">
           <img src={logo} className="logo" alt="logo" />
@@ -182,15 +190,40 @@ export function MainNavbar({ data, style }) {
             <IconTaille className={classes.linkIcon} stroke={1.5} />
             <span>{"Taille: " + posteSelection.selectedTaille}</span>
           </NavLink>
+          <NavLink
+            className={({ isActive, isPending }) =>
+              classes.link + " " 
+            }
+            to="#"
+            onClick={(event) => {}}
+          >
+            <IconClockEdit className={classes.linkIcon} stroke={1.5} />
+            <span>{"Créé le: " + formatDateToYearMonthDayHourMinute( new Date(posteSelection.createdAt) )}</span>
+          </NavLink>
         </Navbar.Section>
       )}
       <Navbar.Section className={classes.footer}>
+        <Box sx={{display:"flex", alignItems:"center"}}>
+
         <UserButton
           className={classes.link}
           // image="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=255&q=80"
           name={user.username}
           email="utilisateur"
         />
+       {!user.isAdmin && <a
+        style={{marginRight:"auto"}}
+          href="#"
+          className={classes.link}
+          onClick={(event) => {
+            event.preventDefault();
+            open()
+            
+          }}
+          >
+        <IconSettings style={{marginRight:"auto",marginLeft:"auto"}} className={classes.linkIcon} stroke={1.5}/>
+        </a>  }      
+        </Box>
         {/* <a
           href="#"
           className={classes.link}
@@ -209,6 +242,7 @@ export function MainNavbar({ data, style }) {
             window.location = "/";
           }}
         >
+          
           <IconLogout className={classes.linkIcon} stroke={1.5} />
           <span>Logout</span>
         </a>

@@ -84,7 +84,7 @@ const Table3 = forwardRef((props, ref) => {
                       onChange={(e) => {
                         handleInputChange(0, i, e.target.value);
                       }}
-                      type="number"
+                      type={i%2==0?"number":""}
                     />
                   </span>
                 ) : (
@@ -114,7 +114,7 @@ const Table3 = forwardRef((props, ref) => {
                       onChange={(e) => {
                         handleInputChange(1, i, e.target.value);
                       }}
-                      type="number"
+                      type={i%2==0?"number":""}
                     />
                   </span>
                 )}
@@ -134,7 +134,7 @@ const Table3 = forwardRef((props, ref) => {
                       onChange={(e) => {
                         handleInputChange(2, i, e.target.value);
                       }}
-                      type="number"
+                      type={i%2==0?"number":""}
                     />
                   </span>
                 ) : (
@@ -164,7 +164,7 @@ const Table3 = forwardRef((props, ref) => {
                       onChange={(e) => {
                         handleInputChange(3, i, e.target.value);
                       }}
-                      type="number"
+                      type={i%2==0?"number":""}
                     />
                   </span>
                 )}
@@ -188,7 +188,7 @@ const Table3 = forwardRef((props, ref) => {
                       onChange={(e) => {
                         handleInputChange(4, i, e.target.value);
                       }}
-                      type="number"
+                      type={i%2==0?"number":""}
                     />
                   </span>
                 ) : (
@@ -218,7 +218,7 @@ const Table3 = forwardRef((props, ref) => {
                       onChange={(e) => {
                         handleInputChange(5, i, e.target.value);
                       }}
-                      type="number"
+                      type={i%2==0?"number":""}
                     />
                   </span>
                 )}
@@ -241,60 +241,3 @@ function MakeNTH({ N = 5, td, refs, ...restProps }) {
   return comp;
 }
 
-function MakeNTd({
-  N = 5,
-  td,
-  refs,
-  borderBot,
-  cible,
-  inputValues,
-  ...restProps
-}) {
-  let comp = [];
-  for (let i = 0; i < N; i++) {
-    comp.push(
-      <td className={"label " + (borderBot ? "border-bot" : "")} colSpan={1}>
-        <MakeInput />
-      </td>
-    );
-    comp.push(
-      <td
-        className={"label border-right " + (borderBot ? "border-bot" : "")}
-        colSpan={1}
-      >
-        <MakeInput />
-      </td>
-    );
-  }
-  if (cible) {
-    comp.push(
-      <td
-        rowSpan={2}
-        className="cible time1 "
-        style={{ borderBottom: "4px solid var(--teal)" }}
-      >
-        <CiblePicker />
-      </td>
-    );
-  }
-  return comp;
-}
-
-function MakeInput({
-  text,
-  defaultValue = null,
-  disabled = false,
-  inputRef = null,
-}) {
-  return (
-    <div>
-      <span className="input">
-        <TextInput
-          size="md"
-          // inputProps={{ ref: inputRef }}
-          type="number"
-        />
-      </span>
-    </div>
-  );
-}

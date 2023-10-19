@@ -14,6 +14,7 @@ const helmet = require("helmet");
 // const workoutRoutes = require("./routes/workouts");
 const userRoutes = require("./routes/user");
 const formValidityRoutes = require("./routes/form");
+const graphRoutes = require("./routes/graph");
 
 const page1Routes = require("./routes/page1");
 const page2Routes = require("./routes/page2");
@@ -38,8 +39,10 @@ app.use("/api/page5", page5Routes);
 
 app.use("/api/page6", page6Routes);
 app.use("/api/form", formValidityRoutes);
+app.use("/api/graph", graphRoutes);
 
 //connection to db
+<<<<<<< HEAD
 
 const dbConnectionPromise = new Promise((resolve, reject) => {
   console.log("Trying to Connect to aDataBase");
@@ -77,19 +80,31 @@ const startServer = () => {
       });
     }
   }, DB_HEARTBEAT_INTERVAL); // Check every 5 seconds
-};
-
-Promise.race([
-  dbConnectionPromise,
-
-  new Promise((_, reject) => {
-    setTimeout(() => {
-      reject(new Error("Database connection timeout"));
-    }, DB_CONNECTION_TIMEOUT); // 4 seconds
-  }),
-])
-  .then(startServer)
-  .catch((error) => {
-    console.error("Error connecting to MongoDB:", error);
-    process.exit(1);
+=======
+const startServer = () => {
+  const server = app.listen(APP_PORT, () => {
+    console.log("Server is running on port 3001");
   });
+>>>>>>> ac456eb50a1e96a9840993341daa7651f5185a95
+};
+function connectWithRetry() {
+  return mongoose
+    .connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
+    .then(() => {
+      console.log("Connected to MongoDB");
+      startServer()
+    })
+    .catch((err) => {
+      console.error("Error connecting to MongoDB:", err);
+      // Retry the connection after a delay
+      setTimeout(() => {
+        console.log("Retrying MongoDB connection...");
+        connectWithRetry();
+      }, 2000); // 5 seconds delay before retrying
+    });
+}
+console.log("Trying to connect to MongoDB");
+connectWithRetry();

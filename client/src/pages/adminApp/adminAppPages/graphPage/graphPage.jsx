@@ -1,96 +1,81 @@
-import { Paper, Title } from '@mantine/core';
-import React from 'react';
-import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ReferenceLine } from 'recharts';
-function formatDateToYYYYMMDD(date) {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  
-  return `${day}`;
-}
-const generateRandomData = () => {
-  const startDate = new Date('2023-08-01').getTime();
-  const seriesData = {};
-
-  const generateSampleData = (sampleName) => {
-    const sampleData = [];
-    for (let i = 0; i < 30; i++) {
-      const randomDate = new Date(startDate + i * 24 * 60 * 60 * 1000); // Increment by a day
-      const randomValue = (Math.random() * 20 + 5).toFixed(2); // Generate random value between 5 and 25
-      sampleData.push({ x: formatDateToYYYYMMDD(randomDate), y: parseFloat(randomValue) });
-    }
-    seriesData[sampleName] = sampleData;
-  };
-
-  generateSampleData('ControlePoids');
-  // generateSampleData('SAMPLE_B');
-  // generateSampleData('SAMPLE_C');
-
-  return seriesData;
-};
-
-class ScatterGraph extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      seriesData: generateRandomData(),
-    };
-  }
-
-  calculateStatistics(data) {
-    const values = data.map(entry => entry.y); // Extract y-values
-    return {
-      max: Math.max(...values),
-      min: Math.min(...values),
-      mean: values.reduce((sum, value) => sum + value, 0) / values.length,
-    };
-  }
-
-  render() {
-    const { seriesData } = this.state;
-
-    const sampleNames = Object.keys(seriesData);
-
-    return (
-      <div>
-        
-        <ScatterChart width={600} height={400}>
-          <CartesianGrid />
-          <XAxis dataKey="x" type="number" scale="time" domain={['auto', 'auto']} />
-          <YAxis dataKey="y" type="number" />
-          <Tooltip cursor={{ strokeDasharray: '3 3' }} />
-          <Legend />
-          {sampleNames.map(sampleName => (
-            <Scatter key={sampleName} name={sampleName} data={seriesData[sampleName]} fill={`rgba(54, 162, 235, 0.7)`} />
-          ))}
-          {sampleNames.map(sampleName => {
-            const statistics = this.calculateStatistics(seriesData[sampleName]);
-            return (
-              <React.Fragment key={sampleName}>
-                <ReferenceLine y={statistics.max} stroke="red" label={`Max: ${statistics.max.toFixed(2)}`} />
-                <ReferenceLine y={statistics.min} stroke="blue" label={`Min: ${statistics.min.toFixed(2)}`} />
-                <ReferenceLine y={statistics.mean} stroke="green" label={`X̅: ${statistics.mean.toFixed(2)}`} />
-              </React.Fragment>
-            );
-          })}
-        </ScatterChart>
-      </div>
-    );
-  }
-}
-
-
+import { Box, Button, Paper, Select, Title, Grid } from "@mantine/core";
+import RenderLineChart from "components/chart";
+import { DateInput } from "@mantine/dates";
+import { useEffect, useState } from "react";
+import { getGraphData } from "apiCalls";
+import { formatDateToYearMonthDay } from "utils";
 
 export default function GraphPage() {
+  const [data, setData] = useState([]);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  const [typeValue, setTypeValuee] = useState("poids");
+  useEffect(() => {
+    const params = {
+      startDate: formatDateToYearMonthDay(startDate),
+      endDate: formatDateToYearMonthDay(endDate),
+    }
+    // console.log("params: ",params)
+    getGraphData(typeValue,params ).then((res) => {
+      setData(res);
+      console.log("ress: ", res);
+    });
+  }, [startDate, endDate, typeValue]);
   return (
-    <div>
-      <Paper shadow="sm" radius="md" p="sm" withBorder my={20}>
+    <div style={{ height: "100%" }}>
+      <Paper shadow="sm" radius="md" p="sm" withBorder>
+        <Box
+          shadow="sm"
+          radius="md"
+          p="sm"
+          sx={{
+            backgroundColor: "#f5f5f5",
+            display: "flex",
+            flexDirection: "row",
+          }}
+        >
+          <Box sx={{ display: "flex", marginLeft: "auto" }}>
+            <Select
+              label="type"
+              value={typeValue}
+              onChange={setTypeValuee}
+              data={[
+                { label: "Controle poids", value: "poids" },
+                { label: "Controle S.A.P", value: "sap" },
+                { label: "Dynamic Shear Backear OS", value: "os" },
+                { label: "Dynamic Shear Backear MS", value: "ms" },
+              ]}
+            />
+            <DateInput
+              label="Date Debut"
+              placeholder="Date input"
+              value={startDate}
+              onChange={setStartDate}
+              clearable
+            />
+            <DateInput
+              label="Date Fin"
+              placeholder="Date input"
+              value={endDate}
+              onChange={setEndDate}
+              clearable
+            />
 
-      <Title>
-        GraphPage
-        </Title>
-      <ScatterGraph />
+            <Button mt={24} ml={2}>
+              {"Ok"}
+            </Button>
+          </Box>
+        </Box>
+      </Paper>
+
+      <Paper shadow="sm" radius="md" p="sm" sx={{ height: "100%" }} withBorder>
+        <Box sx={{ display: "flex", paddingBottom: 5 }}>
+          <Title mr={50}>Courbes</Title>
+        </Box>
+
+        <Box h={"100%"} pb={10}>
+          <RenderLineChart data={data} typeValue={typeValue}/>
+        </Box>
       </Paper>
     </div>
   );

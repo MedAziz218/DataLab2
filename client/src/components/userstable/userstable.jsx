@@ -126,18 +126,23 @@ const Example = () => {
 
   //DELETE action
   const openDeleteConfirmModal = (row) =>
-    modals.openConfirmModal({
-      title: "Are you sure you want to delete this user?",
-      children: (
-        <Text>
-          Are you sure you want to delete {row.original.firstName}{" "}
-          {row.original.lastName}? This action cannot be undone.
-        </Text>
-      ),
-      labels: { confirm: "Delete", cancel: "Cancel" },
-      confirmProps: { color: "red" },
-      onConfirm: () => deleteUser(row.original.email),
-    });
+  modals.openConfirmModal({
+    title: (
+      <Text color="red">
+        <strong> {"Êtes-vous sûr de vouloir supprimer cet utilisateur ?"} </strong>
+      </Text>
+    ),
+    children: (
+      <Text>
+        Êtes-vous sûr de vouloir supprimer <strong><em>{row.original.email }{" "}
+        {row.original.username}{" "}</em></strong> ? Cette action ne peut pas être annulée.
+      </Text>
+    ),
+    labels: { confirm: "Supprimer", cancel: "Annuler" },
+    confirmProps: { color: "red" },
+    onConfirm: () => deleteUser(row.original.email),
+  });
+  
 
   const table = useMantineReactTable({
     columns,
