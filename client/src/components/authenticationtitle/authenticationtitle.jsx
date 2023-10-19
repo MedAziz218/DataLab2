@@ -76,12 +76,7 @@ export function AuthenticationTitle() {
           >
             Bienvenue de retour !
           </Title>
-          <Text color="dimmed" size="sm" align="center" mt={5}>
-            Vous n'avez pas encore de compte ?{" "}
-            <Anchor size="sm" component="button">
-              Créer un compte
-            </Anchor>
-          </Text>
+      
 
           <Paper withBorder shadow="md" p={30} mt={30} radius="md">
             <Transition

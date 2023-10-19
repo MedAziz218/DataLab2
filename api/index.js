@@ -42,7 +42,7 @@ app.use("/api/form", formValidityRoutes);
 //connection to db
 
 const dbConnectionPromise = new Promise((resolve, reject) => {
-  console.log("Trying to Connect to DxxataBase");
+  console.log("Trying to Connect to aDataBase");
 
   const connectWithRetry = () => {
     return mongoose.connect(process.env.MONGO_URI, {
@@ -53,7 +53,7 @@ const dbConnectionPromise = new Promise((resolve, reject) => {
 
   connectWithRetry()
     .then(() => {
-      console.log("Connected to MongoDB");
+      console.log("Connected to MongoDBs");
       resolve();
     })
     .catch((error) => {
@@ -63,7 +63,7 @@ const dbConnectionPromise = new Promise((resolve, reject) => {
 
 const startServer = () => {
   const server = app.listen(APP_PORT, () => {
-    console.log("Server is runsning on port 3001");
+    console.log("Server is runssssning on port 3001");
   });
 
   const db = mongoose.connection;
@@ -72,7 +72,7 @@ const startServer = () => {
     if (db.readyState !== 1) {
       console.log("Lost connection to MongoDB. Exiting...");
       server.close(() => {
-        console.log("Server closed due to lost database connection.");
+        console.log("Server closed due to lost database cosnnection.");
         process.exit(1);
       });
     }

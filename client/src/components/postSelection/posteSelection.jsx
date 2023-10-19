@@ -99,7 +99,7 @@ const PosteSelection = () => {
         <Popover.Target>
           <div style={{ display: "flex", flexDirection: "column" }}>
             <p> Date</p>
-            <Button>{String(selectedDate)}</Button>
+            <Button style ={{ backgroundColor: "#333333"}}>{String(selectedDate)}</Button>
           </div>
         </Popover.Target>
         <Popover.Dropdown>
@@ -136,7 +136,7 @@ const PosteSelection = () => {
       <Button
         disabled={!goodToSend}
         onClick={handleEnregistrerClick}
-        style={{ marginTop: "1rem" }}
+        style={{ marginTop: "1rem" , backgroundColor: "#333333",}}
       >
         Enregistrer et Envoyer
       </Button>

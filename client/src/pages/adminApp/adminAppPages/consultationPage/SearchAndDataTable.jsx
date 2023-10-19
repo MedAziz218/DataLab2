@@ -3,7 +3,7 @@ import "./SearchAndDataTable.css"; // Import your CSS file
 import SearchForm from "./SearchForm";
 import { AiFillRightSquare } from "react-icons/ai"; // Import AiFillRightSquare from react-icons
 
-import { getAllForms } from "apiCalls";
+import { getAllForms } from "apiCalls"
 import { loadTables } from "apiCalls";
 import { useNavigate } from "react-router-dom";
 

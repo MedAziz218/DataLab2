@@ -3,8 +3,7 @@ import { FaBars } from 'react-icons/fa';
 // import {social } from './data';
 import logo from '../logo.svg';
 import './navbar1.css';
-import { FaBehance, FaFacebook, FaLinkedin, FaTwitter } from 'react-icons/fa';
-
+import { FaBehance, FaFacebook, FaLinkedin, FaTwitter  } from 'react-icons/fa';
  const social = [
   {
     id: 1,

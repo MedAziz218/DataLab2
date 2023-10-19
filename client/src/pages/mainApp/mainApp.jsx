@@ -79,7 +79,7 @@ export function MainAppRoutes() {
         <Route exact path="/validation" element={<ValidationPage />} />
       </Route>
 
-      <Route exact path="/login" element={<Navigate to="/" />} />
+      <Route exact path="/login" element={<Navigate to="/controle" />} />
       <Route path="/errors/401" element={<Navigate to="/errors/401" />} />
 
       <Route path="*" element={<Navigate to="/errors/notFound" />} />

@@ -16,7 +16,6 @@ import ConsultationPage from "./adminAppPages/consultationPage/consultationPage"
 import UtilisateurPage from "./adminAppPages/utilisateurPage/utilisateurPage";
 import GraphPage from "./adminAppPages/graphPage/graphPage";
 import { MainApp } from "pages/mainApp/mainApp";
-
 import ControlePage from "pages/mainApp/mainAppPages/controlePage/controlePage";
 import CisaillementPage from "pages/mainApp/mainAppPages/cisaillementPage/cisaillementPage";
 import MpPage from "pages/mainApp/mainAppPages/mpPage/mpPage";
@@ -74,7 +73,7 @@ export function AdminAppRoutes() {
         <Route exact path="/graph" element={<GraphPage />} />
       </Route>
 
-      <Route exact path="/login" element={<Navigate to="/" />} />
+      <Route exact path="/login" element={<Navigate to="/utilisateur" />} />
 
       {/* <Route path="/errors/401" element={<Navigate to="/errors/401" />} /> */}
 
